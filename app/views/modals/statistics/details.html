@@ -1,0 +1,69 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.statistics.details') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.statistics.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body rule_details">
+        <table class="vertical-table pull-left no-hover">
+          <tbody>
+          <tr>
+            <th><%= t('modals.statistics.stat_code').upcase %></th>
+            <td>
+              {{stat.stat_code}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.statistics.created_at').upcase %></th>
+            <td>
+              {{stat.created_at | date:'dd/MM/yyyy HH:mm'}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.statistics.updated_at').upcase %></th>
+            <td>
+              {{stat.updated_at | date:'dd/MM/yyyy HH:mm'}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.statistics.description').upcase %></th>
+            <td>
+              {{stat.description}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.statistics.criterion').upcase %></th>
+            <td>
+              {{stat.criterion.description}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.statistics.timeframes').upcase %></th>
+            <td>
+              <ol>
+                <li ng-repeat="timeframe in timeframes">
+                  {{timeframe.timeframe_type}}
+                </li>
+              </ol>
+              {{stat.criterion.description}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.close') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

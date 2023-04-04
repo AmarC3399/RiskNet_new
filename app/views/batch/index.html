@@ -1,0 +1,131 @@
+<div id="header-container">
+  <h1 class="pull-left"><%= t('batch.title') %></h1>
+</div>
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="section full-screen-table with-pagination">
+    <div class="filter" ng-init="batchBase.filter.showTags = true"
+         ng-class="{'filter-active': batchBase.filter.count > 0 && batchBase.filter.showTags}">
+      <ul>
+        <li class="search-form two-filter-buttons">
+          <form>
+            <input id="batch-search" class="form-control" placeholder="<%= t('search.search') %>"
+                   ng-model="batchBase.filter.search" ng-change="batchBase.filter.searchUpdate=true"
+                   type="text" uib-popover="<%= t('search.search_all_fields_except_dates') %>"
+                   popover-placement="bottom" popoover-class="search-specific-popover" popover-trigger="outsideClick"
+                   ng-keypress="($event.which === 13 ) ? !batchBase.filter.searchUpdate || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="batchBase.filter.search"></span>
+            <div id="batch-alert-search-submit" class="input-group-addon search-button button" ng-disabled="!batchBase.filter.searchUpdate"
+                 ng-click="!batchBase.filter.searchUpdate || loadFilters()" type="submit">
+              <i class="fa fa-search"></i>
+            </div>
+          </form>
+        </li>
+        <li id="batch-clear-ordering" class="sorting-button">
+          <a class="button" ng-click="resetOrder()" ng-disabled="batchBase.ordering.orderString === ''"><i
+            class="fa fa-unsorted"></i></a>
+        </li>
+        <li id="batch-filter" class="filter-button">
+          <a class="button" data-badge="{{batchBase.filter.count}}"
+             ng-click="toggleSidebar('batchBase', batchBase.filter.sideBar);batchBase.filter.showTags = true"
+             title="<%= t('generic_buttons.filter') %>">
+            <i class="fa fa-filter"></i></a>
+        </li>
+      </ul>
+      <ul class="filter-list" tag-overflow>
+        <li ng-repeat="(filterName, filterValue) in batchBase.filter.sideBar"
+            ng-if="filterValue != null && batchBase.filter.showTags"
+            class="filter-tag alert alert-success text-capitalise micro-text"><b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
+          {{filterValue | filterTag:levels:filterName }}
+          <button class="close" ng-click="removeFilterTag(filterName, 'batchBase', batchBase.filter)">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </button>
+        </li>
+      </ul>
+      <a id="hideFilterTags" class="fa fa-angle-double-up"
+         ng-click="batchBase.filter.showTags = !batchBase.filter.showTags"></a>
+    </div>
+    <div id="batch-table" class="content-panel" style="width:100%;"
+         ng-style="{top: batchBase.filter.count > 0 && batchBase.filter.showTags ? '86px' : '48px'}">
+      <div class="table-wrapper" loading urls="/batch">
+        <multi-select selected="batchBase.selectedAlerts" key="alert" selected-all="batchBase.selectAllAlerts">
+          <table float-thead="vars.floatTheadOptions" class="striped lined" style="width: 2500px;" ng-model="batchBase.batchAlerts">
+            <thead>
+            <tr>
+              <th ng-repeat="item in batchBase.headers" id="{{item.name}}"
+                  ng-click="batchBase.ordering.orderStates[item.order] = !batchBase.ordering.orderStates[item.order]; loadOrder(item.name, batchBase.ordering.orderStates[item.order]); hidden = !hidden"
+                  ng-style="item.style">
+                <span>{{item.displayName}}</span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="batchBase.ordering.values[item.name]">
+                      {{batchBase.ordering.values[item.name]}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': batchBase.ordering.orderStates[item.order], 'glyphicon glyphicon-triangle-bottom': !batchBase.ordering.orderStates[item.order]}"></div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr bindonce
+                dir-paginate="alert in batchBase.batchAlerts | itemsPerPage: batchBase.pagination.alertsPerPage"
+                total-items="batchBase.pagination.totalAlerts"
+                current-page="batchBase.pagination.currentPage">
+              <td bo-text="alert.id | splitAlertId"></td>
+              <td bo-text="alert.customer_merchant_name">{{}}</td>
+              <td bo-text="alert.priority"></td>
+              <td bo-text="alert.run_date | date:'dd/MM/yyyy HH:mm'"></td>
+              <td bo-text="alert.alert_type"></td>
+              <td bo-text="alert.mcc"></td>
+              <td>{{alert.subject}}</td>
+              <td>{{alert.user.name}}</td>
+              <td>{{alert.allocated_on | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td>{{alert.examined_on | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td bo-text="alert.contact"></td>
+              <td bo-text="alert.open_date | date:'dd/MM/yyyy HH:mm'"></td>
+              <td bo-text="alert.post_code">{{}}</td>
+              <td bo-text="alert.country"></td>
+            </tr>
+            <tr ng-if="batchBase.batchAlerts.length < 1">
+              <td colspan=16><%= t('search.no_results') %></td>
+            </tr>
+            </tbody>
+          </table>
+        </multi-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-page-pagination">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
+    batchBase.display.from }} - {{ batchBase.display.to }} <%= t('pagination.of') %> {{
+    batchBase.pagination.totalAlerts }}
+  </div>
+  <div class="action-bar primary">
+    <ul>
+      <li>
+      <span>
+        <i class="more-info fa fa-question-circle" uib-popover="{{meta.tooltips.batch_forward_alert}}"
+           data-unique="1"
+           popover-placement="top" popover-trigger="mouseenter" html="false" container="body"
+           data-container="body"></i>
+      </span>
+      </li>
+      <li>
+        <a id="batch-forward" ng-click="checkSelection() === false || openForwardAlert()" class="button"
+           ng-disabled="checkSelection() === false" ng-class="checkSelection() === false ? 'disabled' : ''">
+          <%= t('batch.forward_alerts') %></a>
+      </li>
+      <li>
+        <a id="batch-delete" ng-click="checkSelection() === false || openConfirmation()" class="button"
+           ng-disabled="checkSelection() === false" ng-class="checkSelection() === false ? 'disabled' : ''"><%=
+          t('batch.examine_alerts') %></a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+

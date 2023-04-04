@@ -1,0 +1,65 @@
+<div id="violations_controller">
+  <div class="filter">
+    <ul>
+      <li id="violations-filter" class="filter-button">
+        <a class="button" data-badge="{{alertViolationsBase.filter.count}}"
+           ng-click="toggleSidebar('alertViolationsBase', alertViolationsBase.filter.sideBar)"
+           title="<%= t('generic_buttons.filter') %>">
+          <i class="fa fa-filter"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div id="violations-table" class="analysis-table-wrapper"
+       ng-class="alertViolationsBase.pagination.totalPages > 1 ? '' : 'no-action-bar'">
+    <table class="analysis-table striped lined" style="width:100%;min-width:1440px;">
+      <thead>
+      <tr>
+        <th style="width: 70px;">
+            <span class="column_label">
+              <%= t('alerts.analysis.violations.violated_at') %>
+            </span>
+        </th>
+        <th style="width: 40px;">
+            <span class="column_label">
+              <%= t('alerts.analysis.violations.rule_ID') %>
+            </span>
+        </th>
+        <th style="width: 40px;">
+            <span class="column_label">
+              <%= t('alerts.analysis.violations.outcome') %>
+            </span>
+        </th>
+        <th style="width: 250px;">
+            <span class="column_label">
+              <%= t('alerts.analysis.violations.description') %>
+            </span>
+        </th>
+        <th style="width: 40px;">
+            <span class="column_label">
+              <%= t('alerts.analysis.violations.priority') %>
+            </span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr bindonce
+          dir-paginate="violation in alertViolationsBase.violations | itemsPerPage: alertViolationsBase.pagination.violationsPerPage"
+          total-items="alertViolationsBase.pagination.totalViolations"
+          current-page="alertViolationsBase.pagination.currentPage">
+        <td bo-text="violation.created_at | date:'dd/MM/yyyy HH:mm:ss'"></td>
+        <td bo-text="violation.internal_code"></td>
+        <td bo-text="violation.outcome | capitalise | challengeToReview"></td>
+        <td bo-text="violation.description"></td>
+        <td bo-text="violation.priority"></td>
+      </tr>
+      <tr ng-if="alertViolationsBase.violations.length<1">
+        <td colspan=5><%= t('search.no_results') %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="action-bar secondary" ng-if="alertViolationsBase.pagination.totalPages > 1">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+</div>

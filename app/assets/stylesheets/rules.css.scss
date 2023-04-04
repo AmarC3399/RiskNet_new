@@ -1,0 +1,278 @@
+@charset "UTF-8";
+
+@import "blue-theme-colors";
+
+#rules-contents.rules-contents-grid {
+  background-color: $concrete;
+  @include linear-gradient($concrete);
+}
+
+#rules-grid {
+  .pie-chart-canvas {
+    margin-left: 0px;
+    float: left;
+  }
+
+  #rule-schedule-icon {
+    padding: 10px;
+    float: right;
+    font-size: 33px;
+    color: $pigeon-post;
+  }
+
+  .rule-details {
+    position: absolute;
+    top: 5px;
+    left: 80px;
+    right: 50px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+    word-break: break-all;
+
+    li {
+      min-height: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 20px;
+      border: none;
+
+      &:hover {
+        background-color: transparent;
+      }
+
+      &:first-child p {
+        width: 98%;
+        display: block; /* Fallback for non-webkit */
+        display: -webkit-box;
+        height: 19px*1*2; /* Fallback for non-webkit */
+        font-size: 19px;
+        line-height: 1;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      p {
+        margin: 0;
+        display: inline-block;
+
+        &.label {
+          color: $pigeon-post;
+          width: 75px;
+        }
+      }
+    }
+  }
+
+  .rule-criteria {
+    position: absolute;
+    top: 92px;
+    bottom: 40px;
+    left: 0px;
+    right: 0px;
+    border-top: 1px solid $quill-gray;
+    padding: 5px 5px 0 5px;
+    overflow: auto;
+    color: $quill-gray;
+
+    li {
+      p {
+        display: inline-block;
+        width: 94%;
+        margin: 0 0 5px;
+      }
+      p::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  > li {
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 23.75%;
+    height: 250px;
+    margin: 10px 0px 0px 1%;
+    border: 3px solid $tonys-pink;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
+
+    &.active {
+      border-color: $sinbad;
+    }
+  }
+
+  @media only screen and (max-width: 1380px) {
+    > li {
+      width: 32%;
+    }
+  }
+
+  @media only screen and (max-width: 1100px) {
+    > li {
+      width: 48.5%;
+    }
+  }
+
+  .action-bar {
+    li:last-child {
+      margin-right: 0px;
+    }
+
+    .button {
+      padding: 0px;
+
+      i {
+        margin: 7px;
+      }
+    }
+  }
+
+  /* DOUGHNUT CHARTS */
+  .pie-chart-canvas {
+    padding: 16px 5px 6px 10px;
+
+    canvas {
+      height: 60px !important;
+      width: 60px !important;
+    }
+
+    p {
+      position: absolute;
+      z-index: 9;
+      top: 8px;
+      left: 10px;
+      font-family: 'blender_pro_bold';
+      font-size: 24px;
+      line-height: 30px;
+      width: 60px;
+      text-align: center;
+    }
+  }
+
+  .test-hatching {
+    &.test-decline {
+      background: url(asset-path('hatching-rules/test-decline-rules.png')) no-repeat;
+    }
+    &.test-review {
+      background: url(asset-path('hatching-rules/test-review-rules.png')) no-repeat;
+    }
+    &.test-approve {
+      background: url(asset-path('hatching-rules/test-accept-rules.png')) no-repeat;
+    }
+  }
+}
+
+/* ==========================================================================
+   Rules Wizard
+   ========================================================================== */
+
+.nav.rules-wizard-nav li {
+  width: 50%;
+  text-align: center;
+}
+
+.rule-wizard-category-content-wrapper {
+  top: 101px;
+}
+
+#field_extra,
+#parameter_extra,
+#value_extra {
+  list-style: none;
+
+  li {
+    margin-bottom: 15px;
+  }
+}
+
+// Criteria summary list
+#criteria-summary {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 15px;
+    border-bottom: 1px solid $quill-gray;
+
+    button {
+      float: right;
+      background: none;
+      border: none;
+
+      i {
+        font-size: 30px;
+        line-height: 25px;
+      }
+    }
+  }
+}
+
+table tbody tr.active {
+  background-color: #c6e3f9 !important;
+}
+
+#rules-contents.rules-contents-list tbody {
+  tr {
+    &:hover {
+      background: $ice !important;
+    }
+    td:first-child{
+      background: $skeptic;
+
+      &#no-results {
+        background: none;
+      }
+    }
+    td:nth-child(2){
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9edddb+0,ffffff+100&1+0,0+100 */
+      background: -moz-linear-gradient(left,  $skeptic 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(left,  $skeptic 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to right,  $skeptic 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$skeptic', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+    }
+    &.active td:nth-child(2){
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9edddb+0,c6e3f9+100 */
+      background: #9edddb; /* Old browsers */
+      background: -moz-linear-gradient(left,  $skeptic 0%, $jagged-ice 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(left,  $skeptic 0%,$jagged-ice 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to right,  $skeptic 0%,$jagged-ice 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$skeptic', endColorstr='$jagged-ice',GradientType=1 ); /* IE6-9 */
+    }
+  }
+
+  tr.inactive-rule {
+    &:hover {
+      background: $fair-warn !important;
+    }
+    td:first-child {
+      background: $tonys-pink;
+    }
+    td:nth-child(2) {
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e8a2a3+0,ffffff+100&1+0,0+100 */
+      background: -moz-linear-gradient(left,  $tonys-pink 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(left,  $tonys-pink 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to right,  $tonys-pink 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$tonys-pink', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+
+    }
+    &.active td:nth-child(2) {
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e8a2a3+0,c6e3f9+100 */
+      background: rgb(232,162,163); /* Old browsers */
+      background: -moz-linear-gradient(left,  rgba(232,162,163,1) 0%, rgba(198,227,249,1) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(left,  rgba(232,162,163,1) 0%,rgba(198,227,249,1) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to right,  rgba(232,162,163,1) 0%,rgba(198,227,249,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8a2a3', endColorstr='#c6e3f9',GradientType=1 ); /* IE6-9 */
+    }
+  }
+}

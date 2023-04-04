@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+@import "blue-theme-colors";
+
+#my_details {
+  background: #dfdfdf;
+
+  &:hover {
+    background: $gallery;
+  }
+
+  &:active {
+    background: $quill-gray;
+  }
+}
+
+.customer_details {
+  th {
+    width: 25%;
+  }
+}

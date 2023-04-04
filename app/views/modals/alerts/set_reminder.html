@@ -1,0 +1,120 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.alerts.set_reminder.set_a_reminder') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body set_reminder">
+        <p><%= t('modals.alerts.set_reminder.by_setting_reminder') %></p>
+        <hr/>
+        <form class="form" id="set_reminder" name="set_reminder" novalidate="">
+          <fieldset>
+            <ul class="no-list-style no-list-padding">
+              <li>
+                <input type="radio" id="alertRadio1" class="radio-button" name="specified"
+                       value="specified" ng-model="alertMenuBarBase.radioSelection"
+                       ng-click="resetTime()">
+                <label for="alertRadio1" class="radio-label"><%=
+                  t('modals.alerts.set_reminder.specified')%></label>
+                <ul class="no-list-style">
+                  <li>
+                    <div ng-if="alertMenuBarBase.radioSelection === 'specified'">
+                      <input id="reminder_time" name="reminder_time" type="text" class="form-control"
+                             datetime-picker="dd MMM yyyy HH:mm"
+                             datepicker-options="alertMenuBarBase.reminderForm.dateOptions"
+                             ng-model="new_reminder.reminder_time" is-open="popup1.opened"
+                             ng-click="openCalendar($event, prop)"
+                             placeholder="<%= t('generic_placeholders.required') %>" required/>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li style="float:none;">
+                <div ng-show="set_reminder.reminder_time.$invalid && set_reminder.reminder_time.$dirty"
+                     class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
+                </div>
+              </li>
+              <li style="margin-bottom: 20px;">
+                <input type="radio" id="alertRadio2" class="radio-button" name="delayed" value="delayed"
+                       ng-model="alertMenuBarBase.radioSelection" ng-click="resetTime()" buttonBar="false">
+                <label for="alertRadio2" class="radio-label"><%=
+                  t('modals.alerts.set_reminder.delayed_reminder')%></label>
+                <ul class="no-list-style">
+                  <li>
+                    <select name="reminder_delay" ng-model="new_reminder.reminder_delay"
+                            ng-if="alertMenuBarBase.radioSelection === 'delayed'" ui-select2
+                            style="width:100%" placeholder="<%= t('generic_placeholders.required') %>" required>
+                      <option value="" selected disabled></option>
+                      <option value="15"><%= t('modals.alerts.set_reminder.delayed_minutes', minutes: 15) %>
+                      </option>
+                      <option value="30"><%= t('modals.alerts.set_reminder.delayed_minutes', minutes: 30) %>
+                      </option>
+                      <option value="45"><%= t('modals.alerts.set_reminder.delayed_minutes', minutes: 45) %>
+                      </option>
+                      <option value="60"><%= t('modals.alerts.set_reminder.delayed_minutes', minutes: 60) %></option>
+                    </select>
+                  </li>
+                </ul>
+              </li>
+              <hr/>
+              <li style="margin-bottom: 20px;">
+                <p><%= t('modals.alerts.set_reminder.what_reason')%></p>
+                <select name="reason" ng-model="new_reminder.reason" ui-select2 required
+                        style="width:100%" placeholder="<%= t('generic_placeholders.required') %>">
+                  <option value="" selected disabled></option>
+                  <option ng-repeat="action in base.list_items" value="{{action.id}}">
+                    {{action.frontend_name}}
+                  </option>
+                </select>
+              </li>
+              <li style="float:none;">
+                <div ng-show="set_reminder.reason.$dirty && set_reminder.reason.$invalid"
+                     class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('modals.alerts.set_reminder.select_reason') %></span>
+                </div>
+              </li>
+              <hr/>
+              <li>
+                <p><%= t('modals.alerts.set_reminder.comments') %></p>
+                                <textarea id="comment_text" name="comment_text"
+                                          ng-model="alertMenuBarBase.comment.comment_text"
+                                          placeholder="<%= t('generic_placeholders.required') %>" rows="2"
+                                          style="width: 96%; min-height:80px;" required></textarea>
+              </li>
+              <li style="float:none;">
+                <div ng-show="set_reminder.comment_text.$dirty && set_reminder.comment_text.$invalid"
+                     class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('modals.alerts.set_reminder.enter_comment') %></span>
+                </div>
+              </li>
+            </ul>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a id="set-reminder" class="button" ng-disabled="set_reminder.$invalid"
+             ng-class="set_reminder.$invalid ? 'disabled' : ''"
+             ng-click="set_reminder.$invalid || addReminder()"><%= t('modals.alerts.set_reminder.title') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+

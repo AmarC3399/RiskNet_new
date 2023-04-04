@@ -1,0 +1,38 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.alerts.forward_alert.title') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body forward_alert">
+        <p><%= t('modals.alerts.forward_alert.remove_alerts') %></p>
+        <form class="form" id="forward_alert" name="form" novalidate="">
+          <fieldset>
+            <select data-placeholder="<%= t('modals.alerts.forward_alert.choose_operator') %>" id="operator_select" ng-model="base.forwardAlert.user_id" style="width:100%" tabindex="4" ui-select2 required>
+              <option value=""></option>
+              <option ng-repeat="user in base.forwardUsers" value="{{user.id}}">{{user.name}}</option>
+            </select>
+            <br/>
+            <textarea id="comment_text" name="comment_text" ng-model="base.forwardAlert.comments_attributes.comment_text" placeholder="<%= t('modals.alerts.forward_alert.details') %>" rows="2" style="width: calc(100% - 24px); min-height:200px;margin-top:5px;" required></textarea>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a id="confirm-forward" class="button" ng-disabled="form.$invalid" ng-class="form.$invalid ? 'disabled' : ''" ng-click="form.$invalid || forwardAlert()"><%= t('modals.alerts.forward_alert.confirm_forward') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

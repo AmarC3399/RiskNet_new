@@ -1,0 +1,144 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.rules.details') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.rules.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body rule_details">
+        <table class="vertical-table align-table-text-left pull-left no-hover">
+          <tbody>
+          <tr>
+            <th><%= t('modals.rules.rule_id').upcase %></th>
+            <td>
+              {{rule.id}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.rule_name').upcase %></th>
+            <td>
+              {{rule.internal_code}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.created').upcase %></th>
+            <td>
+              {{rule.created_at | date:'dd/MM/yyyy HH:mm'}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.owner_type').upcase %></th>
+            <td>
+              {{rule.owner_type | convertToFELevels}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.owner_name').upcase %></th>
+            <td>
+              {{rule.owner_name}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.scope').upcase %></th>
+            <td>
+              {{rule.evaluation_type}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.applies_to').upcase %></th>
+            <td>
+              {{rule.rule_evaluation_type}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.criteria').upcase %></th>
+            <td>
+              <ol>
+                <li ng-repeat="criteria in criterian">
+                  {{criteria.description}}
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.priority').upcase %></th>
+            <td>
+              {{rule.priority}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.outcome').upcase %></th>
+            <td>
+              {{rule.outcome | challengeToReview}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.category').upcase %></th>
+            <td>
+              {{rule.category_name}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.state').upcase %></th>
+            <td>
+              {{rule.simulation | convertState}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.active').upcase %></th>
+            <td>
+              {{rule.active | convertActive}}
+            </td>
+          </tr>
+          <tr>
+            <th><%= t('modals.rules.visible').upcase %></th>
+            <td>
+              {{rule.visible}}
+            </td>
+          </tr>
+          <tr ng-if="rule.override_type">
+            <th><%= t('modals.rules.override').upcase %></th>
+            <td>
+              {{rule.override_type | capitalise}}
+            </td>
+          <tr ng-if="rule.schedule">
+            <th><%= t('modals.rules.start_date_time').upcase %></th>
+            <td>
+              {{rule.schedule.start_datetime | date:'dd/MM/yyyy HH:mm'}}
+            </td>
+          </tr>
+          <tr ng-if="rule.schedule.end_datetime">
+            <th><%= t('modals.rules.end_date_time').upcase %></th>
+            <td>
+              {{rule.schedule.end_datetime | date:'dd/MM/yyyy HH:mm'}}
+            </td>
+          </tr>
+          <!-- Temporary implementation to match dodgy back-end weekday object -->
+          <tr ng-if="rule.schedule">
+            <th><%= t('modals.rules.selected_days').upcase %></th>
+            <td>
+              <ol>
+                <li ng-repeat="weekday in rule.schedule.week_days">
+                  {{weekday[1]}}
+                </li>
+              </ol>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="close" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.close') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

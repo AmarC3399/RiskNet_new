@@ -1,0 +1,49 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.alerts.add_activity.create_new_action') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body add_activity">
+        <form class="form" id="add_activity" name="form" novalidate="">
+          <fieldset>
+            <select id="activity_select" data-placeholder="<%= t('modals.alerts.add_activity.action') %>"
+                    multiple="" ng-model="alertActionsBase.preActivity.activityList" style="width:80%" tabindex="4"
+                    ui-select2
+                    required>
+              <option ng-repeat="action in alertActionsBase.listItems" value="{{action.id}}">
+                {{action.frontend_name}}
+              </option>
+            </select>
+            <br/>
+            <textarea id="comment_text" name="comment_text" ng-model="alertActionsBase.activity.comment_text"
+                      placeholder="<%= t('modals.alerts.add_activity.comment_details') %>" rows="2"
+                      style="width: 78.3%; min-height:200px;margin-top:5px;" required maxlength="255"></textarea>
+
+            <div ng-show="form.comment_text.$dirty">
+              <span
+                ng-show="form.comment_text.$error.required"><%= t('modals.alerts.add_activity.enter_comment') %></span>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a id="save" class="button" ng-disabled="form.$invalid" ng-class="form.$invalid ? 'disabled' : ''"
+             ng-click="form.$invalid || addActivity()"><%= t('generic_buttons.save') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

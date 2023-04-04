@@ -1,0 +1,46 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.alerts.examine_alert.title') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body mark_confirmation">
+        <p id="examined" ng-if="confirmation.type === 'alerts'"><%= t('modals.alerts.examine_alert.question_not_reviewed_alerts')%></p>
+        <p id="accept_decline" ng-if="confirmation.type === 'alerts_reviewed'"><%=
+          t('modals.alerts.examine_alert.question_reviewed_alerts')%></p>
+        <form class="form" id="confirm_examined" name="form">
+          <fieldset>
+            <textarea id="comment_text" name="comment_text" ng-model="base.comment.comment_text"
+                      placeholder="<%= t('modals.alerts.examine_alert.reason') %>" rows="2"
+                      style="width: 78.3%; min-height:200px;margin-top:5px;"></textarea>
+          </fieldset>
+        </form>
+      </div> 
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li ng-if="confirmation.type !== 'alerts_reviewed'">
+          <a id="no" class="button" ng-click="$dismiss()"><%= t('generic_buttons.no_button') %></a>
+        </li>
+        <li ng-if="confirmation.type !== 'alerts_reviewed'">
+          <a id="yes" class="button" ng-click="takeFurtherAction('markedAsExamined')"><%= t('generic_buttons.yes_button') %></a>
+        </li>
+        <li ng-if="confirmation.type === 'alerts_reviewed'">
+          <a id="no" class="button" ng-click="takeFurtherAction('decline')"><%= t('generic_buttons.decline') %></a>
+        </li>
+        <li ng-if="confirmation.type === 'alerts_reviewed'">
+          <a id="yes" class="button" ng-click="takeFurtherAction('approve')"><%= t('generic_buttons.approve') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

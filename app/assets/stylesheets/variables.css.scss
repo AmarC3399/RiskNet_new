@@ -1,0 +1,49 @@
+@charset "UTF-8";
+/* SASS Document */
+
+/* -============= VARIABLES - THEME COLOURS ============ */
+
+$baseColour: #2a76aa;
+
+/* ------------------------
+BASE FONT COLOUR
+--------------------------- */
+
+$baseFontColour: #5990C4;
+
+/* ------------------------
+BASE THEME COLOUR
+--------------------------- */
+
+$secondaryThemeColor: #bcd7f0;
+
+/* ------------------------
+SECTION HEADER COLOURS
+--------------------------- */
+
+$column_header_background_base_colour: #88B7E2; 
+$column_header_background_light_colour: #88B7E2;
+$column_header_background_dark_colour: #88B7E2;  
+$column_header_border_colour: #749EC4;
+
+/* ------------------------
+PRIMARY BUTTON COLOURS
+--------------------------- */
+
+$primary_button_background_base_colour: #2a76aa; 
+$primary_button_background_light_colour: #6ea6da;
+$primary_button_background_dark_colour: #2a76aa;  
+$primary_button_border_colour: #6999C5;
+
+/* --- 'DISABLED' VARIATION -- */
+
+$primary_button_disabled_border_colour: #C6D6E5;  
+$primary_button_disabled_background_colour: #C6D6E5;  
+
+/* ------------------------
+FILTER BACKGROUND COLOURS
+--------------------------- */
+
+$filter_background_base_colour: #d1e5f8; 
+$filter_background_light_colour: #d1e5f8;
+$filter_background_dark_colour: #d7ebff;  

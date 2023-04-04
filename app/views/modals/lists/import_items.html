@@ -1,0 +1,36 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('list_management.index.import_items') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.generic.confirmation.list_management') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p><%= t('list_management.index.select_csv') %></p>
+        <div class="button secondary" ngf-select ng-model="listsBase.import.file" name="file" ngf-pattern="'.csv'"
+             ngf-accept="'.csv'" ngf-max-size="20MB" ngf-min-height="100"
+             ngf-resize="{width: 100, height: 100}" required><%= t('list_management.index.choose_file') %></div>
+        <span ng-if="listsBase.import.file.name">{{listsBase.import.file.name}}</span>
+        <span ng-if="!listsBase.import.file.name"><%= t('list_management.index.no_file_chosen') %></span>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a id="confirm" class="button" ng-disabled="!listsBase.import.file.name"
+             ng-class="!listsBase.import.file.name ? 'disabled' : ''"
+             ng-click="!listsBase.import.file.name || importCSV()">
+            <%= t('generic_buttons.confirm') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

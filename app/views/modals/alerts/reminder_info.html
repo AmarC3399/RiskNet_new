@@ -1,0 +1,10 @@
+<p><label><%= t('modals.alerts.reminder_info.reminder_date') %>:</label> {{alert.reminder.reminder_time | date:'dd-MM-yyyy'}} </p>
+<hr>
+<p><label><%= t('modals.alerts.reminder_info.reminder_time') %>:</label> {{alert.reminder.reminder_time | date:'HH:mm:ss'}} </p>
+<hr>
+<p><label> <%= t('modals.alerts.reminder_info.time_zone') %>:</label> {{alert.reminder.reminder_time | date:'Z'}} </p>
+<hr>
+<p><label> <%= t('modals.alerts.reminder_info.reason') %>:</label> {{alert.reminder.reason}} </p>
+
+
+

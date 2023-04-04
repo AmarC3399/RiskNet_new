@@ -1,0 +1,21 @@
+<ul>
+  <li>
+    <select id="client_filter" ng-model="vars.filter.clients" ui-select2>
+      <option value="" selected disabled></option>
+      <option ng-repeat="member in levels.members" value="{{member.id}}"> {{member.name}}</option>
+    </select>
+  </li>
+  <li>
+    <select id="merchant_filter" ng-model="vars.filter.merchants" ng-disabled="vars.filter.clients !== ''" placeholder="<%= t('partials.level_filter.select_merchants') %>" ui-select2>
+      <option value="" selected disabled></option>
+      <option ng-repeat="client in levels.clients" value="{{client.id}}"> {{client.name}}</option>
+    </select>
+  </li>
+  <li>
+    <select id="submerchant_filter" ng-model="vars.filter.subMerchants" ng-disabled="vars.filter.merchants !== '"
+            placeholder="<%= t('partials.level_filter.select_submerchants') %>" ui-select2>
+      <option value="" selected disabled></option>
+      <option ng-repeat="merchant in levels.merchants" value="{{merchant.id}}"> {{merchant.name}}</option>
+    </select>
+  </li>
+</ul>

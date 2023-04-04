@@ -1,0 +1,111 @@
+<div class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.rules.schedule') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.rules.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body rule_scheduler">
+
+        <div class="container_24">
+          <form class="form" id="new_schedule" name="new_schedule" novalidate="">
+            <fieldset>
+              <ul class="no-list-style no-list-padding">
+                <li style="margin-bottom: 20px;">
+                  <p><%= t('modals.rules.start_date_time') %></p>
+                  <input id="start_time" name="start_time" class="form-control"
+                         datetime-picker="dd MMM yyyy HH:mm"
+                         datepicker-options="rulesBase.scheduleForm.dateOptions"
+                         ng-model="rulesBase.schedule.start_datetime" is-open="rulesBase.popups.popup1.opened"
+                         ng-click="openCalendar($event, 'popup1')" ng-change="checkEndDate(new_schedule)"
+                         placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                         style="width:95%" required/>
+                </li>
+                <li style="float:none;" ng-if="new_schedule.start_time.$invalid && new_schedule.start_time.$dirty">
+                  <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('modals.rules.schedule_time_in_future') %></span>
+                  </div>
+                </li>
+                <li style="margin-bottom: 20px;">
+                  <p><%= t('modals.rules.end_date_time') %></p>
+                  <input id="end_time" name="end_time" class="form-control"
+                         datetime-picker="dd MMM yyyy HH:mm"
+                         datepicker-options="rulesBase.scheduleForm.dateOptions"
+                         ng-model="rulesBase.schedule.end_datetime" is-open="rulesBase.popups.popup2.opened"
+                         ng-click="openCalendar($event, 'popup2')" ng-change="checkEndDate(new_schedule)"
+                         placeholder="<%= t('generic_placeholders.optional') %>" type="text"
+                         style="width:95%"/>
+                </li>
+                <li style="float:none;"
+                    ng-if="new_schedule.end_time.$invalid && new_schedule.end_time.$dirty && !rulesBase.scheduleForm.invalidEnd">
+                  <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('modals.rules.schedule_time_in_future') %></span>
+                  </div>
+                </li>
+                <li style="float:none;" ng-if="rulesBase.scheduleForm.invalidEnd">
+                  <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('modals.rules.schedule_end_time_invalid') %></span>
+                  </div>
+                </li>
+              </ul>
+            </fieldset>
+            <div class="grid_24 form-group">
+              <hr/>
+            </div>
+            <div class="grid_6 form-group">
+              <div ng-repeat="day in rulesBase.days.slice(0, 2)">
+                <input id="{{$index}}_first" class="checkbox" type="checkbox" value="day"
+                       name="{{$index}}_first"
+                       ng-model="rulesBase.selectedDays[day]" ng-click="selectAprDays(day)">
+                <label class="checkbox-label" for="{{$index}}_first">{{day | capitalise}}</label>
+              </div>
+            </div>
+            <div class="grid_6 form-group">
+              <div ng-repeat="day in rulesBase.days.slice(2, 4)">
+                <input id="{{$index}}_second" class="checkbox" type="checkbox" value="day"
+                       name="{{$index}}_second"
+                       ng-model="rulesBase.selectedDays[day]" ng-click="selectAprDays(day)">
+                <label class="checkbox-label" for="{{$index}}_second">{{day | capitalise}}</label>
+              </div>
+            </div>
+            <div class="grid_6 form-group">
+              <div ng-repeat="day in rulesBase.days.slice(4, 6)">
+                <input id="{{$index}}_third" class="checkbox" type="checkbox" value="day"
+                       name="{{$index}}_third"
+                       ng-model="rulesBase.selectedDays[day]" ng-click="selectAprDays(day)">
+                <label class="checkbox-label" for="{{$index}}_third">{{day | capitalise}}</label>
+              </div>
+            </div>
+            <div class="grid_6 form-group">
+              <div ng-repeat="day in rulesBase.days.slice(6, 8)">
+                <input id="{{$index}}_fourth" class="checkbox" type="checkbox" value="day"
+                       name="{{$index}}_fourth"
+                       ng-model="rulesBase.selectedDays[day]" ng-click="selectAprDays(day)">
+                <label class="checkbox-label" for="{{$index}}_fourth">{{day | capitalise}}</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.close') %></a>
+        </li>
+        <li>
+          <a class="button" ng-disabled="new_schedule.$invalid || !checkDaysCount()" ng-class="new_schedule.$invalid || !checkDaysCount() ? 'disabled' : ''"
+             ng-click="new_schedule.$invalid || !checkDaysCount() || scheduleRule()"><%= t('generic_buttons.confirm_changes') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

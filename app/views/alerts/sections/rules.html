@@ -1,0 +1,38 @@
+<!--%button.button.rule_info{"bs-popover" => "'/templates/modals/alerts/rule_info.html'", "data-unique" => "1", :type => "button", "data-trigger" => "hover"}-->
+<!--.sprite.info-->
+<div resize-alert-rules>
+  <header id="alert-rule-table-header" class="sub-header-content move-header">
+    <h3><%= t('alerts.rules.title') %></h3>
+  </header>
+  <div id="alert-rule-table" loading="" urls="^/api/alerts((\\?.*)?|/[0-9]+\.[0-9]+-[0-9]+)$">
+    <div class="alert-rule-table-contents">
+      <table class="table">
+        <thead>
+        <tr>
+          <th><%= t('alerts.rules.rule_id') %></th>
+          <th><%= t('alerts.rules.priority') %></th>
+          <th><%= t('alerts.rules.outcome') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'selected-row': rule === selected}" ng-click="setMainRule(rule)"
+            bindonce ng-repeat="rule in alertRulesBase.rules">
+          <td bo-text="rule.internal_code"></td>
+          <td bo-text="rule.priority"></td>
+          <td bo-text="rule.outcome | challengeToReview"></td>
+          <td>
+            <i id="more-info{{$index}}" class="more-info fa fa-question-circle"
+               uib-popover-template="'/templates/modals/alerts/rule_info.html'" data-unique="1"
+               popover-placement="left-top" popover-trigger="mouseenter" html="false" container="body"
+               data-container="body"></i>
+          </td>
+        </tr>
+        <tr ng-if="alertRulesBase.rules.length<1">
+          <td colspan=4><%= t('search.no_results') %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

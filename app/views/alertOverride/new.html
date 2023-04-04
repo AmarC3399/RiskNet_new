@@ -1,0 +1,182 @@
+<div id="header-container">
+  <h1 class="pull-left">
+    <%= t('alert_override.new.title') %>
+  </h1>
+</div>
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="container_24">
+    <div class="grid_16 prefix_4 alpha omega">
+      <div id="alert_override_form" class="section form-group group"
+           style="top:20px;overflow: visible;padding: 0 0 80px;">
+        <div class="sub-header-content">
+          <h3 ng-if="alertOverridesBase.overrideForm.type === 'new'">
+            <%=t('alert_override.new.create_new_alert_override') %>
+          </h3>
+          <h3 ng-if="alertOverridesBase.overrideForm.type === 'edit'">
+            <%=t('alert_override.new.edit_alert_override') %>
+          </h3>
+        </div>
+        <form class="form-horizontal" name="new_alert_override" novalidate
+              style="margin-top: 20px;">
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="type"><%= t('alert_override.new.list') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <select id="type" ng-model="alertOverridesBase.overrideObj.type" value="{{alertOverride.type}}"
+                        data-placeholder="<%= t('generic_placeholders.required') %>"  ui-select2 required>
+                  <option value=""></option>
+                  <option ng-repeat="type in alertOverridesBase.types" value="{{type.value}}">{{type.name}}</option>
+                </select>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="card_number"><%= t('alert_override.new.card_number') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <input id="card_number" name="card_number" class="form-control"
+                       ng-model="alertOverridesBase.overrideObj.card_number"
+                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                       required maxlength="100" ng-disabled="alertOverridesBase.overrideForm.type === 'edit'"
+                       ng-class="alertOverridesBase.overrideForm.type === 'edit' ? 'disabled' : ''">
+              </li>
+              <li style="float:none;">
+                <div ng-show="new_alert_override.card_number.$invalid && new_alert_override.card_number.$dirty"
+                     class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.card_number_required') %></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group" ng-if="alertOverridesBase.overrideForm.type === 'new'">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="confirm_card_number"><%= t('alert_override.new.confirm_card_number') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <input id="confirm_card_number" name="confirm_card_number" class="form-control"
+                       ng-model="alertOverridesBase.overrideObj.confirm_card_number"
+                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                       required maxlength="100">
+              </li>
+              <li style="float:none;">
+                <div
+                  ng-show="new_alert_override.confirm_card_number.$invalid && new_alert_override.confirm_card_number.$dirty"
+                  class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.confirm_card_number_required') %></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="comment"><%= t('alert_override.new.comments') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <textarea id="comment" name="comment" class="form-control"
+                          ng-model="alertOverridesBase.overrideObj.comment" rows="4" maxlength="255"
+                          placeholder="<%= t('generic_placeholders.optional') %>"></textarea>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_10 prefix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="start_time"><%= t('alert_override.new.override_start_time') %></span>
+                </p>
+              </li>
+              <li class="top-calendar" style="float:none;">
+                <input id="start_time" name="start_time" class="form-control"
+                       datetime-picker="dd MMM yyyy HH:mm"
+                       datepicker-options="alertOverridesBase.overrideForm.dateOptions"
+                       ng-model="alertOverridesBase.overrideObj.start_time" is-open="popups.popup1.opened"
+                       ng-click="openCalendar($event, 'popup1')" ng-change="checkExpiryDate(new_alert_override)"
+                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                       required/>
+              </li>
+              <li style="float:none;" ng-show="new_alert_override.start_time.$invalid && new_alert_override.start_time.$dirty">
+                <div class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_10 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="end_time"><%= t('alert_override.new.override_expiry_time') %></span>
+                </p>
+              </li>
+              <li class="top-calendar" style="float:none;">
+                <input id="end_time" name="end_time" class="form-control"
+                       datetime-picker="dd MMM yyyy HH:mm"
+                       datepicker-options="alertOverridesBase.overrideForm.dateOptions"
+                       ng-model="alertOverridesBase.overrideObj.end_time" is-open="popups.popup2.opened"
+                       ng-click="openCalendar($event, 'popup2')" ng-change="checkExpiryDate(new_alert_override)"
+                       placeholder="<%= t('generic_placeholders.optional') %>" type="text"/>
+              </li>
+              <li style="float:none;" ng-if="new_alert_override.end_time.$invalid && new_alert_override.end_time.$dirty && !alertOverridesBase.overrideForm.invalidExpiry">
+                <div class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
+                </div>
+              </li>
+              <li style="float:none;" ng-if="alertOverridesBase.overrideForm.invalidExpiry">
+                <div class="alert alert-warning">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.override_expiry_time_invalid') %></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
+        <div class="action-bar primary">
+          <ul>
+            <li>
+              <button id="back" type="button" class="button neutral" ng-click="backToIndex()">
+                <%= t('generic_buttons.back') %>
+              </button>
+            </li>
+            <li>
+              <button id="create_new_alert_override" class="button btn btn-primary" ng-click="addNewAlertOverride()"
+                      ng-if="alertOverridesBase.overrideForm.type === 'new'"
+                      ng-disabled="new_alert_override.$invalid"
+                      ng-class="new_alert_override.$invalid ? 'disabled' : ''">
+                <%= t('alert_override.new.create_alert_override') %>
+              </button>
+            </li>
+            <li>
+              <button id="confirm_changes" class="button btn btn-primary" ng-click="editAlertOverride()"
+                      ng-if="alertOverridesBase.overrideForm.type === 'edit'"
+                      ng-disabled="new_alert_override.$invalid"
+                      ng-class="new_alert_override.$invalid ? 'disabled' : ''">
+                <%= t('generic_buttons.confirm_changes') %>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

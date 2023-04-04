@@ -1,0 +1,111 @@
+@import "blue-theme-colors";
+
+#list-management {
+  #sidebar,
+  #page-contents {
+    margin-top: 80px;
+  }
+
+  #list-tems {
+    margin: 11px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 54px;
+  }
+
+  #list-scroll {
+    background-color: $gallery;
+    overflow: auto;
+    position: absolute;
+    top: 113px;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+
+    &.with-pagination {
+      bottom: 40px;
+    }
+
+    li {
+      cursor: pointer;
+
+      &.active {
+        background: $jagged-ice;
+      }
+    }
+  }
+
+  .list-management-pagination {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $gallery;
+    border-top: 1px solid $quill-gray;
+
+    &.item-pagination {
+      bottom: 48px;
+    }
+
+    .pagination {
+      display: block;
+      height: 36px;
+      text-align: center;
+
+      > li {
+        display: inline-block;
+      }
+
+      > li > a {
+        float: none;
+        top: 7px;
+        transition: all 0.2s;
+      }
+
+      @media only screen and (max-width: 1300px) {
+        > li > a {
+          padding: 6px 10px;
+          transition: all 0s;
+        }
+      }
+    }
+  }
+
+  .create-item {
+    .filter_label {
+      position: relative;
+      margin-bottom: 0;
+      color: $pigeon-post;
+      font-family: 'blender_pro_bold';
+
+      + p {
+        margin: 0 0 10px;
+      }
+    }
+  }
+
+  .created-item {
+    .filter_label {
+      position: relative;
+      color: $pigeon-post;
+      font-family: 'blender_pro_bold';
+    }
+
+    li {
+      border-top: 1px solid #ddd;
+      padding: 10px 0;
+
+      .delete-list-item {
+        color: $tonys-pink;
+        cursor: pointer;
+
+        &:hover {
+          color: $copper-rust;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<ul>
+  <li id="alert-add-reminder" required-user role="admin, user">
+    <!-- ngIfs to remove from DOM for help text -->
+    <a id="open_set_reminder" class="button neutral"
+       ng-if="!alertBase.reminderDetails || alertBase.reminderDetails.cleared === true"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openReminder()" ng-model="alertBase.reminder.details">
+      <span><%= t('alerts.menu_bar.set_reminder') %></span>
+    </a>
+    <a id="alert_clear_reminder" class="button neutral"
+       ng-if="alertBase.reminderDetails && alertBase.reminderDetails.cleared === false"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openClearReminder()" ng-model="alertBase.reminder.details">
+      <span><%= t('alerts.menu_bar.clear_reminder') %></span>
+    </a>
+  </li>
+  <li required-user role="admin, user">
+    <a id="alert-forward" class="button" ng-disabled="!alertBase.reminder.alert_id"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openForwardAlert()">
+      <span><%= t('alerts.menu_bar.forward') %></span>
+    </a>
+  </li>
+  <li>
+    <a id="alert-examine" class="button" ng-disabled="!alertBase.reminder.alert_id"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openConfirmation()">
+      <span><%= t('alerts.menu_bar.examined') %></span>
+    </a>
+  </li>
+</ul>

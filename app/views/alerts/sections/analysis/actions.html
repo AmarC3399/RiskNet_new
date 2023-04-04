@@ -1,0 +1,59 @@
+<div id="activities_controller">
+  <div class="filter">
+  </div>
+  <div id="activities-table" class="analysis-table-wrapper"
+       ng-class="alertActionsBase.pagination.totalPages > 1 ? '' : 'no-action-bar'">
+    <table class="analysis-table striped lined" style="width:100%;min-width:820px;">
+      <thead>
+      <tr>
+        <th style="width:180px;">
+              <span class="column_label">
+                <%= t('alerts.analysis.actions.action_type') %>
+              </span>
+        </th>
+        <th style="width:100px;">
+              <span class="column_label">
+                <%= t('alerts.analysis.actions.entered_by') %>
+              </span>
+        </th>
+        <th style="width:100px;">
+              <span class="column_label">
+                <%= t('alerts.analysis.actions.entered_on') %>
+              </span>
+        </th>
+        <th style="width:300px;">
+              <span class="column_label">
+                <%= t('alerts.analysis.actions.comment') %>
+              </span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr bindonce
+          dir-paginate="activity in alertActionsBase.activities | itemsPerPage: alertActionsBase.pagination.activitiesPerPage"
+          total-items="alertActionsBase.pagination.totalActivities"
+          current-page="alertActionsBase.pagination.currentPage">
+        <td bo-text="activity.action_type"></td>
+        <td bo-text="activity.entered_by"></td>
+        <td bo-text="activity.created_at | date:'dd/MM/yyyy HH:mm:ss'"></td>
+        <td bo-text="activity.comments.comment_text"></td>
+      </tr>
+      <tr ng-if="alertActionsBase.activities.length<1">
+        <td colspan=4><%= t('search.no_results') %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="action-bar secondary">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+    <ul>
+      <li required-user role="admin, user">
+        <a class="button secondary" id="open_add_activity" ng-click="openAddActivity()">
+          <%= t('alerts.analysis.actions.take_action') %>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+

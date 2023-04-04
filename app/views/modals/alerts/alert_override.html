@@ -1,0 +1,124 @@
+<div class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('alert_override.new.title') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body ">
+        <form class="form" id="new_alert_override" name="new_alert_override" novalidate="">
+          <fieldset>
+            <ul class="no-list-style no-list-padding">
+              <li style="margin-bottom: 20px;">
+                <p><%= t('alert_override.new.list')%></p>
+                <select data-placeholder="<%= t('generic_placeholders.required') %>" id="type"
+                        ng-model="alertAuthsBase.overrideObj.type" style="width:100%" tabindex="4" ui-select2 required>
+                  <option value=""></option>
+                  <option ng-repeat="type in alertAuthsBase.types" value="{{type.name}}">{{type.name}}</option>
+                </select>
+              </li>
+              <li style="margin-bottom: 20px;">
+                <p><%= t('alert_override.new.card_number')%></p>
+                <input id="card_number" name="card_number" class="form-control"
+                       ng-model="base.card.card_number"
+                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                       style="width: 95%;" required maxlength="100" disabled>
+
+                <div ng-show="form.card_number.$dirty && form.card_number.$invalid" class="alert alert-warning"
+                     style="width:95%">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                  <span class="alert-text"><%= t('alert_override.new.card_number_required') %></span>
+                </div>
+              </li>
+              <li>
+                <p><%= t('alert_override.new.comments') %></p>
+                <textarea id="comment" name="comment"
+                          ng-model="alertAuthsBase.overrideObj.comment"
+                          placeholder="<%= t('generic_placeholders.optional') %>" rows="2"
+                          style="width: 96%; min-height:80px;"></textarea>
+              </li>
+              <li>
+                <div class="container_24">
+                  <div class="grid_12 form-group">
+                    <ul class="labelled-form-full-width grid_22">
+                      <li>
+                        <p class="capitalise">
+                          <span for="start_time"><%= t('alert_override.new.override_start_time') %></span>
+                        </p>
+                      </li>
+                      <li class="top-calendar" style="float:none;">
+                        <input id="start_time" name="start_time" class="form-control"
+                               datetime-picker="dd MMM yyyy HH:mm"
+                               datepicker-options="alertAuthsBase.overrideForm.dateOptions"
+                               ng-model="alertAuthsBase.overrideObj.start_time" is-open="popups.popup1.opened"
+                               ng-change="checkValidDates()" ng-click="openCalendar($event, 'popup1')"
+                               placeholder="<%= t('generic_placeholders.required') %>" type="text" required/>
+                      </li>
+                      <li style="float:none;">
+                        <div ng-show="new_alert_override.start_time.$invalid && new_alert_override.start_time.$dirty"
+                             class="alert alert-warning">
+                          <span class="glyphicon glyphicon-question-sign"></span>
+                          <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="grid_12 form-group">
+                    <ul class="labelled-form-full-width grid_22">
+                      <li>
+                        <p class="capitalise">
+                          <span for="end_time"><%= t('alert_override.new.override_expiry_time') %></span>
+                        </p>
+                      </li>
+                      <li class="top-calendar left-side" style="float:none;">
+                        <input id="end_time" name="end_time" class="form-control"
+                               datetime-picker="dd MMM yyyy HH:mm"
+                               datepicker-options="alertAuthsBase.overrideForm.dateOptions"
+                               ng-model="alertAuthsBase.overrideObj.end_time" is-open="popups.popup2.opened"
+                               ng-change="checkValidDates()" ng-click="openCalendar($event, 'popup2')"
+                               placeholder="<%= t('generic_placeholders.optional') %>" type="text"/>
+                      </li>
+                      <li style="float:none;">
+                        <div ng-show="new_alert_override.end_time.$invalid && new_alert_override.end_time.$dirty"
+                             class="alert alert-warning">
+                          <span class="glyphicon glyphicon-question-sign"></span>
+                          <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="grid_24 form-group">
+                    <div style="float:none;">
+                      <div ng-show="!alertAuthsBase.datesValid && new_alert_override.start_time.$valid && new_alert_override.end_time.$valid"
+                           class="alert alert-warning">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span class="alert-text"><%= t('alert_override.new.override_expiry_time_invalid') %></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="cancel" class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a id=create_new_alert_override" class="button" ng-disabled="new_alert_override.$invalid || !alertAuthsBase.datesValid"
+             ng-class="new_alert_override.$invalid || !alertAuthsBase.datesValid ? 'disabled' : ''"
+             ng-click="new_alert_override.$invalid || !alertAuthsBase.datesValid || addAlertOverride()"><%= t('alert_override.new.create_alert_override') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

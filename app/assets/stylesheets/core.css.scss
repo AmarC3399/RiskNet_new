@@ -1,0 +1,14 @@
+
+
+/* ========== LOADING SPINNER =============
+
+No idea why, but I can't seem to be able to remove the below code without it breaking
+*/
+
+.loading-overlay .loading {
+    background: image-url( asset-path('loading.gif'));
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+}

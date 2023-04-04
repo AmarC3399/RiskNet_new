@@ -1,0 +1,32 @@
+<div id="alert-view" class="workspace-ready" ng-class="alertBase.alertVisible ? '' : 'workspace-mode'">
+  <button class="workspace-button" ng-click="alertBase.alertVisible = !alertBase.alertVisible" title="<%= t('alerts.index.toggle_workspace_mode') %>"></button>
+  <div id="sidebar" class="sidebar-left">
+    <div class="header-content">
+      <h2><%= t('alerts.index.title') %></h2>
+    </div>
+    <div ui-view="alert-menu" id="alert-menu"></div>
+  </div>
+
+  <div id="page-contents" class="with-left-sidebar with-fullpage-action-bar">
+    <div gridster>
+      <ul id="alert-gridster-list" class="resize-grid">
+        <li gridster-item id="{{item.id}}"  row="item.position[1]" col="item.position[0]" size-x="item.size.x" size-y="item.size.y" class="section gridster-item" ng-repeat="item in vars.gridsterItems">
+          <div class="gridster-content" ui-view="{{item.ui}}"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="action-bar primary full-page">
+    <div ui-view="menu-bar-view"></div>
+  </div>
+  <div id="page-footer" ng-controller="AlertStatsCtrl" ng-if="alertBase.alertVisible">
+    <ul>
+      <li id="user"><p><%= t('alerts.index.user') %>: {{alertStatsBase.currentUser}}</p></li>
+      <li id="alerts-pending"><p><%= t('alerts.index.allocated_pending') %>: {{alertStatsBase.alertsPending}}</p></li>
+      <li id="alerts-examined"><p><%= t('alerts.index.examined') %>: {{alertStatsBase.alertsCompleted}}</p></li>
+      <li id="alerts-total"><p><%= t('alerts.index.total') %>: {{alertStatsBase.alertsTotal}}</p></li>
+      <li><p>{{time | date:'dd/MM/yyyy'}}&nbsp;{{time | date:'HH:mm'}}</p></li>
+    </ul>
+  </div>
+</div>

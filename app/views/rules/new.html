@@ -1,0 +1,1280 @@
+<div id="new-rule-view">
+  <div id="header-container">
+    <h1 class="pull-left"><%= t('rules.new.rule_generation') %></h1>
+    <ul id="progress-graph">
+      <li ng-class="{ selected: rulesBase.stage.primary === 'scope' }">
+        <a ng-click="changeStage('scope','overview')" class="tab" href="">
+                    <span class="stage-name ">
+                        <h3><%= t('rules.new.scope') %></h3>
+                    </span>
+          <div class="large-progress-bar">
+            <div ng-class="{ activeprogressbar: isActive(stage.name)}" class="progress-bar"
+                 role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                 ng-style="stage.progressStyle" style="width: 100%;"></div>
+          </div>
+        </a>
+      </li>
+      <li id="header-criteria" ng-disabled="rulesBase.new.form.addBasicDetailsForm.$invalid"
+          ng-class="{ selected: rulesBase.stage.primary === 'criteria', disabled: rulesBase.new.form.addBasicDetailsForm.$invalid }">
+        <a ng-click="rulesBase.new.form.addBasicDetailsForm.$invalid || changeStage('criteria','generate')" class="tab"
+           href="">
+                    <span class="stage-name ">
+                        <h3><%= t('rules.new.criteria') %></h3>
+                    </span>
+          <div class="large-progress-bar">
+            <div ng-class="{ activeprogressbar: isActive(stage.name)}" class="progress-bar"
+                 role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                 ng-style="stage.progressStyle" style="width: 100%;"></div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="sidebar" class="sidebar-left sidebar-menu below-header no-footer">
+    <div class="header-content">
+      <h2><%= t('rules.new.scope') %></h2>
+    </div>
+    <ul ng-if="rulesBase.stage.primary === 'scope'" class="panel-list menu-list">
+      <li ng-class="{ selected: rulesBase.stage.secondary === 'overview' }"
+          ng-click="changeStage('scope','overview')">
+        <%= t('rules.new.overview') %>
+      </li>
+      <li id="sidebar-target" ng-disabled="rulesBase.new.form.addBasicDetailsForm.$invalid"
+          ng-class="{ selected: rulesBase.stage.secondary === 'target', disabled: rulesBase.new.form.addBasicDetailsForm.$invalid }">
+        <a ng-click="rulesBase.new.form.addBasicDetailsForm.$invalid || changeStage('scope','target')"><%=
+          t('rules.new.target') %></a>
+      </li>
+    </ul>
+    <ul ng-if="rulesBase.stage.primary === 'criteria'" class="panel-list menu-list">
+      <li ng-class="{ selected: rulesBase.stage.secondary === 'generate' }"
+          ng-click="changeStage('criteria','generate')">
+        <%= t('rules.new.generate_criteria') %>
+      </li>
+      <li ng-class="{ selected: rulesBase.stage.secondary === 'summary'}">
+        <a ng-click="changeStage('criteria','summary')"><%= t('rules.new.criteria_summary') %></a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="page-contents" class="with-left-sidebar no-footer below-header">
+    <!-- OVERVIEW SECTION ------------ !-->
+    <div class="section single-section">
+      <div class="sub-header-content">
+        <h3 ng-if="rulesBase.stage.secondary === 'overview'"><%= t('rules.new.choose_rule_scope') %></h3>
+        <h3 ng-if="rulesBase.stage.secondary === 'target'" class="ng-binding">
+          <%= t('rules.new.target') %></h3>
+        <h3 ng-if="rulesBase.stage.secondary === 'generate'">
+          <%= t('rules.new.generate_criteria') %></h3>
+      </div>
+      <div id="scope-overview" ng-if="rulesBase.stage.secondary === 'overview'"
+           class="content-panel-wrapper period-content-wrapper with-action-bar" style="padding-bottom: 50px;">
+        <div class="container_24">
+          <form name="rulesBase.new.form.addBasicDetailsForm" novalidate style="margin-top: 20px;">
+            <div class="grid_24 form-group">
+              <ul class="labelled-form-full-width grid_22">
+                <li>
+                  <p>
+                    <span><%= t('rules.new.rule_name') %></span>
+                  </p>
+                </li>
+                <li style="float:none;">
+                  <input id="internal_code" name="internal_code" class="form-control"
+                         ng-model="rulesBase.new.rule.internal_code"
+                         placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                         ng-disabled="usersBase.userForm.type === 'view'" required maxlength="100" ng-maxlength="100"
+                         ng-pattern='rulesBase.new.name_regex'>
+                </li>
+                <li style="float:none;">
+                  <div
+                    ng-if="rulesBase.new.form.addBasicDetailsForm.internal_code.$error.required"
+                    class="alert alert-danger">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('rules.new.name_max_length') %></span>
+                  </div>
+                  <div
+                    ng-if="rulesBase.new.form.addBasicDetailsForm.internal_code.$error.pattern"
+                    class="alert alert-danger">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('rules.new.name_not_contain_pipe') %></span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <ul class="labelled-form-full-width grid_22">
+                <li>
+                  <p>
+                    <span><%= t('rules.new.rule_description') %></span>
+                  </p>
+                </li>
+                <li style="float:none;">
+                  <textarea id="description" name="description" class="form-control"
+                            ng-model="rulesBase.new.rule.description"
+                            placeholder="<%= t('generic_placeholders.required') %>" type="text"
+                            required maxlength="255"></textarea>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <ul class="labelled-form-full-width grid_22">
+                <li>
+                  <p>
+                    <span><%= t('rules.new.rule_priority') %></span>
+                  </p>
+                </li>
+                <li style="float:none;" class="container_24 no_margin">
+                  <div class="grid_4 alpha">
+                    <input id="priority" name="priority" class="form-control"
+                           ng-model="rulesBase.new.rule.priority"
+                           placeholder="<%= t('generic_placeholders.required') %>"
+                           type="number" max="100" min="1" required integer>
+                  </div>
+                  <div class="grid_2 prefix_1 suffix_17 omega">
+                    <i id="rule_priority_help" class="more-info fa fa-question-circle"
+                       uib-popover="{{meta.tooltips.rule_gen_priority}}"
+                       data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                       html="false" container="body"
+                       data-container="body">
+                    </i>
+                  </div>
+                </li>
+                <li style="float:none;">
+                  <div
+                    ng-if="rulesBase.new.form.addBasicDetailsForm.priority.$dirty && rulesBase.new.form.addBasicDetailsForm.priority.$invalid"
+                    class="alert alert-danger">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('rules.new.priority_range') %></span>
+                  </div>
+                  <div ng-if="checkDecimal()" class="alert alert-warning">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <span class="alert-text"><%= t('rules.new.priority_decimal') %></span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <ul class="labelled-form-full-width grid_22">
+                <li>
+                  <p>
+                    <span><%= t('rules.new.outcome') %></span>
+                  </p>
+                </li>
+                <li style="float:none;" class="container_24 no_margin">
+                  <div class="grid_20 suffix_4 alpha">
+                    <select id="outcome" name="outcome" ng-model="rulesBase.new.rule.outcome"
+                            ng-change="resetCategory()" placeholder="<%= t('generic_placeholders.required') %>"
+                            ui-select2 required>
+                      <option value="" disabled selected>
+                      </option>
+                      <option value="APPROVE"><%=
+                        t('rules.new.outcome.approve') %>
+                      </option>
+                      <option value="CHALLENGE"><%=
+                        t('rules.new.review') %>
+                      </option>
+                      <option value="DECLINE"><%=
+                        t('rules.new.decline') %>
+                      </option>
+                    </select>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <ul class="labelled-form-full-width grid_22">
+                <li>
+                  <p>
+                    <span><%= t('rules.new.category') %></span>
+                  </p>
+                </li>
+                <li style="float:none;" class="container_24 no_margin">
+                  <div class="grid_20 suffix_4 alpha">
+                    <select id="category" name="category" ng-model="rulesBase.new.rule.category_id" ui-select2
+                            placeholder="<%= t('generic_placeholders.required') %>" required>
+                      <option value="" disabled selected></option>
+                      <option
+                        ng-repeat="category in rulesBase.new.categories |  restrictCategories:rulesBase.new.rule.outcome"
+                        value="{{category.id}}">
+                        {{category.frontend_name}}
+                      </option>
+                    </select>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <hr/>
+            </div>
+            <div class="grid_24 form-group">
+              <div class="grid_6">
+                <input id="add-to-list-checkbox" class="checkbox" type="checkbox"
+                       name="add-to-list-checkbox" value="true"
+                       ng-model="rulesBase.new.rule.add_to_list" ng-true-value="true"
+                       ng-change="clearListVals()"
+                       checked="checked">
+                <label class="checkbox-label" for="add-to-list-checkbox"><%= t('rules.new.add_to_list')
+                  %></label>
+              </div>
+              <div class="grid_2 prefix_1">
+                <i id="add_to_list_help" class="more-info fa fa-question-circle"
+                   uib-popover="{{meta.tooltips.rule_gen_add_to_list}}"
+                   data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                   html="false" container="body"
+                   data-container="body">
+                </i>
+              </div>
+            </div>
+            <div class="grid_24 form-group" ng-if="rulesBase.new.rule.add_to_list">
+              <ul class="labelled-form-full-width grid_22">
+                <li style="float:none;" class="container_24 no_margin">
+                  <div class="grid_6 alpha">
+                    <span><%= t('rules.new.list') %></span>
+                    <select id="override_type" name="override_type" ng-model="rulesBase.new.rule.override_type" ui-select2
+                            placeholder="<%= t('generic_placeholders.required') %>" required>
+                      <option value="" disabled selected></option>
+                      <option
+                        ng-repeat="type in rulesBase.new.listTypes" value="{{type.value}}">
+                        {{type.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="grid_4 prefix_1">
+                    <span><%= t('rules.new.time_period') %></span>
+                    <input id="time_value" name="time_value" class="form-control"
+                           ng-model="rulesBase.new.rule.time_value"
+                           placeholder="<%= t('generic_placeholders.required') %>"
+                           type="number" max="100" min="1" required integer>
+                  </div>
+                  <div class="grid_6 prefix_1">
+                    <span>&nbsp;</span>
+                    <select id="time_period" name="time_period" ng-model="rulesBase.new.rule.time_period" ui-select2
+                            placeholder="<%= t('generic_placeholders.required') %>" required>
+                      <option value="" disabled selected></option>
+                      <option
+                        ng-repeat="period in rulesBase.new.periods" value="{{period.value}}">
+                        {{period.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="grid_2 prefix_1 suffix_3 omega">
+                    <div>&nbsp;</div>
+                    <i id="time_period_help" class="more-info fa fa-question-circle"
+                       uib-popover="{{meta.tooltips.rule_gen_time_period}}"
+                       data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                       html="false" container="body"
+                       data-container="body">
+                    </i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24 form-group">
+              <hr/>
+            </div>
+            <div class="grid_24 form-group">
+              <div class="grid_6">
+                <input id="active-checkbox" class="checkbox" type="checkbox"
+                       name="active-checkbox" value="true"
+                       ng-model="rulesBase.new.rule.active" ng-true-value="true"
+                       checked="checked">
+                <label class="checkbox-label" for="active-checkbox">
+                  <%= t('rules.new.rule_active') %></label>
+              </div>
+              <div class="grid_2 prefix_1">
+                <i id="rule_active_help" class="more-info fa fa-question-circle"
+                   uib-popover="{{meta.tooltips.rule_gen_active}}"
+                   data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                   html="false" container="body"
+                   data-container="body">
+                </i>
+              </div>
+              <div class="grid_6 alpha">
+                <input id="sim-checkbox" class="checkbox" type="checkbox" name="sim-checkbox"
+                       value="true"
+                       ng-model="rulesBase.new.rule.simulation" ng-true-value="true"
+                       checked="checked">
+                <label class="checkbox-label" for="sim-checkbox">
+                  <%= t('rules.new.simulation') %></label>
+              </div>
+              <div class="grid_2 prefix_1">
+                <i id="simulation_help" class="more-info fa fa-question-circle"
+                   uib-popover="{{meta.tooltips.rule_gen_simulation}}"
+                   data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                   html="false" container="body"
+                   data-container="body">
+                </i>
+              </div>
+            </div>
+            <div class="grid_24 form-group">
+              <hr/>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- TARGET SECTION ------------ !-->
+      <div id="scope-target" ng-if="rulesBase.stage.secondary === 'target'"
+           class="content-panel-wrapper period-content-wrapper with-action-bar">
+        <div class="container_24" ng-if="user.level < 4">
+            <div ng-include="'/templates/partials/level_select_wizard.html'"></div>
+            <div class="grid_24 form-group">
+              <hr/>
+            </div>
+            <div class="grid_24 form-group">
+              <div class="grid_6 alpha">
+                <input id="visible-checkbox" class="checkbox" type="checkbox"
+                       name="visible-checkbox" value="true"
+                       ng-model="rulesBase.new.rule.visible" ng-true-value="true"
+                       checked="checked">
+                <label class="checkbox-label" for="visible-checkbox">
+                  <%= t('rules.new.visible') %></label>
+              </div>
+              <div class="grid_2 prefix_1">
+                <i id="rule_visible_help" class="more-info fa fa-question-circle"
+                   uib-popover="{{meta.tooltips.rule_gen_visible}}"
+                   data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                   html="false" container="body"
+                   data-container="body">
+                </i>
+              </div>
+            </div>
+        </div>
+        <div ng-if="user.level === 4" style="padding-left:20px;">
+          <p><%= t('rules.new.target_submerchant') %></p>
+        </div>
+      </div>
+      <!-- CRITERIA SECTION ------------ !-->
+      <div id="generate-criteria" ng-if="rulesBase.stage.secondary === 'generate'">
+        <div class="section-navigation">
+          <ul class="nav rules-wizard-nav">
+            <li>
+              <a id="single_authorisation" ng-class="{selected: rulesBase.stage.tertiary === 'authorisation'}"
+                 ng-click="selectTab('authorisation')"
+                 ng-init="rulesBase.stage.tertiary = 'authorisation'">
+                <%= t('rules.new.single_authorisation') %></a>
+            </li>
+            <li>
+              <a id="statistic_of_data" ng-class="{selected: rulesBase.stage.tertiary === 'statistic'}"
+                 ng-click="selectTab('statistic')">
+                <%= t('rules.new.statistic_of_data') %></a>
+            </li>
+          </ul>
+        </div>
+        <div ng-if="rulesBase.stage.tertiary === 'authorisation'"
+             class="content-panel-wrapper rule-wizard-category-content-wrapper with-action-bar">
+          <div class="container_24">
+            <form name="rulesBase.new.form.addCriteriaForm" novalidate style="margin-top: 20px;">
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_18">
+                  <li>
+                    <p>
+                      <span for="leftable_type"><%= t('rules.new.field_type') %></span>
+                    </p>
+                  </li>
+                  <li style="float:none;">
+                    <select id="leftable_type" ng-model="rulesBase.new.initial.leftable_type"
+                            ui-select2 disabled required>
+                      <option value="FieldList">
+                        <%= t('rules.new.auth_data') %>
+                      </option>
+                    </select>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="leftable_id"><%= t('rules.new.source_field') %></span>
+                    </p>
+                  </li>
+                  <li style="float:none;">
+                    <div class="grid_20 alpha">
+                      <select id="leftable_id" name="leftable_id"
+                              ng-model="rulesBase.new.initial.leftable_attributes"
+                              ng-options="field as field.description for field in rulesBase.new.fields track by field.id"
+                              ng-change="getLists(rulesBase.new.initial.leftable_attributes.id); resetConstraint()"
+                              placeholder="<%= t('generic_placeholders.select') %>"
+                              ui-select2 required>
+                        <option value="" disabled selected></option>
+                      </select>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="field_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_field}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24">
+                <hr/>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="constraint"><%= t('rules.new.constraint') %></span>
+                    </p>
+                  </li>
+                  <li style="float:none;">
+                    <div class="grid_20 alpha">
+                      <select id="constraint" name="constraint"
+                              ng-model="rulesBase.new.form_data.criterion.constraint" ui-select2
+                              placeholder="<%= t('generic_placeholders.select') %>"
+                              required>
+                        <option value="" disabled selected></option>
+                        <option value=">"
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal' || rulesBase.new.initial.leftable_attributes.data_type === 'datetime' || rulesBase.new.initial.leftable_attributes.data_type === 'timestamp'">
+                          <%= t('rules.new.gt') %>
+                        </option>
+                        <option value="<"
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal' || rulesBase.new.initial.leftable_attributes.data_type === 'datetime' || rulesBase.new.initial.leftable_attributes.data_type === 'timestamp'">
+                          <%= t('rules.new.lt') %>
+                        </option>
+                        <option value=">="
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal' || rulesBase.new.initial.leftable_attributes.data_type === 'datetime' || rulesBase.new.initial.leftable_attributes.data_type === 'timestamp'">
+                          <%= t('rules.new.gte') %>
+                        </option>
+                        <option value="<="
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal' || rulesBase.new.initial.leftable_attributes.data_type === 'datetime' || rulesBase.new.initial.leftable_attributes.data_type === 'timestamp'">
+                          <%= t('rules.new.lte') %>
+                        </option>
+                        <option value="="><%= t('rules.new.equal') %>
+                        </option>
+                        <option value="<>"><%= t('rules.new.not_equal') %>
+                        </option>
+                        <option value="IN" ng-if="rulesBase.new.dataListsActive === true">
+                          <%= t('rules.new.in') %>
+                        </option>
+                        <option value="NOTIN" ng-if="rulesBase.new.dataListsActive === true">
+                          <%= t('rules.new.not_in') %>
+                        </option>
+                        <option value="LIKE"
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'string' && checkFieldSelected(defaultLists.ids.card_number)">
+                          <%= t('rules.new.matches') %>
+                        </option>
+                        <option value="NOTLIKE"
+                                ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'string' && checkFieldSelected(defaultLists.ids.card_number)">
+                          <%= t('rules.new.not_match') %>
+                        </option>
+                      </select>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="constraint_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_constraint}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <div class="grid_6 alpha">
+                      <input id="includeNull" class="checkbox" type="checkbox" name="include_null"
+                             value="true"
+                             ng-model="rulesBase.new.form_data.criterion.include_empty" ng-true-value="true"
+                             checked>
+                      <label class="checkbox-label" for="includeNull">
+                        <%= t('rules.new.inc_null') %></label>
+                    </div>
+                    <div class="grid_2 prefix_1 suffix_15 omega">
+                      <i id="include_null_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_null}}"
+                         data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24">
+                <hr/>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li id="parameter-selection"
+                    ng-if="rulesBase.new.form_data.criterion.constraint !== 'IN' && rulesBase.new.form_data.criterion.constraint !== 'NOTIN'">
+                    <div class="grid_20">
+                      <input ng-model="rulesBase.new.radio.value" value="CriteriaParameter" type="radio"
+                             name="right_constraint" id="criteria_parameter"
+                             ng-click="resetPartialForm()" class="radio-button" required>
+                      <label for="criteria_parameter" class="radio-label">
+                        <%= t('rules.new.parameter') %></label>
+                      <ul id="value_extra" ng-if="rulesBase.new.radio.value === 'CriteriaParameter'">
+                        <li>
+                          <input ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                 class="form-control"
+                                 name="string_parameter_value" type="text"
+                                 ng-if="checkStringAndField()"
+                                 placeholder="<%= t('rules.new.value') %>"
+                                 required
+                                 maxlength="255">
+                        </li>
+                        <li>
+                          <input ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                 min="0" name="integer_parameter_value" type="number"
+                                 class="form-control"
+                                 ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal'"
+                                 placeholder="<%= t('rules.new.value') %>"
+                                 required
+                                 maxlength="255">
+                        </li>
+                        <li>
+                          <input id="value" type="text" class="form-control"
+                                 uib-datepicker-popup="{{vars.datepicker.format}}"
+                                 is-open="vars.datepicker.popup1.opened"
+                                 datepicker-options="vars.datepicker.dateOptions"
+                                 ng-required="true" ng-click="vars.datepicker.open1()"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                 ng-model-options="{timezone:'UTC'}"
+                                 placeholder="<%= t('rules.new.date') %>"
+                                 ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'datetime'"
+                                 show-button-bar="false" ui-select required/>
+                        </li>
+                        <li>
+                          <select ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                  ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'boolean'"
+                                  placeholder="<%= t('generic_placeholders.select') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option value="true"><%= t('rules.new.true') %></option>
+                            <option value="false"><%= t('rules.new.false') %></option>
+                          </select>
+                        </li>
+                        <li>
+                          <select ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                  ng-if="!checkFieldSelected(rulesBase.new.defaultLists.ids.country)"
+                                  placeholder="<%= t('rules.new.select_country') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option ng-repeat="country in rulesBase.new.defaultLists.lists.country"
+                                    value="{{country.alpha3}}">{{country.name}}
+                            </option>
+                          </select>
+                        </li>
+                        <li>
+                          <select ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                  ng-if="!checkFieldSelected(rulesBase.new.defaultLists.ids.ccy)"
+                                  placeholder="<%= t('rules.new.select_currency') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option ng-repeat="currency in rulesBase.new.defaultLists.lists.ccy"
+                                    value="{{currency.iso_code}}">{{currency.name}}
+                              ({{currency.symbol}})
+                            </option>
+                          </select>
+                        </li>
+                        <li>
+                          <select ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                  ng-if="!checkFieldSelected(rulesBase.new.defaultLists.ids.mcc)"
+                                  placeholder="<%= t('rules.new.select_mcc') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option ng-repeat="mcc in rulesBase.new.defaultLists.lists.mcc"
+                                    value="{{mcc.mcc}}">
+                              {{mcc.edited_description}} ({{mcc.mcc}})
+                            </option>
+                          </select>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="parameter_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_parameter}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                  <li id="field-list-selection"
+                    ng-if="rulesBase.new.form_data.criterion.constraint !== 'IN' && rulesBase.new.form_data.criterion.constraint !== 'NOTIN'">
+                    <div class="grid_20">
+                      <input ng-model="rulesBase.new.radio.value" value="FieldList" type="radio"
+                             name="right_constraint" id="field_list"
+                             ng-click="resetPartialForm()" class="radio-button" required>
+                      <label for="field_list" class="radio-label">
+                        <%= t('rules.new.source_field') %></label>
+                      <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'FieldList'"
+                          ng-show="rulesBase.new.initial.leftable_attributes.data_type === 'string' || rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal' || rulesBase.new.initial.leftable_attributes.data_type === 'boolean'">
+                        <li>
+                          <input id="right_operator_value" class="form-control"
+                                 ng-hide="rulesBase.new.initial.leftable_attributes.data_type === 'string'"
+                                 min="1"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator_value"
+                                 placeholder="<%= t('rules.new.value') %>"
+                                 type="number">
+                        </li>
+                        <li>
+                          <select ng-hide="rulesBase.new.initial.leftable_attributes.data_type === 'string'"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator"
+                                  placeholder="<%= t('rules.new.select_op') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option value="%">%</option>
+                            <option value="/">/</option>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="id" name="detail"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.id"
+                                  placeholder="<%= t('rules.new.select_field') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option ng-repeat="field in rulesBase.new.fields"
+                                    value="{{field.id}}"
+                                    ng-if="rulesBase.new.initial.leftable_attributes.data_type === field.data_type">
+                              {{field.description}}
+                            </option>
+                          </select>
+                        </li>
+                      </ul>
+                      <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'FieldList'"
+                          ng-show="rulesBase.new.initial.leftable_attributes.data_type === 'datetime'">
+                        <li>
+                          <input id="right_operator_value_date" class="form-control" min="1"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator_value"
+                                 data-placeholder="<%= t('rules.new.value') %>"
+                                 type="number">
+                        </li>
+                        <li>
+                          <select id="right_operator_date"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator"
+                                  placeholder="<%= t('rules.new.select_op') %>"
+                                  ui-select2>
+                            <option value="" disabled selected></option>
+                            <option value="MINSBEFORE"><%=
+                              t('rules.new.minutes_before') %>
+                            </option>
+                            <option value="MINSAFTER"><%=
+                              t('rules.new.minutes_after') %>
+                            </option>
+                            <option value="HRSBEFORE"><%=
+                              t('rules.new.hours_before') %>
+                            </option>
+                            <option value="HRSAFTER"><%=
+                              t('rules.new.hours_after') %>
+                            </option>
+                            <option value="DAYSBEFORE"><%=
+                              t('rules.new.days_before') %>
+                            </option>
+                            <option value="DAYSAFTER"><%=
+                              t('rules.new.days_after') %>
+                            </option>
+                            <option value="WKSBEFORE"><%=
+                              t('rules.new.weeks_before') %>
+                            </option>
+                            <option value="WKSAFTER"><%=
+                              t('rules.new.weeks_after') %>
+                            </option>
+                            <option value="MTHSBEFORE"><%=
+                              t('rules.new.months_before') %>
+                            </option>
+                            <option value="YRSBEFORE"><%=
+                              t('rules.new.years_before') %>
+                            </option>
+                            <option value="YRSAFTER"><%=
+                              t('rules.new.years_after') %>
+                            </option>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="id_date" name="detail"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.id"
+                                  placeholder="<%= t('rules.new.select_field') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected></option>
+                            <option ng-repeat="field in rulesBase.new.fields"
+                                    value="{{field.id}}"
+                                    ng-if="rulesBase.new.initial.leftable_attributes.data_type === field.data_type">
+                              {{field.description}}
+                            </option>
+                          </select>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="source_field_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_field_radio}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                  <li id="calculated-value-selection"
+                    ng-if="rulesBase.new.initial.leftable_attributes.data_type === 'integer' || rulesBase.new.initial.leftable_attributes.data_type === 'decimal'">
+                    <div class="grid_20">
+                      <input ng-model="rulesBase.new.radio.value" value="StatisticCalculation" type="radio"
+                             name="right_constraint" id="statistic_calculation"
+                             ng-click="resetPartialForm()" class="radio-button" required>
+                      <label for="statistic_calculation" class="radio-label"><%=
+                        t('rules.new.calculated_value') %></label>
+                      <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'StatisticCalculation'">
+                        <li>
+                          <input id="right_operator_value_stat" class="form-control" min="1"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator_value"
+                                 placeholder="<%= t('rules.new.value') %>"
+                                 type="number" required>
+                        </li>
+                        <li>
+                          <select id="right_operator_stat" name="constraint"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator"
+                                  placeholder="<%= t('rules.new.select_op') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option value="-">-</option>
+                            <option value="+">+</option>
+                            <option value="%">%</option>
+                            <option value="/">/</option>
+                            <option value="*">*</option>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="id_stat" name="right_statistic"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.statistic_id"
+                                  placeholder="<%= t('rules.new.select_stat') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <optgroup ng-repeat="group in rulesBase.new.stats"
+                                      label="{{group.text}} ">
+                              <option ng-repeat="stat in group.children"
+                                      value="{{stat.id}}">
+                                {{stat.stat_code}} - {{stat.description}}
+                              </option>
+                            </optgroup>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="timeframe_stat"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.statistic_timeframe_id"
+                                  placeholder="<%= t('rules.new.select_calc') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option
+                              ng-repeat="timeframe in rulesBase.new.timeframes |  restrictTimeframes:getStatisticTimeframes('auth')"
+                              value="{{timeframe.id}}">{{timeframe.timeframe_type}}
+                            </option>
+                          </select>
+                        </li>
+                        <li class="grid_20" ng-if="checkCalcPeriod('right')">
+                          <input type="number" class="form-control"
+                                 ng-init="rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period = 1"
+                                 placeholder="from period"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period"
+                                 required>
+                          <input type="number" class="form-control"
+                                 ng-init="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period = 0"
+                                 placeholder="to period"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period"
+                                 required>
+                          <span
+                            ng-show="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period >= rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period"><%= t('rules.new.valid_to_from_period') %></span>
+                        </li>
+                        <li class="grid_3 prefix_1" ng-if="checkCalcPeriod('right')">
+                          <i id="stat_calc_period_help" class="more-info fa fa-question-circle"
+                             uib-popover="{{meta.tooltips.rule_gen_calc_period}}"
+                             data-unique="1" popover-placement="left"
+                             popover-trigger="mouseenter"
+                             html="false" container="body"
+                             data-container="body">
+                          </i>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="calculated_value_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_calculated_value}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+                <ul id="list-selection"
+                  ng-if="rulesBase.new.dataListsActive === true && (rulesBase.new.form_data.criterion.constraint === 'IN' || rulesBase.new.form_data.criterion.constraint === 'NOTIN')"
+                  class="labelled-form-full-width grid_22">
+                  <div class="grid_20 alpha">
+                    <input ng-model="rulesBase.new.radio.value" value="DataList" type="radio"
+                           name="right_constraint" id="list"
+                           ng-click="resetPartialForm()" class="radio-button" required>
+                    <label for="list" class="radio-label"><%=
+                      t('rules.new.list') %></label>
+                    <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'DataList'">
+                      <li>
+                        <select id="list_id"
+                                ng-model="rulesBase.new.form_data.criterion.rightable_attributes.id"
+                                placeholder="<%= t('generic_placeholders.select') %>"
+                                ui-select2 required>
+                          <option value="" disabled selected>
+                          </option>
+                          <option ng-repeat="dataList in rulesBase.new.dataLists"
+                                  value="{{dataList.id}}">
+                            {{dataList.name}}
+                          </option>
+                        </select>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="grid_3 prefix_1">
+                    <i id="list_help" class="more-info fa fa-question-circle"
+                       uib-popover="{{meta.tooltips.rule_gen_list}}"
+                       data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                       html="false" container="body"
+                       data-container="body">
+                    </i>
+                  </div>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div ng-if="rulesBase.stage.tertiary === 'statistic'"
+             class="content-panel-wrapper rule-wizard-category-content-wrapper with-action-bar">
+          <div id="add_criteria_container" class="container_24">
+            <form name="rulesBase.new.form.addStatCriteriaForm" novalidate style="margin-top: 20px;">
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="left_stat_id"><%= t('rules.new.statistic') %></span>
+                    </p>
+                  </li>
+                  <li>
+                    <div class="grid_20 alpha">
+                      <select id="left_stat_id" name="left_stat_id"
+                              ng-model="rulesBase.new.form_data.criterion.leftable_attributes.calculation.statistic_id"
+                              ng-change="getStatisticTimeframes(rulesBase.new.form_data.criterion.leftable_attributes.calculation.statistic_id); clearForm()"
+                              placeholder="<%= t('generic_placeholders.select') %>"
+                              ui-select2>
+                        <option value="" disabled>
+                        </option>
+                        <optgroup ng-repeat="group in rulesBase.new.stats"
+                                  label="{{group.text}} ">
+                          <option ng-repeat="stat in group.children" value="{{stat.id}}">
+                            {{stat.stat_code}} - {{stat.description}}
+                          </option>
+                        </optgroup>
+                      </select>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="statistic_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_statistic}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="left_calc_period"><%= t('rules.new.statistic_calc_period_label') %></span>
+                    </p>
+                  </li>
+                  <li>
+                    <div class="grid_20 alpha">
+                      <select id="left_calc_period" name="left_calc_period"
+                              ng-model="rulesBase.new.form_data.criterion.leftable_attributes.calculation.statistic_timeframe_id"
+                              placeholder="<%= t('rules.new.select_calc') %>"
+                              ui-select2 required>
+                        <option value="" disabled selected>
+                        </option>
+                        <option
+                          ng-repeat="timeframe in rulesBase.new.timeframes | restrictTimeframes:getStatisticTimeframes('left')"
+                          value="{{timeframe.id}}">{{timeframe.timeframe_type | capitalise | convertTimeframes}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="stat_calc_period_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_stat_calc_period}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24 form-group" ng-if="checkCalcPeriod('left')">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="left_calculation_period"><%= t('rules.new.statistic_calc_period_label') %></span>
+                    </p>
+                  </li>
+                  <li>
+                    <div class="grid_20 alpha">
+                      <input id="from_period" class="form-control"
+                             ng-init="rulesBase.new.form_data.criterion.leftable_attributes.calculation.from_period = 1"
+                             placeholder="<%= t('generic_placeholders.from_period') %>"
+                             ng-model="rulesBase.new.form_data.criterion.leftable_attributes.calculation.from_period"
+                             type="number" required>
+                      <input id="to_period" class="form-control"
+                             ng-init="rulesBase.new.form_data.criterion.leftable_attributes.calculation.to_period = 0"
+                             placeholder="<%= t('generic_placeholders.to_period') %>"
+                             ng-model="rulesBase.new.form_data.criterion.leftable_attributes.calculation.to_period"
+                             type="number" required>
+                      <div
+                        ng-show="rulesBase.new.form_data.criterion.leftable_attributes.calculation.to_period >= rulesBase.new.form_data.criterion.leftable_attributes.calculation.from_period"
+                        class="alert alert-danger">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span class="alert-text">
+                          <%=t('rules.new.statistic_calc_period_valid')%>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="calc_period_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_calc_period}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24">
+                <hr/>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <p>
+                      <span for="stat_constraint"><%= t('rules.new.constraint') %></span>
+                    </p>
+                  </li>
+                  <li>
+                    <div class="grid_20 alpha">
+                      <select id="stat_constraint" name="stat_constraint"
+                              ng-model="rulesBase.new.form_data.criterion.constraint" ui-select2
+                              placeholder="<%= t('generic_placeholders.select') %>"
+                              required>
+                        <option value="" disabled selected>
+                        </option>
+                        <option value=">"><%= t('rules.new.gt') %></option>
+                        <option value="<"><%= t('rules.new.lt') %></option>
+                        <option value=">="><%= t('rules.new.gte') %></option>
+                        <option value="<="><%= t('rules.new.lte') %></option>
+                        <option value="="><%= t('rules.new.equal') %></option>
+                        <option value="<>"><%= t('rules.new.not_equal') %>
+                        </option>
+                      </select>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="constraint_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_constraint}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <div class="grid_6 alpha">
+                      <input id="includeNull" class="checkbox" type="checkbox" name="include_null"
+                             value="true"
+                             ng-model="rulesBase.new.form_data.criterion.include_empty" ng-true-value="true"
+                             checked>
+                      <label class="checkbox-label" for="includeNull"><%=
+                        t('rules.new.inc_null') %></label>
+                    </div>
+                    <div class="grid_2 prefix_1 suffix_15 omega">
+                      <i id="include_null_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_null}}"
+                         data-unique="1" popover-placement="right" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="grid_24">
+                <hr/>
+              </div>
+              <div class="grid_24 form-group">
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <div class="grid_20 alpha">
+                      <input id="stat_criteria_parameter" ng-model="rulesBase.new.radio.value"
+                             name="right_constraint"
+                             type="radio" value="CriteriaParameter" ng-click="resetPartialForm()"
+                             class="radio-button" required>
+                      <label for="stat_criteria_parameter" class="radio-label"><%=
+                        t('rules.new.parameter') %></label>
+                      <ul id="parameter_extra" ng-if="rulesBase.new.radio.value === 'CriteriaParameter'">
+                        <li>
+                          <input integer id="stat_criteria_parameter" class="form-control"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.parameter.value"
+                                 name="parameter_value"
+                                 type="number" value="CriteriaParameter"
+                                 placeholder="<%= t('generic_placeholders.number') %>"
+                                 required>
+                          <span
+                            ng-show="rulesBase.new.form.addStatCriteriaForm.parameter_value.$dirty && rulesBase.new.form.addStatCriteriaForm.parameter_value.$invalid"><%= t('rules.new.valid_parameter_value') %></span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="stat_parameter_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_stat_parameter}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <div class="grid_20 alpha">
+                      <input id="stat_field_list" ng-model="rulesBase.new.radio.value" name="right_constraint"
+                             type="radio" value="FieldList" ng-click="resetPartialForm()"
+                             class="radio-button" required>
+                      <label for="stat_field_list" class="radio-label"><%=
+                        t('rules.new.source_field') %></label>
+                      <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'FieldList'">
+                        <li>
+                          <input integer id="stat_right_operator_value" class="form-control"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator_value"
+                                 name="right_operator_value"
+                                 type="number" value="CriteriaParameter" min="1"
+                                 placeholder="<%= t('rules.new.number') %>"
+                                 required>
+                          <span
+                            ng-show="rulesBase.new.form.addStatCriteriaForm.right_operator_value.$dirty && rulesBase.new.form.addStatCriteriaForm.right_operator_value.$invalid"><%= t('rules.new.valid_right_operator_value') %></span>
+                        </li>
+                        <li>
+                          <select id="stat_right_operator" name="constraint"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator"
+                                  placeholder="<%= t('rules.new.select_op') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option value="-">-</option>
+                            <option value="+">+</option>
+                            <option value="%">%</option>
+                            <option value="/">/</option>
+                            <option value="*">*</option>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="stat_id" name="stat_id" ng-change="setDetails()"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.id"
+                                  placeholder="<%= t('rules.new.select_field') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option ng-repeat="field in rulesBase.new.fields"
+                                    value="{{field.id}}">
+                              {{field.description}}
+                            </option>
+                          </select>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="stat_field_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_stat_field}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="labelled-form-full-width grid_22">
+                  <li>
+                    <div class="grid_20 alpha">
+                      <input id="statistic_calculation" ng-model="rulesBase.new.radio.value"
+                             name="right_constraint" type="radio" value="StatisticCalculation"
+                             ng-click="resetPartialForm()" class="radio-button" required>
+                      <label for="statistic_calculation" class="radio-label">
+                        <%= t('rules.new.calculated_value') %></label>
+                      <ul id="field_extra" ng-if="rulesBase.new.radio.value === 'StatisticCalculation'">
+                        <li>
+                          <input integer id="stat_right_operator_value" class="form-control"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator_value"
+                                 name="right_calc_operator_value"
+                                 type="number" min="1"
+                                 placeholder="<%= t('rules.new.number') %>"
+                                 required>
+                          <span
+                            ng-show="rulesBase.new.form.addStatCriteriaForm.right_calc_operator_value.$dirty && rulesBase.new.form.addStatCriteriaForm.right_calc_operator_value.$invalid"><%= t('rules.new.valid_right_operator_value') %></span>
+                        </li>
+                        <li>
+                          <select id="constraint" name="constraint"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.right_operator"
+                                  placeholder="<%= t('rules.new.select_op') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option value="-"></option>
+                            <option value="+">+</option>
+                            <option value="%">%</option>
+                            <option value="/">/</option>
+                            <option value="*">*</option>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="stat_id" name="right_statistic" ng-change="setDetails()"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.statistic_id"
+                                  placeholder="<%= t('rules.new.select_stat') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <optgroup ng-repeat="group in rulesBase.new.stats"
+                                      label="{{group.text}} ">
+                              <option ng-repeat="stat in group.children" value="{{stat.id}}">
+                                {{stat.stat_code}} - {{stat.description}}
+                              </option>
+                            </optgroup>
+                          </select>
+                        </li>
+                        <li>
+                          <select id="detail"
+                                  ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.statistic_timeframe_id"
+                                  placeholder="<%= t('rules.new.select_calc') %>"
+                                  ui-select2 required>
+                            <option value="" disabled selected>
+                            </option>
+                            <option
+                              ng-repeat="timeframe in rulesBase.new.timeframes | restrictTimeframes:getStatisticTimeframes('right')"
+                              value="{{timeframe.id}}">{{timeframe.timeframe_type | capitalise}}
+                            </option>
+                          </select>
+                        </li>
+
+                        <li class="grid_20" ng-if="checkCalcPeriod('right')">
+                          <input type="number" class="form-control"
+                                 ng-init="rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period = 1"
+                                 placeholder="from period"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period"
+                                 required>
+                          <input type="number" class="form-control"
+                                 ng-init="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period = 0"
+                                 placeholder="to period"
+                                 ng-model="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period"
+                                 required>
+                          <span
+                            ng-show="rulesBase.new.form_data.criterion.rightable_attributes.calculation.to_period >= rulesBase.new.form_data.criterion.rightable_attributes.calculation.from_period"><%= t('rules.new.valid_to_from_period') %></span>
+                        </li>
+                        <li class="grid_3 prefix_1" ng-if="checkCalcPeriod('right')">
+                          <i id="stat_calc_period_help" class="more-info fa fa-question-circle"
+                             uib-popover="{{meta.tooltips.rule_gen_calc_period}}"
+                             data-unique="1" popover-placement="left"
+                             popover-trigger="mouseenter"
+                             html="false" container="body"
+                             data-container="body">
+                          </i>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="grid_3 prefix_1">
+                      <i id="stat_calculated_value_help" class="more-info fa fa-question-circle"
+                         uib-popover="{{meta.tooltips.rule_gen_stat_calculated_value}}"
+                         data-unique="1" popover-placement="left" popover-trigger="mouseenter"
+                         html="false" container="body"
+                         data-container="body">
+                      </i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar primary">
+        <ul>
+          <li>
+            <button id="cancel" type="button" class="button negative" ng-click="openConfirmation('cancel')"
+                    data-unique="1">
+              <%= t('generic_buttons.cancel') %>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary !== 'overview'">
+            <button id="back_two" type="button" class="button neutral" ng-click="handleMovement('previous')">
+              <%= t('generic_buttons.back') %>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary === 'overview' || rulesBase.stage.secondary === 'target'">
+            <button id="next" type="button" class="button"
+                    ng-disabled="rulesBase.new.form.addBasicDetailsForm.$invalid"
+                    ng-class="rulesBase.new.form.addBasicDetailsForm.$invalid ? 'disabled' : ''"
+                    ng-click="rulesBase.new.form.addBasicDetailsForm.$invalid || handleMovement('next')">
+              <%= t('generic_buttons.next') %>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary === 'generate' && rulesBase.stage.tertiary === 'authorisation'">
+            <button id="add-criteria" type="button" class="button" ng-click="addCriteria('standard')"
+                    ng-disabled="rulesBase.new.form.addCriteriaForm.$invalid">
+              <%= t('rules.new.add_criterion') %>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary === 'generate' && rulesBase.stage.tertiary === 'statistic'">
+            <button id="add-criteria" type="button" class="button" ng-click="addCriteria('statistic')"
+                    ng-disabled="rulesBase.new.form.addStatCriteriaForm.$invalid">
+              <%= t('rules.new.add_criterion') %>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary === 'generate'">
+            <button id="view-criteria" ng-click="changeStage('criteria','summary')" type="button" class="button"
+                    ng-disabled="rulesBase.new.criteria.length < 1">
+              <%= t('rules.new.view_criteria_summary') %>
+              <span class="large-badge">{{rulesBase.new.criteria.length}}</span>
+            </button>
+          </li>
+          <li ng-if="rulesBase.stage.secondary === 'summary'">
+            <button id="generateRule" type="button" class="button"
+                    ng-click="rulesBase.new.criteria.length === 0 || addRule()"
+                    ng-disabled="rulesBase.new.criteria.length === 0"
+                    ng-class="rulesBase.new.criteria.length === 0 ? 'disabled' : ''">
+              <%= t('rules.new.generate_rule') %>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- CRITERIA GENERATION SECTION ------------ !-->
+    <div class="section single-section" ng-if="rulesBase.stage.secondary === 'summary'">
+      <div class="sub-header-content">
+        <h3 class="ng-binding">
+          <%= t('rules.new.criteria_summary')%>
+        </h3>
+      </div>
+      <div id="criteria-summary-view" class="content-panel-wrapper period-content-wrapper with-action-bar">
+        <ul id="criteria-summary">
+          <li ng-if="rulesBase.new.criteria.length === 0"><%= t('rules.new.no_criteria') %>
+          </li>
+          <li ng-repeat="criterion in rulesBase.new.criteria">
+            {{criterion.description}}
+            <button ng-click="deleteDetails(criterion)" type="button"><i class="fa fa-close"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

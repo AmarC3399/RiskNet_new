@@ -1,0 +1,624 @@
+/* RiskNet Specific styles */
+
+/* Order the attributes in the following order:
+
+/*  Positioning  */
+/*  Display and Box Model  */
+/*  Color  */
+/*  Text  */
+/*  Other  */
+
+@import "blue-theme-colors";
+
+body {
+  min-height: 450px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+ .unauthorised,  .unauthorised p {
+   color: #fff;
+   text-align: center;
+ }
+
+ @-webkit-keyframes throb-color {
+   0% {  background-color: rgba(255, 0, 0, 0.20);  }
+   40% {  background-color: rgba(255, 0, 0, 0);  }
+   60% {  background-color: rgba(255, 0, 0, 0);  }
+   100% {  background-color: rgba(255, 0, 0, 0.20);  }
+ }
+
+ @-moz-keyframes throb-color {
+   0% {  background-color: rgba(255, 0, 0, 0.20);  }
+   40% {  background-color: rgba(255, 0, 0, 0);  }
+   60% {  background-color: rgba(255, 0, 0, 0);  }
+   100% {  background-color: rgba(255, 0, 0, 0.20);  }
+ }
+
+ @keyframes throb-color {
+   0% {  background-color: rgba(255, 0, 0, 0.20);  }
+   40% {  background-color: rgba(255, 0, 0, 0);  }
+   60% {  background-color: rgba(255, 0, 0, 0);  }
+   100% {  background-color: rgba(255, 0, 0, 0.20);  }
+ }
+
+
+ .unauthorised-bg {
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   background-color: rgba(255, 0, 0, 0.13);
+   -webkit-animation: throb-color 10s infinite linear;
+   -moz-animation: throb-color 10s infinite linear;
+   animation: throb-color 10s infinite linear;
+ }
+
+/* ==========================================================================
+  Full-Screen Tables
+  ========================================================================== */
+
+.full-screen-table {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 60px;
+
+  &.with-pagination {
+    bottom: 80px;
+  }
+
+  .content-panel {
+    position: absolute;
+    top: 48px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: auto;
+
+    .table-wrapper {
+      overflow: initial;
+    }
+  }
+
+  table {
+    width: 110%; /* For demo purposes only */
+  }
+}
+
+/* Pagination for full-screen table */
+
+.full-page-pagination {
+  position: absolute;
+  bottom: 33px;
+  width: 900px;
+  margin-left: -450px;
+  left: 50%;
+  height: 45px;
+  text-align: center;
+  z-index: 999;
+
+  .pagination > li > a,
+  .pagination > li > span {
+    padding: 0px 12px;
+    line-height: 1.4;
+  }
+}
+
+ #header-container {
+   width: 100%;
+   height: 79px;
+   margin: 0;
+   background: $concrete;
+   @include linear-gradient($concrete);
+   position: relative;
+   margin-top: 48px;
+   border-bottom: 1px solid $quill-gray;
+   overflow: visible;
+   z-index: 10;
+
+   h1 {
+     margin: 0 0 0 55px;
+     color: $hippie-blue;
+     width: 500px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     font-size: 32px;
+     line-height: 40px;
+     padding-top: 16px;
+   }
+
+   p.details {
+     margin: 0 0 0 50px;
+
+     i, label {
+       margin-right: 5px;
+       margin-left: 6px;
+
+       &:last-child {
+         margin-left: 16px;
+       }
+     }
+   }
+ }
+
+ /* Object list view */
+
+ .smartscore #sidebar.model-detail-sidebar {
+   top:0;
+   bottom:3px;
+   margin:0;
+   width:180px;
+ }
+
+ .model-list-button {
+
+ }
+
+ .archive_row {
+   padding-top: 7px;
+ }
+
+ .sidebar.nav-stacked>li {
+   background-color: #eeeeee;
+   padding-left: 20px;
+   margin-top: 0px;
+   text-align: right;
+   border: none;
+   box-shadow: none;
+   border-radius: 0px;
+ }
+
+ .sidebar.nav-stacked>li.active {
+   background-color: #fff;
+ }
+
+ .sidebar.nav-stacked>li>button {
+   color: #000;
+   font-size: 1.3em;
+   text-align: left;
+   border: none;
+   padding: 0 0;
+   margin: 0 0;
+   background-color: transparent;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   width: 100%;
+   border-radius: 0px;
+ }
+
+ .sidebar.nav-stacked>li>button:hover {
+   color: #4495D1;
+ }
+
+ .sidebar.nav-stacked>li.active>button:hover {
+   color: #4495D1;
+ }
+
+ .sidebar.nav-stacked>li.active>button {
+   color: #4495D1;
+ }
+
+ .region-scroll-div {
+   overflow-y: auto;
+   height: 295px;
+   padding-bottom: 10px;
+ }
+
+ .preprocessor-options-div {
+   padding-bottom: 10px;
+ }
+
+ .table.model-list-inverted-colors {
+   color: #000;
+ }
+
+ #createNewModelName .alert,
+ #createNewModelDescription .alert {
+   margin: 15px 0 0 0;
+ }
+
+ #split_dataset_data_distribution td,
+ #split_dataset_data_distribution th {
+   text-align: right;
+ }
+
+ #split_dataset_data_distribution td:first-child,
+ #split_dataset_data_distribution th:first-child {
+   text-align: left;
+ }
+
+/* ==========================================================================
+  Hidden table on Report Results
+  ========================================================================== */
+
+#report-result {
+  .full-screen-table {
+    top: 62px;
+  }
+}
+
+.report-details-show-hide {
+  position: absolute;
+  top: -1px;
+  left: 10px;
+  right: 10px;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid #dddddd;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  z-index: 1;
+
+  .table-wrapper {
+    margin: 0;
+    width: calc(100% - 55px);
+  }
+
+  th,td {
+    padding: 0 10px;
+    vertical-align: top;
+  }
+
+  .show-hide-button {
+    vertical-align: top;
+    margin-top: 6px;
+    height: 40px;
+    padding: 0px 15px;
+    line-height: 40px;
+  }
+}
+
+.report-details-show-hide.show {
+  height: 52px;
+  overflow: hidden;
+}
+
+/* Allows popovers to be visible outside containing accordian */
+.in.report-headings {
+  overflow: visible;
+}
+
+.report-details-show-hide.hide {
+  height: 500px;
+  overflow: auto;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+
+  .collapse-button {
+    position: fixed;
+    background: #fff;
+    text-align: center;
+    top: 693px;
+    left: 0.8%;
+    right: 0.8%;
+    height: 30px;
+    background: #4190c7;
+    background: -moz-linear-gradient(top, #4190c7 0%, #2a76aa 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4190c7), color-stop(100%, #2a76aa));
+    background: -webkit-linear-gradient(top, #4190c7 0%, #2a76aa 100%);
+    background: -o-linear-gradient(top, #4190c7 0%, #2a76aa 100%);
+    background: -ms-linear-gradient(top, #4190c7 0%, #2a76aa 100%);
+    background: linear-gradient(to bottom, #4190c7 0%, #2a76aa 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4190c7', endColorstr='#2a76aa',GradientType=0 );
+    border: 1px solid #2A518F;
+    border: 1px solid rgba(70, 70, 70, 0.23);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+  }
+
+  .collapse-button:hover {
+    background: #5990c4;
+  }
+
+  .white-fade {
+    display: none;
+    margin-left: -99999999;
+  }
+}
+
+ /* ==========================================================================
+   Gridster
+   ========================================================================== */
+
+ .gridster .gridster-item:hover .handle-se {
+   border-color: transparent transparent $light-wisteria;
+ }
+
+ .gridster-loaded .gridster-preview-holder {
+   background-color: $pigeon-post !important;
+ }
+
+ /* ==========================================================================
+   Progress Graph
+   ========================================================================== */
+
+ #progress-graph {
+   position: absolute;
+   padding: 0;
+   margin: 0;
+   right: 0;
+   top: 0;
+   left: 560px;
+   bottom: 0;
+   text-align: right;
+   line-height: 0;
+   list-style: none;
+
+   li {
+     position: relative;
+     display: inline-block;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     width: 40%;
+     height: 59px;
+     margin: 11px 0 0 -5px;
+     background: $skeptic;
+     @include top-bottom-gradient($skeptic, 5%);
+     border-left: 0;
+     text-align: center;
+     cursor: pointer;
+     -webkit-transition: 0.2s all; /* Safari */
+     transition: 0.2s all;
+
+     &.thirds{
+       width: 25%;
+     }
+
+     &.disabled {
+       background: rgba(158, 221, 219, 0.2);
+       @include top-bottom-gradient(rgba(158, 221, 219, 0.2), 5%);
+
+       &:hover {
+         background: rgba(158, 221, 219, 0.2);
+         @include top-bottom-gradient(rgba(158, 221, 219, 0.2), 5%);
+       }
+
+       a {
+         cursor: not-allowed;
+       }
+     }
+
+     &:first-child {
+       border-radius: 3px 0 0 0;
+     }
+
+     &:hover, &.selected {
+       background: $puerto-rico;
+       @include top-bottom-gradient($puerto-rico, 5%);
+       -webkit-transition: 0s all; /* Safari */
+       transition: 0s all;
+     }
+
+     &.selected:after {
+       position: absolute;
+       left: 50%;
+       top: 62px;
+       margin-left: -8px;
+       width: 0;
+       height: 0;
+       border-left: 8px solid transparent;
+       border-right: 8px solid transparent;
+       border-bottom: 7px solid mix(black, $concrete, 8%);
+       content: "";
+     }
+
+     a {
+       text-decoration: none;
+     }
+
+     h3 {
+       height: 49px;
+       width: 100%;
+       margin: 0;
+       padding: 0;
+       color: #fff;
+       line-height: 52px;
+       border-left: 1px solid rgba(66, 147, 141, 0.36);
+     }
+
+     @media only screen and (max-width: 1300px) {
+       h3 {
+         font-size: 20px;
+       }
+     }
+   }
+ }
+
+ /* ==========================================================================
+  FLOATING TABLE HEAD
+  ========================================================================== */
+
+ .floatThead-container {
+   // Prevent issues with dropdown menu
+   z-index: 1 !important;
+ }
+
+ /* ==========================================================================
+   Notifier customisation
+   ========================================================================== */
+
+ body {
+
+   ul.messenger.messenger-fixed.messenger-on-top {
+     top: 48px;
+     background: none;
+     z-index: 11;
+
+     &.messenger-on-right {
+       right: 0;
+       width: 349px;
+     }
+
+     li {
+       margin: 2px 2px 0 0;
+     }
+   }
+
+   ul.messenger-theme-flat .messenger-message-slot{
+     &.messenger-first .messenger-message,
+     &.messenger-last .messenger-message,
+     &.messenger-first.messenger-last .messenger-message,
+     .messenger-message {
+       padding: 10px 5px 10px 10px;
+       border: 1px solid transparent;
+       -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+       -ms-border-radius: 4px;
+       -o-border-radius: 4px;
+       border-radius: 4px;
+       -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+       box-shadow: none;
+     }
+   }
+
+   ul.messenger-theme-flat .messenger-message .messenger-message-inner:before {
+     background: none !important;
+   }
+
+   .messenger-message-slot {
+     padding: 5px 5px 5px 10px;
+     -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+     -ms-border-radius: 4px;
+     -o-border-radius: 4px;
+     border-radius: 4px;
+     -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.22);
+     -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.22);
+     -ms-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.22);
+     -o-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.22);
+     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.22);
+     margin-bottom: 5px;
+   }
+
+   .messenger-message-inner {
+     font-size: 15px;
+   }
+
+   .messenger-message.alert-success {
+     background-color: $ice !important;
+     border-color: $sinbad !important;
+     color: $viridian !important;
+     a {
+       color: $viridian !important;
+     }
+     .glyphicon {
+       color: $sinbad !important;
+     }
+   }
+
+   .messenger-message.alert-info {
+     background-color: $french-lilac !important;
+     border-color: $light-wisteria !important;
+     color: $mobster !important;
+     a {
+       color: $mobster !important;
+     }
+     .glyphicon {
+       color: $light-wisteria !important;
+     }
+   }
+
+   .messenger-message.alert-error {
+     background-color: $fair-warn !important;
+     border-color: $tonys-pink !important;
+     color: $copper-rust !important;
+     a {
+       color: $copper-rust !important;
+     }
+     .glyphicon {
+       color: $tonys-pink !important;
+     }
+   }
+
+   ul.messenger-theme-flat .messenger-message .messenger-actions {
+     float: none;
+     z-index: 99;
+     position: relative;
+
+     a {
+       -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+       -ms-border-radius: 4px;
+       -o-border-radius: 4px;
+       border-radius: 4px;
+       text-decoration: none;
+       color: #fff !important;
+       font-weight: initial;
+       text-align: center;
+       white-space: nowrap;
+       vertical-align: middle;
+       cursor: pointer;
+       -webkit-user-select: none;
+       -moz-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+       -ms-touch-action: manipulation;
+       touch-action: manipulation;
+       -webkit-transition: 0.2s all; /* Safari */
+       transition: 0.2s all;
+     }
+   }
+
+   ul.messenger-theme-flat .messenger-message.info .messenger-actions a {
+     @include top-bottom-gradient($light-wisteria, 5%);
+
+     &:hover {
+       @include top-bottom-gradient($lavender-purple, 5%);
+     }
+   }
+ }
+
+ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .messenger-message {
+   -webkit-border-radius: 4px;
+   -moz-border-radius: 4px;
+   -ms-border-radius: 4px;
+   -o-border-radius: 4px;
+   border-radius: 4px;
+   -webkit-box-shadow: inset 48px 0px 0px #292929;
+   -moz-box-shadow: inset 48px 0px 0px #292929;
+   box-shadow: inset 48px 0px 0px #292929;
+ }
+
+ /* ==========================================================================
+  DateTime Picker customisation
+  ========================================================================== */
+
+  .top-calendar {
+    // Position it on top of input box
+    .dropdown-menu {
+      position: relative !important;
+      z-index: 10;
+
+      &[date-picker-wrap] {
+        top: -315px !important;
+      }
+
+      &[time-picker-wrap] {
+        top: -193px !important;
+        padding: 10px;
+        background: #fff;
+        border: 3px solid $gallery;
+        border-radius: 4px;
+      }
+    }
+
+    &.left-side {
+      .dropdown-menu {
+        left: -102px !important;
+      }
+    }
+  }

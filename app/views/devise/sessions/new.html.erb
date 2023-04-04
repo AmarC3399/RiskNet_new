@@ -1,0 +1,36 @@
+
+<div id="header-global">
+  <div id="logo">
+    <a class="ai-icon-home-link" ui-sref="home">
+      <%= image_tag("ai-logo.svg") %>
+       <p class="home-link"><%= t('layouts.application.home') %></p>
+    </a>
+
+    <a ui-sref="select" class="app-title"><%= t('layouts.application.RiskNet Real Time') %></a>
+  </div>
+
+   
+</div>
+  </div>
+
+
+<div id="wrapper" class="smartscore login">
+  <div id="login-menu-options" style="box-shadow:none;">
+    <h2 style="text-align:center;"><%= t('login.sign_in') %></h2>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+ 
+        <div class="form-group" style="width:52%; margin-left: 28%;">
+          <%= f.email_field :email, class: 'form-control', autofocus: true, placeholder: 'Username', autocomplete: "email" %>
+        </div>
+
+        <div class="form-group" style="margin:10px 0;width:52%; margin-left: 28%; ">
+          <%= f.password_field :password, class: 'form-control', autofocus: true, placeholder: "password" %>
+        </div>
+        <div class="actions" >
+          <button id="signInButton" class="button pull-right" type="submit" ng-click="loginError=false">Sign In</button>
+        </div>
+
+      <% end %> 
+  </div>
+</div>
+

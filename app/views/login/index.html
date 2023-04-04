@@ -1,0 +1,15 @@
+<%= image_tag("bghome.jpg", class: "fw-bg") %>
+<div id="wrapper" class="smartscore login">
+  <div id="login-menu-options" style="box-shadow:none;">
+    <h2 style="text-align:center;"><%= t('login.sign_in') %></h2>
+    <form class="form-inline" ng-submit="login()" ui-keypress="{13:'login()'}" autocomplete="off">
+        <div class="form-group" style="width:100%;">
+          <input type="email" class="form-control" ng-model="user.email" id="inputEmail3" placeholder="<%= t('login.username') %>" style="width: calc(350px - 24px);">
+        </div>
+        <div class="form-group" style="margin:10px 0;width:100%;">
+          <input type="password" class="form-control" ng-model="user.password"  id="inputPassword3" placeholder="<%= t('login.password') %>" style="width: calc(350px - 24px);">
+        </div>
+      <button id="signInButton" class="button pull-right" type="submit" ng-click="loginError=false"><%= t('login.sign_in') %></button>
+    </form>
+  </div>
+</div>

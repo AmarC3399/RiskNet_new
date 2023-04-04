@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+/* ------------------------
+  BASE FONT COLOUR
+  --------------------------- */
+
+$venice-blue: #247DC2; /* Main layout header background */
+$hippie-blue: #4495D1; /* Content header background, primary button */
+$rhino: #0962A7; /* Navigation menu background */
+$cape-cod: #646d77; /* Navigation menu settings background */
+$quill-gray: #D6D7D5; /* Content border */
+$gallery: #EFEFEF; /* Sidebar background, passive sub headers*/
+$concrete: #F2F2F2; /* Content background */
+$pigeon-post: #97C8ED; /* Primary action bar [+ hatching], filter background*/
+$blizzard: #A8D0ED; /* Chevrons for primary action bar + disabled button background */
+$quill-gray: #C5C5C4; /* Secondary action bar */
+$silver-chalice: #828890; /* Secondary button */
+$boulder: #4B5561; /* Secondary button active */
+$gray: #646D77; /* Content text - was #858585 */
+$mandy: #E95656; /* Strong warning colour */
+$tonys-pink: #E8A2A3; /* Mid warning colour */
+$beauty-bush: #E1C3C3; /* Pale warning colour */
+$fair-warn: #F9E0E0; /* Very pale warning colour */
+$copper-rust: #A34B4B; /* Dark warning colour */
+$jaffa: #f6c41f; /* Strong caution colour */
+$sidecar: #dac9a4; /* Mid caution colour */
+$wheat: #ede3ae; /* Pale caution colour */
+$pot-pourri: #fff7e2; /* Very pale caution colour */
+$copper: #AE692F; /* Dark caution */
+$puerto-rico: #42938d; /* Strong OK colour */
+$sinbad: #74cbc9; /* Mid OK colour */
+$skeptic: #9EDDDB; /* Pale OK colour */
+$ice: #D9F9F8; /* Very pale OK colour */
+$viridian: #4C947A; /* Dark OK */
+$light-wisteria: #B3ABD8; /* Mid info colour, information icons */
+$snuff: #D8D7ED; /* Pale info colour */
+$french-lilac: #E7E8F9;  /* Very pale info colour */
+$mobster: #7E7290; /* Dark info colour */
+$william: #247DC2; /* Content navigation (tabs) background */
+$polar: #E0F1F9; /* Placeholder text  */
+$lavender-purple: #A883BA; /* Information icons hover */
+$jagged-ice: #C6E3F9; /* selected row or panel */
+$edgewater: #D3E6E0; /* Assigned row or panel */
+$black-squeeze: #F5FAFF; /* Hover table row */
+$caramel: #FFD394; /* Pale error colour */
+$navajo-white: #FFDDAE; /* Very pale error colour */
+$od-dark-blue: #0054A6;
+$od-grey: #595959;
+
+@mixin linear-gradient($colour) {
+  background: $colour; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  $colour 0%, mix(black, $colour, 10%) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,$colour), color-stop(100%,mix(black, $colour, 10%))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg,  $colour 0%,mix(black, $colour, 10%) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg,  $colour 0%,mix(black, $colour, 10%) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg,  $colour 0%,mix(black, $colour, 10%) 100%); /* IE10+ */
+  background: linear-gradient(135deg,  $colour 0%,mix(black, $colour, 10%) 100%); /* W3C */
+}
+
+@mixin top-bottom-gradient($colour, $percent) {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#247dc2+0,000000+100 */
+  background: $colour; /* Old browsers */
+  background: -moz-linear-gradient(top, $colour 0%, mix(black, $colour, $percent) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$colour), color-stop(100%,mix(black, $colour, $percent))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  $colour 0%,mix(black, $colour, $percent) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  $colour 0%,mix(black, $colour, $percent) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $colour 0%,mix(black, $colour, $percent) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  $colour 0%,mix(black, $colour, $percent) 100%); /* W3C */
+}

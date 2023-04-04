@@ -1,0 +1,395 @@
+<div id="header-container">
+  <h1 class="pull-left"><%= t('reports.index.title') %></h1>
+
+  <div class="pull-right button-dropdown-group" style="margin:20px;">
+    <button id="report-new" class="button" ng-click="showReportTypes = !showReportTypes"><%=
+      t('reports.index.new_report') %>
+      <span class="caret"></span>
+    </button>
+    <ul class="button-dropdown right-align" ng-init="showReportTypes = false" ng-show="showReportTypes">
+      <li style="width:210px;">
+        <a id="fraud_activity" ng-click="setReportType('fraud_activity')" href="/reports/new/fraud_activity"
+           required-user role="admin, rule_manager">
+          <%= t('reports.index.fraud_activity') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="rule_efficiency" ng-click="setReportType('rule_efficiency')" href="/reports/new/rule_efficiency"
+           required-user role="admin, rule_manager">
+          <%= t('reports.index.rule_performance_activity') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="operational_user" ng-click="setReportType('operational_user')"
+           href="/reports/new/operational_user"
+           required-user role="admin, rule_manager">
+          <%= t('reports.index.operational_user_activity') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="operational_merchant" ng-click="setReportType('operational_merchant')"
+           href="/reports/new/operational_merchant">
+          <%= t('reports.index.operational_merchant_activity') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="active_override" ng-click="setReportType('active_override')"
+           href="/reports/new/active_override">
+          <%= t('reports.index.active_override') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="override_by_operator" ng-click="setReportType('override_by_operator')"
+           href="/reports/new/override_by_operator">
+          <%= t('reports.index.override_by_operator') %>
+        </a>
+      </li>
+
+      <li style="width:210px;">
+        <a id="overridden_transactions" ng-click="setReportType('overridden_transactions')"
+           href="/reports/new/overridden_transactions">
+          <%= t('reports.index.overridden_transactions') %>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div id="page-contents" class="with-header-container with-fullpage-action-bar no-footer">
+  <div id="feature-list" class="container_24" loading urls="/reports">
+    <div class="grid_20 prefix_2 alpha omega">
+      <div class="section" style="top:20px; margin-bottom:40px;">
+        <div class="filter" ng-init="reportsBase.filter.showTags = true"
+             ng-class="{'filter-active': reportsBase.filter.count > 0 && reportsBase.filter.showTags}">
+          <ul>
+            <li class="search-form">
+              <form id="model_text_filter">
+                <input id="report-search" type="text" class="form-control" placeholder="<%= t('search.search') %>"
+                       ng-model="reportsBase.filter.search" ng-change="reportsBase.filter.searchUpdate=true"
+                       uib-popover="<%= t('reports.index.tooltip') %>"
+                       popover-placement="bottom" popover-trigger="outsideClick"
+                       ng-keypress="($event.which === 13 ) ? !reportsBase.filter.searchUpdate || loadFilters():0">
+                <span id="search-clear" class="glyphicon glyphicon-remove-circle"
+                      ng-click="clearSearch()"
+                      ng-if="reportsBase.filter.search"></span>
+                <div id="reports-search-submit" class="input-group-addon search-button button"
+                     ng-disabled="!reportsBase.filter.searchUpdate"
+                     ng-click="!reportsBase.filter.searchUpdate || loadFilters()" type="submit"><i
+                  class="fa fa-search"></i></div>
+              </form>
+            </li>
+            <li id="report-filter" class="filter-button">
+              <a class="button" data-badge="{{reportsBase.filter.count}}"
+                 ng-click="toggleSidebar('reportsBase', reportsBase.filter.sideBar);reportsBase.filter.showTags = true"><i
+                class="fa fa-filter"></i></a>
+            </li>
+          </ul>
+          <ul class="filter-list">
+            <li ng-repeat="(filterName, filterValue) in reportsBase.filter.sideBar"
+                ng-if="filterValue != null && reportsBase.filter.showTags"
+                class="filter-tag alert alert-success text-capitalise micro-text"><b>{{filterName |
+              removeUnderscore
+              }}:</b> {{filterValue | filterTag:levels:filterName }}
+              <button class="close"
+                      ng-click="removeFilterTag(filterName, 'reportsBase', reportsBase.filter)">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+              </button>
+            </li>
+          </ul>
+          <a id="hideFilterTags" class="fa fa-angle-double-up"
+             ng-click="reportsBase.filter.showTags = !reportsBase.filter.showTags"></a>
+        </div>
+        <!-- search filters -->
+        <form id="filters" class="form-inline" role="form">
+          <div id="report-sort" class="container">
+            <!-- SORT CONTROL -->
+            <div id="model_filter_sort" class="form-group" style="padding: 10px;">
+              <label style="margin: 0 10px;vertical-align:bottom;" class="blue-label">
+                <%= t('reports.index.sort_by') %>
+              </label>
+              <div id="model_sort_by" class="button-group" ng-model="field">
+                <button type="button" class="button secondary sorting"
+                        ng-class="{ active: reportsBase.filter.field === 'executions' }"
+                        id="orderByExecutionDate">
+                  <%= t('reports.index.execution_date') %>
+                </button>
+              </div>
+              <div id="model_sort" class="button-group">
+                <button type="button" class="button secondary sorting"
+                        ng-class="{ active: reportsBase.filter.order === 'ASC' }" id="orderByAsc"
+                        ng-click="reportsBase.filter.order = 'ASC'; loadFilters()"><i
+                  class="fa fa-arrow-up"
+                  title="<%= t('reports.index.sort_results_ascending') %>"></i>
+                </button>
+                <button type="button" class="button secondary sorting"
+                        ng-class="{ active: reportsBase.filter.order === 'DESC' }" id="orderByDesc"
+                        ng-click="reportsBase.filter.order = 'DESC'; loadFilters()"><i
+                  class="fa fa-arrow-down"
+                  title="<%= t('reports.index.sort_results_descending') %>"></i>
+                </button>
+              </div>
+            </div>
+            <div id="page_stats" class="pull-right micro-text"><%= t('pagination.displaying') %> {{
+              reportsBase.display.from }} - {{ reportsBase.display.to }} <%= t('pagination.of') %> {{
+              reportsBase.pagination.totalReports }}
+            </div>
+          </div>
+        </form>
+        <div id="modelTitleRow{{$index}}" class="container">
+          <div class="container_24" ng-if="reportsBase.allReports.length < 1">
+            <p><%= t('search.no_results') %></p>
+          </div>
+          <div id="report-list" class="result feature-item"
+               dir-paginate="report in reportsBase.allReports | itemsPerPage: reportsBase.pagination.reportsPerPage"
+               current-page="reportsBase.pagination.currentPage"
+               total-items="reportsBase.pagination.totalReports" bindonce>
+            <div class="container_24 slim_margin group">
+              <div class="button-group feature-item-actions" ng-switch
+                   on="isGenerating(report.report_results)">
+                <button id="report-details" class="button"
+                        ng-class="{ active: report.isDescriptionHidden }"
+                        ng-click="showHideReportDescription(report)"
+                        title="<%= t('reports.index.view_report_details') %>">
+                  <i ng-if="!report.isDescriptionHidden" class="fa fa-expand"></i>
+                  <i ng-if="report.isDescriptionHidden" class="fa fa-compress"></i>
+                </button>
+                <button id="report-clone" class="button" ng-click="cloneReport(report.id)"
+                        title="<%= t('reports.index.clone_report') %>">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <button id="report-generate" ng-switch-when="false" class="button"
+                        ng-click="generateReport(report.id)"
+                        title="<%= t('reports.index.execute_report') %>">
+                  <i class="fa fa-play"></i>
+                </button>
+                <button id="report_generating" ng-switch-when="true" class="button disabled"
+                        title="<%= t('reports.index.report_generating') %>">
+                  <i class="fa fa-play"></i>
+                </button>
+              </div>
+              <div class="grid_1 alpha checkbox">
+                <input id="report{{$index}}" class="checkbox" type="checkbox" name="report[]"
+                       value="report.id"
+                       ng-model="reportsBase.selectedReports[report.id]" ng-true-value="{{report.id}}"
+                       ng-change="updateReportCount()">
+                <label class="checkbox-label" for="report{{$index}}"></label>
+              </div>
+              <div class="grid_23 omega">
+                <div class="feature-item-title-container">
+                  <h3>
+                    {{::report.title}}
+                  </h3>
+                </div>
+                <div class="meta no-underline group">
+                  <div class="grid_6 alpha">
+                    <p id="execution-date"><label class="blue-label"><i
+                      class="glyphicon glyphicon-calendar"></i></label>&nbsp;{{::report.created_at
+                      | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </p>
+                  </div>
+                  <div class="grid_6">
+                    <p><label
+                      class="blue-label"><i class="glyphicon glyphicon-user"></i></label>&nbsp;{{::report.created_by_id}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- search result expandable -->
+            <div ng-if="report.isDescriptionHidden" class="model-full-description group">
+              <div>
+                <div class="feature-detail-view">
+                  <div class="grid_24 alpha omega" style="margin-top: 5px;width:100%;">
+                    <div class="feature-detail-row">
+                      <div id="sidebar" class="sidebar-left sidebar-menu model-detail-sidebar">
+                        <ul id="modelListProgressStages" class="panel-list menu-list">
+                          <li ng-repeat="stage in report.stages"
+                              ng-class="{ selected: stage.active }"
+                              class="simple-link-button"
+                              ng-click="updateCurrentViewStage(report, stage)">
+                            {{ stage.name }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="feature-detail-summary">
+                      <div ng-switch on="report.currentStage">
+                        <div ng-switch-when="Overview" class="content-panel"
+                             style="width: 100%;" id="overview">
+                          <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                            <div class="inner">
+                              <h4>Overview</h4>
+                              <div class="grid_12 alpha">
+                                <table class="vertical-table pull-left no-hover">
+                                  <tbody>
+                                  <tr>
+                                    <th><%= t('reports.index.full_title') %></th>
+                                    <td>{{::report.title}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th><%= t('reports.index.type') %></th>
+                                    <td>{{::report.report_type |
+                                      convertReportTypes}}
+                                    </td>
+                                  </tr>
+                                  <tr ng-if="report.report_definition.sorted_by.length > 0">
+                                    <th><%= t('reports.index.sorted_by') %></th>
+                                    <td ng-repeat="sorted_item in report.report_definition.sorted_by">
+                                      {{::sorted_item.frontend_name}}{{$last ? '' :
+                                      ', '}}
+                                    </td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="grid_12 omega">
+                                <table class="vertical-table pull-left no-hover">
+                                  <tbody>
+                                  <tr>
+                                    <th><%= t('reports.index.date_range') %></th>
+                                    <td>{{::report.date_range_humanised}}</td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                            <div class="inner">
+                              <h4><%= t('reports.index.owner') %></h4>
+                              <div class="grid_24 alpha">
+                                <table class="vertical-table pull-left no-hover">
+                                  <tbody>
+                                  <tr>
+                                    <th><%= t('reports.index.type') %></th>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <th><%= t('reports.index.name') %></th>
+                                    <td ng-repeat="owner in report.report_grouping.merchant">
+                                      {{::owner.name |
+                                      capitalise}}{{$last ? '' : ', '}}
+                                    </td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div ng-switch-when="Executions" style="width: 100%;" id="executions">
+                          <div ng-if="report.report_results.length > 0">
+                            <table style="width:100%;" class="no-hover">
+                              <thead>
+                              <tr>
+                                <th style="width:30px;">
+                                  <%= t('reports.index.number') %>
+                                </th>
+                                <th style="width:140px;">
+                                  <%= t('reports.index.run_date') %>
+                                </th>
+                                <th>
+                                  <%= t('reports.index.date_range') %>
+                                </th>
+                                <th>
+                                  <%= t('reports.index.created_by') %>
+                                </th>
+                                <th style="width:145px;"></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr ng-repeat="reportExecution in report.report_results">
+                                <td>
+                                  {{$index+1}}
+                                </td>
+                                <td>
+                                  {{::reportExecution.created_at | date: 'dd/MM/yyyy
+                                  HH:mm:ss'}}
+                                </td>
+                                <td>
+                                  <span>{{::reportExecution.start_date | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                    -<br/>{{::reportExecution.end_date | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                                </td>
+                                <td>
+                                  {{::reportExecution.executed_by}}
+                                </td>
+                                <td ng-if="!reportExecution.finished">
+                                  <%= t('reports.index.executing') %>
+                                </td>
+                                <td ng-if="reportExecution.finished">
+                                  <div class="button-group pull-right">
+                                    <a class="button secondary"
+                                       ng-disabled="reportExecution.result_check === false"
+                                       href="/reports/{{report.id}}/results/{{reportExecution.id}}"
+                                       ng-click="setExecReport(report)">
+                                      <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a class="button secondary"
+                                       href="/api/reports/{{reportExecution.id}}/result_download"
+                                       target="_self">
+                                      <i class="fa fa-download"></i>
+                                    </a>
+                                    <a class="button secondary"
+                                       ng-click="openConfirmation('delete', 'execution', reportExecution.id)">
+                                      <i class="fa fa-remove"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div ng-if="report.report_results.length < 1">
+                            <p><%= t('search.no_results') %></p>
+                          </div>
+                        </div>
+                        <div ng-switch-when="Fields" class="content-panel" style="width: 100%;" id="fields">
+                          <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                            <div class="inner">
+                              <h4><%= t('reports.index.fields') %></h4>
+                              <div class="grid_24">
+                                <span
+                                  ng-repeat="item in report.report_definition.fields">{{::item.frontend_name}}{{$last
+                                  ? '.' : ', '}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-pagination">
+      <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                               template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+  </div>
+</div>
+<div class="action-bar primary">
+  <ul>
+    <li>
+      <p class="status-text">{{reportsBase.selectedReportsLength}} <%= t('reports.index.reports_selected') %></p>
+    </li>
+    <li>
+      <a id="report-download" ng-click="(reportsBase.selectedReportsLength <= 0 ? $event.preventDefault() : '')"
+         href="{{downloadMultipleCSV()}}" target="_self"
+         class="button" ng-disabled="!reportsBase.selectedReportsLength"
+         ng-class="!reportsBase.selectedReportsLength ? 'disabled' : ''"><%=t('reports.index.download')%></a>
+    </li>
+    <li>
+      <a id="report-delete" ng-click="!reportsBase.selectedReportsLength || openConfirmation('delete', 'reports')"
+         class="button" ng-disabled="!reportsBase.selectedReportsLength"
+         ng-class="!reportsBase.selectedReportsLength ? 'disabled' : ''"><%=t('reports.index.delete')%></a>
+    </li>
+  </ul>
+</div>

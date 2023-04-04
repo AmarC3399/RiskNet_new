@@ -1,0 +1,101 @@
+<div id="auth_controller">
+  <div class="filter">
+    <ul>
+      <li class="search-form two-filter-buttons">
+        <form>
+          <input id="auth-search" class="form-control" placeholder="<%= t('search.search') %>"
+                 ng-model="alertAuthsBase.filter.search" ng-change="alertAuthsBase.filter.searchUpdate=true"
+                 type="text" uib-popover="<%= t('alerts.analysis.authorisations.tooltip') %>"
+                 popover-placement="bottom" popover-trigger="outsideClick"
+                 ng-keypress="($event.which === 13 ) ? !alertAuthsBase.filter.searchUpdate || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="alertAuthsBase.filter.search"></span>
+
+          <div id="auth-search-submit" class="input-group-addon search-button button"
+               ng-disabled="!alertAuthsBase.filter.searchUpdate" ng-click="!alertAuthsBase.filter.searchUpdate || loadFilters()"
+               type="submit"><i
+            class="fa fa-search"></i>
+          </div>
+        </form>
+      </li>
+      <li id="auth-clear-ordering" class="sorting-button">
+        <a class="button" ng-click="resetOrder()" ng-disabled="alertAuthsBase.ordering.orderString === ''"><i
+          class="fa fa-unsorted"></i></a>
+      </li>
+      <li id="auth-filter" class="filter-button">
+        <a class="button" data-badge="{{alertAuthsBase.filter.count}}"
+           ng-click="toggleSidebar('alertAuthsBase', alertAuthsBase.filter.sideBar)"
+           title="<%= t('generic_buttons.filter') %>"><i class="fa fa-filter"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div id="authorisation_scroll" class="analysis-table-wrapper">
+    <table class="analysis-table table lined" id="authorisation-list">
+      <thead>
+      <tr>
+        <th ng-repeat="item in alertAuthsBase.authObj.schema" id="{{item.column}}"
+            ng-click="alertAuthsBase.ordering.orderStates[item.column] = !alertAuthsBase.ordering.orderStates[item.column]; loadOrder(item.column, alertAuthsBase.ordering.orderStates[item.column])">
+          <span>{{item.mapping}}</span>
+          <div class="sorting">
+            <span class="rank">{{alertAuthsBase.ordering.values[item.column]}}</span>
+            <div
+              ng-class="{'glyphicon glyphicon-triangle-top': alertAuthsBase.ordering.orderStates[item.column], 'glyphicon glyphicon-triangle-bottom': !alertAuthsBase.ordering.orderStates[item.column]}"></div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody fetch-authorisation-ids="">
+      <tr id="{{authorisation.id}}" violation-highlight bindonce
+          dir-paginate="authorisation in alertAuthsBase.authorisations | orderBy:sortBy:reverse | itemsPerPage: alertAuthsBase.pagination.authsPerPage"
+          total-items="alertAuthsBase.pagination.totalAuths" current-page="alertAuthsBase.pagination.currentPage"
+          ng-class="{'active': authorisation === base.selected, 'marked-as-fraud': authorisation.latest_fraud.fraud_status === 1}"
+          ng-click="setMainAuth(authorisation)">
+        <td ng-repeat="item in alertAuthsBase.authObj.schema">
+          <span ng-if="!checkDateColumns(item)">{{authorisation[item.column]}}</span>
+          <span ng-if="checkDateColumns(item)">{{authorisation[item.column] | date:'dd/MM/yyyy HH:mm'}}</span>
+        </td>
+      </tr>
+      <tr ng-if="alertAuthsBase.authorisations.length<1">
+        <td colspan=114><%= t('search.no_results') %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ul id="authorisation-stats">
+    <li>
+      <em><%= t('alerts.analysis.authorisations.summary_text') %></em>
+    </li>
+    <li>
+      <%= t('alerts.analysis.authorisations.total') %>
+      <b>{{alertAuthsBase.stats.length}}</b>
+    </li>
+    <li>
+      <%= t('alerts.analysis.authorisations.total_val') %>
+      <b>{{alertAuthsBase.stats.sum | number:2}}</b>
+    </li>
+    <li>
+      <%= t('alerts.analysis.authorisations.avg_val') %>
+      <b>{{alertAuthsBase.stats.average | number:2}}</b>
+    </li>
+  </ul>
+  <div class="action-bar secondary">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+    <ul>
+      <li>
+        <a id="new-alert-override" class="button secondary"
+           ng-disabled="!base.activeAuthorisation.id"
+           ng-class="(!base.activeAuthorisation.id) ? 'disabled' : ''"
+           ng-click="(!base.activeAuthorisation.id) || openAlertOverride()">
+          <%= t('alerts.analysis.authorisations.alert_override') %></a>
+      </li>
+      <li>
+        <a id="mark-fraud" class="button secondary"
+           ng-disabled="!base.activeAuthorisation.id"
+           ng-class="(!base.activeAuthorisation.id) ? 'disabled' : ''"
+           ng-click="(!base.activeAuthorisation.id) || openMarkFraud()">
+          <%=t('alerts.analysis.authorisations.mark_fraud') %></a>
+      </li>
+    </ul>
+  </div>
+</div>

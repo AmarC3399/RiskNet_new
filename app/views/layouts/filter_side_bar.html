@@ -1,0 +1,28 @@
+<div pageslide="" ps-open="filterBase.checked" ps-side="right" ps-size="400px" ps-speed="0.5"
+     class="ng-isolate-scope ng-pageslide">
+  <div id="filter-menu" class="off-canvas show-filter">
+    <div id="sidebar">
+      <div class="header-content">
+        <h2><%= t('generic_buttons.filter') %></h2>
+          <button class="micro-button" ng-click="closeSidebar()"><%= t('generic_buttons.exit') %></button>
+      </div>
+      <div class="filter-options-wrapper">
+        <ul id="sidebar-filter-options" style="list-style:none;">
+          <filter-builder></filter-builder>
+        </ul>
+      </div>
+      <div class="action-bar primary">
+        <ul>
+          <li>
+            <button ng-click="resetSidebar()" id="reset-filter" class="button negative"><%= t('generic_buttons.reset_all') %></button>
+          </li>
+          <li>
+            <button ng-click="applySidebar()" id="close-filter" class="button"><%= t('generic_buttons.apply_and_close') %></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-class="filterBase.checked ? 'show-overlay' : ''" id="page-overlay"></div>
+

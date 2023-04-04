@@ -1,0 +1,53 @@
+<div id="level-select-wizard">
+  <div class="grid_20 suffix_4 alpha" style="margin-top: 20px;" ng-if="user.level < 2">
+    <ul class="labelled-form-full-width grid_22">
+      <li>
+        <p class="capitalise">
+          <span for="client_select"><%= t('partials.level_select.member') %></span>
+        </p>
+      </li>
+      <li style="float:none;">
+        <select id="client_select" name="client_select" ng-model="vars.levels.members"
+                ng-change="loadData('client'); resetLevels()" placeholder="<%= t('generic_placeholders.select') %>"
+                ui-select2="{maximumSelectionSize: 1}" multiple>
+          <option value="" disabled selected></option>
+          <option ng-repeat="member in levels.members" value="{{member.id}}"> {{member.name}}</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+  <div class="grid_20 suffix_4 alpha" style="margin-top: 20px;" ng-if="user.level < 3">
+    <ul class="labelled-form-full-width grid_22">
+      <li>
+        <p class="capitalise">
+          <span for="merchant_select"><%= t('partials.level_select.client') %></span>
+        </p>
+      </li>
+      <li style="float:none;">
+        <select id="merchant_select" name="merchant_select" ng-model="vars.levels.clients"
+                ng-change="loadData('merchant'); resetLevels()" ng-disabled="vars.levels.members.length === 0"
+                placeholder="<%= t('generic_placeholders.select') %>" ui-select2="{maximumSelectionSize: 1}" multiple>
+          <option value="" disabled selected></option>
+          <option ng-repeat="client in levels.clients" value="{{client.id}}"> {{client.name}}</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+  <div class="grid_20 suffix_4 alpha" style="margin-top: 20px;" ng-if="user.level < 4">
+    <ul class="labelled-form-full-width grid_22">
+      <li>
+        <p class="capitalise">
+          <span for="submerchant_select"><%= t('partials.level_select.merchant') %></span>
+        </p>
+      </li>
+      <li style="float:none;">
+        <select id="submerchant_select" name="submerchant_select" ng-model="vars.levels.merchants"
+                ng-disabled="vars.levels.clients.length === 0"
+                placeholder="<%= t('generic_placeholders.select') %>" ui-select2="{maximumSelectionSize: 1}" multiple>
+          <option value="" disabled selected></option>
+          <option ng-repeat="merchant in levels.merchants" value="{{merchant.id}}"> {{merchant.name}}</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</div>

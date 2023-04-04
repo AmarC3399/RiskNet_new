@@ -1,0 +1,148 @@
+<header class="sub-header-content grey move-header">
+  <h3>Details</h3>
+</header>
+<div id="card-details" class="content-panel-wrapper">
+  <div class="content-panel compress">
+    <div class="inner">
+      <h4><%= t('alerts.details.card_details') %></h4>
+      <div class="container_24 no_margin">
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tbody>
+            <tr>
+              <th><%= t('alerts.details.name').upcase %></th>
+              <td id="name" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.name_on_card"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.name_on_card}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.card_number').upcase %></th>
+              <td id="card-number" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_number"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.card_number}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.exp_date').upcase %></th>
+              <td id="expiry-date" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.expiration_date"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.expiration_date |date:'MM/yyyy'}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.card_type').upcase %></th>
+              <td id="card-type" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_type"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.card_type}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tbody>
+            <tr>
+              <th><%= t('alerts.details.card_class').upcase %></th>
+              <td id="card-class" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_class"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.card_class}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.card_issuer').upcase %></th>
+              <td id="card-issuer" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.issuer"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.issuer}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.issuer_country').upcase %></th>
+              <td id="issuer-country" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.country"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                {{alertMerchantsBase.alertOwner.country}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-panel compress">
+    <div class="inner">
+      <h4><%= t('alerts.details.customer_details') %></h4>
+      <div class="container_24 no_margin">
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tr>
+              <th><%= t('alerts.details.address').upcase %></th>
+              <td id="address" placeholder="-" bs-tooltip="base.activeAuthorisation.address" data-trigger="hover"
+                  data-container="body" data-placement="left">{{base.activeAuthorisation.address}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.city').upcase %></th>
+              <td id="city" placeholder="-" type="text" readonly="readonly" bs-tooltip="base.activeAuthorisation.city"
+                  data-trigger="focus" data-container="body" data-placement="left">{{base.activeAuthorisation.city}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.county').upcase %></th>
+              <td id="county" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.county" data-trigger="focus" data-container="body"
+                  data-placement="left">{{base.activeAuthorisation.county}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.post_code').upcase %></th>
+              <td id="post-code" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.post_code" data-trigger="focus" data-container="body"
+                  data-placement="left"> {{base.activeAuthorisation.post_code}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tr>
+              <th><%= t('alerts.details.country').upcase %></th>
+              <td id="country" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.country"
+                  data-trigger="focus" data-container="body" data-placement="left">{{base.activeAuthorisation.country}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.email').upcase %></th>
+              <td id="email" placeholder="-" type="text" readonly="readonly" bs-tooltip="base.activeAuthorisation.email"
+                  data-trigger="focus" data-container="body" data-placement="left">{{base.activeAuthorisation.email}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.telephone').upcase %></th>
+              <td id="phone-number" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.phone_number" data-trigger="focus" data-container="body"
+                  data-placement="left">{{base.activeAuthorisation.phone_number}}
+              </td>
+            </tr>
+            <tr>
+              <th><%= t('alerts.details.ip_address').upcase %></th>
+              <td id="ip-address" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.customer_ip_address" data-trigger="focus" data-container="body"
+                  data-placement="left">{{base.activeAuthorisation.customer_ip_address}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

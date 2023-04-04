@@ -1,0 +1,126 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <!-- Alerts -->
+        <h3 ng-if="alertAuthsBase.bulkUpdateAction === 'mark'"><%= t('modals.generic.confirmation.mark') %></h3>
+
+        <!-- Alert Overrides -->
+        <h3 ng-if="alertOverridesBase.bulkUpdateAction === 'deactivate'"><%=
+          t('modals.generic.confirmation.deactivate')%></h3>
+
+        <!-- Users-->
+        <h3 ng-if="usersBase.bulkUpdateAction === 'unblock'"><%= t('modals.generic.confirmation.enable') %></h3>
+        <h3 ng-if="usersBase.bulkUpdateAction === 'block'"><%= t('modals.generic.confirmation.disable') %></h3>
+
+        <!-- Authorisations -->
+        <h3 ng-if="authsBase.bulkUpdateAction === 'mark'"><%= t('modals.generic.confirmation.mark') %></h3>
+        <h3 ng-if="authsBase.bulkUpdateAction === 'unmark'"><%= t('modals.generic.confirmation.unmark') %></h3>
+
+        <!-- Reports -->
+        <h3 ng-if="reportsBase.bulkUpdateAction === 'delete'"><%= t('generic_buttons.delete') %></h3>
+        <h3 ng-if="reportsBase.bulkUpdateAction === 'cancel'"><%= t('generic_buttons.cancel') %></h3>
+
+        <!-- Lists -->
+        <h3 ng-if="listsBase.bulkUpdateAction === 'delete'"><%= t('generic_buttons.delete') %></h3>
+        <h3 ng-if="listsBase.bulkUpdateAction === 'leave'"><%= t('modals.generic.confirmation.unsaved_items') %></h3>
+
+        <!-- Rules -->
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'activate'"><%= t('modals.generic.confirmation.activate') %></h3>
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'deactivate'"><%= t('modals.generic.confirmation.deactivate') %></h3>
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'disable'"><%= t('generic_buttons.delete') %></h3>
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'live'"><%= t('modals.generic.confirmation.live') %></h3>
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'schedule/disable'"><%= t('modals.generic.confirmation.unschedule') %></h3>
+        <h3 ng-if="rulesBase.bulkUpdateAction === 'cancel'"><%= t('generic_buttons.cancel') %></h3>
+
+        <!-- Statistics -->
+        <h3 ng-if="statsBase.bulkUpdateAction === 'disable'"><%= t('generic_buttons.delete') %></h3>
+        <h3 ng-if="statsBase.bulkUpdateAction === 'cancel'"><%= t('generic_buttons.cancel') %></h3>
+
+        <!-- Settings -->
+        <h3 ng-if="settingsBase.bulkUpdateAction === 'delete'"><%= t('generic_buttons.delete') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <!-- Alert Overrides -->
+        <h3 ng-if="confirmation.type === 'alertOverride'"><%= t('modals.generic.confirmation.alert_override')%></h3>
+
+        <!-- Users-->
+        <h3 ng-if="confirmation.type === 'users'"><%= t('modals.generic.confirmation.users') %></h3>
+
+        <!-- Authorisations -->
+        <h3 ng-if="confirmation.type === 'auths'"><%= t('modals.generic.confirmation.authorisations') %></h3>
+
+        <!-- Reports -->
+        <h3 ng-if="confirmation.type === 'reports' || confirmation.type === 'execution'"><%= t('modals.generic.confirmation.reports') %></h3>
+
+        <!-- Lists -->
+        <h3 ng-if="confirmation.type === 'lists'"><%= t('modals.generic.confirmation.list_management') %></h3>
+
+        <!-- Rules -->
+        <h3 ng-if="confirmation.type === 'rules'"><%= t('modals.generic.confirmation.rules') %></h3>
+
+        <!-- Statistics -->
+        <h3 ng-if="confirmation.type === 'stats'"><%= t('modals.generic.confirmation.statistics') %></h3>
+
+        <!-- Settings -->
+        <h3 ng-if="confirmation.type === 'settings'"><%= t('modals.generic.confirmation.settings') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- Alerts -->
+        <p ng-if="alertAuthsBase.bulkUpdateAction === 'mark'"><%= t('modals.generic.confirmation.question_auths_mark') %></p>
+
+        <!-- Alert Overrides -->
+        <p ng-if="alertOverridesBase.bulkUpdateAction === 'deactivate'">
+          <%=t('modals.generic.confirmation.question_alert_override_deactivate') %>
+        </p>
+
+        <!-- Users-->
+        <p ng-if="usersBase.bulkUpdateAction === 'unblock'"><%= t('modals.generic.confirmation.question_users_enable') %></p>
+        <p ng-if="usersBase.bulkUpdateAction === 'block'"><%= t('modals.generic.confirmation.question_users_disable') %></p>
+
+        <!-- Authorisations -->
+        <p ng-if="authsBase.bulkUpdateAction === 'mark'"><%= t('modals.generic.confirmation.question_auths_mark') %></p>
+        <p ng-if="authsBase.bulkUpdateAction === 'unmark'"><%= t('modals.generic.confirmation.question_auths_unmark') %></p>
+
+        <!-- Reports -->
+        <p ng-if="reportsBase.bulkUpdateAction === 'delete' && confirmation.type === 'reports'"><%=
+          t('modals.generic.confirmation.question_reports_delete') %></p>
+        <p ng-if="reportsBase.bulkUpdateAction === 'delete' && confirmation.type === 'execution'"><%=
+          t('modals.generic.confirmation.question_execution_delete') %></p>
+        <p ng-if="reportsBase.bulkUpdateAction === 'cancel'"><%= t('modals.generic.confirmation.question_report_cancel') %></p>
+
+        <!-- Lists -->
+        <p ng-if="listsBase.bulkUpdateAction === 'delete'"><%= t('modals.generic.confirmation.question_list_delete') %></p>
+        <p ng-if="listsBase.bulkUpdateAction === 'leave'"><%= t('modals.generic.confirmation.question_list_leave') %></p>
+
+        <!-- Rules -->
+        <p ng-if="rulesBase.bulkUpdateAction === 'activate'"><%= t('modals.generic.confirmation.question_rules_activate') %></p>
+        <p ng-if="rulesBase.bulkUpdateAction === 'deactivate'"><%= t('modals.generic.confirmation.question_rules_deactivate') %></p>
+        <p ng-if="rulesBase.bulkUpdateAction === 'disable'"><%= t('modals.generic.confirmation.question_rules_delete') %></p>
+        <p ng-if="rulesBase.bulkUpdateAction === 'live'"><%= t('modals.generic.confirmation.question_rules_live') %></p>
+        <p ng-if="rulesBase.bulkUpdateAction === 'schedule/disable'"><%= t('modals.generic.confirmation.question_rules_unschedule') %></p>
+        <p ng-if="rulesBase.bulkUpdateAction === 'cancel'"><%= t('modals.generic.confirmation.question_rule_cancel') %></p>
+
+        <!-- Statistics -->
+        <p ng-if="statsBase.bulkUpdateAction === 'disable'"><%= t('modals.generic.confirmation.question_stats_delete') %></p>
+        <p ng-if="statsBase.bulkUpdateAction === 'cancel'"><%= t('modals.generic.confirmation.question_statistic') %></p>
+
+        <!-- Settings -->
+        <p ng-if="settingsBase.bulkUpdateAction === 'delete'"><%=t('modals.generic.confirmation.question_settings_delete') %></p>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a id="no" class="button" ng-click="$dismiss()"><%= t('generic_buttons.no_button') %></a>
+        </li>
+        <li>
+          <a id="yes" class="button" ng-click="takeFurtherAction()"><%= t('generic_buttons.yes_button') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

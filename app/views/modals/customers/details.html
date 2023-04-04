@@ -1,0 +1,57 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content" style="width:60%;">
+        <h3>{{customersBase.customerObj.business.internal_code}}</h3>
+      </div>
+      <div class="section-title sub-header-content" style="width:40%;">
+        <h3><%= t('modals.customers.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body customer_details">
+        <ul class="accordion">
+          <li>
+            <div class="acc-head" ng-init="accordion1 = true" ng-click="accordion1 = !accordion1"  ng-class="{'accordion-active' : accordion1}">
+              <%= t('modals.customers.contact_information') %>
+            </div>
+            <div class="acc-body" ng-class="{'active' : accordion1}" ng-style="accordion1 && {'display' : 'block'}">
+              <table class="vertical-table align-table-text-left no-hover">
+                <tbody>
+                  <tr ng-repeat="(key, value) in customersBase.customerObj.contact">
+                    <th>{{key | removeUnderscore}}</th>
+                    <td>{{value}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <li>
+            <div class="acc-head" ng-click="accordion2 = !accordion2"  ng-class="{'accordion-active' : accordion2}">
+              <%= t('modals.customers.business_information') %>
+            </div>
+            <div class="acc-body" ng-class="{'active' : accordion2}" ng-style="accordion2 && {'display' : 'block'}">
+              <table class="vertical-table align-table-text-left no-hover">
+                <tbody>
+                <tr ng-repeat="(key, value) in customersBase.customerObj.business">
+                  <th>{{key | removeUnderscore}}</th>
+                  <td ng-if="key === 'open_date' || key === 'closed_date'">{{value | date:'dd/MM/yyyy'}}</td>
+                  <td ng-if="key !== 'open_date' && key !== 'closed_date'">{{value}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.close') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

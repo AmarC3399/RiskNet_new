@@ -1,0 +1,220 @@
+<div id="header-container">
+  <h1 class="pull-left"><%= t('statistics.index.title') %></h1>
+
+  <div class="pull-right" style="margin:20px;">
+    <a id="stat-new" class="button" href="/statistics/new" ng-click="resetAll()" required-user role="rule_manager"
+       level="member">
+      <%= t('statistics.index.new_statistic') %>
+    </a>
+  </div>
+</div>
+
+<div id="page-contents" class="with-header-container with-fullpage-action-bar no-footer">
+  <div id="feature-list" class="container_24" loading urls="/statistics">
+    <div id="statistics-list-section" class="grid_20 prefix_2 alpha omega group">
+      <div class="section" style="top:20px; margin-bottom:40px;">
+        <div class="filter" ng-init="statsBase.filter.showTags = true"
+             ng-class="{'filter-active': statsBase.filter.count > 0 && statsBase.filter.showTags}">
+          <ul>
+            <li class="search-form">
+              <form id="model_text_filter">
+                <input id="stat-search" class="form-control" placeholder="<%= t('search.search') %>"
+                       ng-model="statsBase.filter.search" ng-change="statsBase.filter.searchUpdate=true"
+                       type="text" uib-popover="<%= t('statistics.index.tooltip') %>"
+                       popover-placement="bottom" popover-trigger="outsideClick"
+                       ng-keypress="($event.which === 13 ) ? !statsBase.filter.searchUpdate || loadFilters():0">
+                <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                      ng-if="statsBase.filter.search"></span>
+                <div id="stat-search-submit" class="input-group-addon search-button button" ng-disabled="!statsBase.filter.searchUpdate"
+                     ng-click="!statsBase.filter.searchUpdate || loadFilters()" type="submit"><i
+                  class="fa fa-search"></i></div>
+              </form>
+            </li>
+            <li id="stat-filter" class="filter-button">
+              <a class="button" data-badge="{{statsBase.filter.count}}"
+                 ng-click="toggleSidebar('statsBase', statsBase.filter.sideBar);statsBase.filter.showTags = true"
+                 title="<%= t('generic_buttons.filter') %>">
+                <i class="fa fa-filter"></i></a>
+            </li>
+          </ul>
+          <ul class="filter-list">
+            <li ng-repeat="(filterName, filterValue) in statsBase.filter.sideBar"
+                ng-if="filterValue != null && statsBase.filter.showTags"
+                class="filter-tag alert alert-success text-capitalise micro-text">
+              <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
+              {{filterValue | filterTag:levels:filterName }}
+              <button class="close" ng-click="removeFilterTag(filterName, 'statsBase', statsBase.filter)">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+              </button>
+            </li>
+          </ul>
+          <a id="hideFilterTags" class="fa fa-angle-double-up"
+             ng-click="statsBase.filter.showTags = !statsBase.filter.showTags"></a>
+        </div>
+        <!-- search filters -->
+        <form id="filters" class="form-inline group" role="form">
+          <div id="stat_sort" class="container">
+            <div id="page_stats" class="pull-right micro-text"><%= t('pagination.displaying') %> {{
+              statsBase.display.from }} - {{ statsBase.display.to }} <%= t('pagination.of') %> {{
+              statsBase.pagination.totalStats }}
+            </div>
+          </div>
+        </form>
+        <div id="projects-list">
+          <div id="modelTitleRow{{$index}}" class="container">
+            <p ng-if="statsBase.allStats.length < 1"><%= t('search.no_results') %></p>
+            <div id="statistic-list" class="result feature-item"
+                 dir-paginate="statistic in statsBase.allStats | itemsPerPage: statsBase.pagination.statsPerPage"
+                 current-page="statsBase.pagination.currentPage" total-items="statsBase.pagination.totalStats">
+              <div class="container_24 slim_margin group">
+                <div class="button-group feature-item-actions">
+                  <button id="stat-details{{$index}}" class="button" ng-class="{ active: statistic.isDescriptionHidden }"
+                          ng-click="showHideStatDescription(statistic)" title="View statistic details"
+                          title="{{appBase.spTrans.view_model_details}}">
+                    <i ng-if="!statistic.isDescriptionHidden" class="fa fa-expand"></i>
+                    <i ng-if="statistic.isDescriptionHidden" class="fa fa-compress"></i>
+                  </button>
+                </div>
+                <div class="grid_1 alpha checkbox" required-user role="rule_manager" level="member">
+                  <input id="statistic{{$index}}" class="checkbox" type="checkbox" name="statistics[]"
+                         value="statistic.id"
+                         ng-model="statsBase.selectedStats[$index]" ng-true-value="{{statistic.id}}">
+                  <label class="checkbox-label" for="statistic{{$index}}"></label>
+                </div>
+                <div bindonce class="grid_23 omega">
+                  <div class="feature-item-title-container">
+                    <h3 bo-text="statistic.stat_code"></h3>
+                  </div>
+                  <div class="meta group">
+                    <div class="grid_5 alpha" style="min-width: 165px;">
+                      <label class="blue-label" title="<%= t('statistics.index.created_at') %>">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </label>&nbsp;
+                      <p class="inline" bo-text="statistic.created_at | date:'dd/MM/yyyy HH:mm'"></p>
+                    </div>
+                    <div class="grid_7">
+                      <label class="blue-label" title="<%= t('statistics.new.operation') %>">
+                        <i class="glyphicon glyphicon-tags"></i>
+                      </label>&nbsp;
+                      <p class="inline" bo-text="statistic.category"></p>
+                    </div>
+                    <div class="grid_10">
+                      <label class="blue-label" title="<%= t('statistics.new.group_by') %>">
+                        <i class="glyphicon glyphicon-th-large"></i>
+                      </label>&nbsp;
+                      <p class="inline" bo-text="statistic.grouping_factor.description | removeId"></p>
+                    </div>
+                  </div>
+                  <p bo-text="statistic.description" class="statistic-description" style="opacity:0.75;"
+                     ng-if="statistic.description !== '' ">
+                  </p>
+                </div>
+              </div>
+              <!-- search result expandable -->
+              <div ng-if="statistic.isDescriptionHidden" class="model-full-description group">
+                <div>
+                  <div class="feature-detail-view">
+                    <div class="grid_24 alpha omega" style="margin-top: 5px;width:100%;">
+                      <div class="feature-detail-row">
+                        <div id="sidebar" class="sidebar-left sidebar-menu model-detail-sidebar">
+                          <ul id="modelListProgressStages" class="panel-list menu-list">
+                            <li ng-repeat="stage in statistic.stages"
+                                ng-class="{ selected: stage.active }"
+                                class="simple-link-button"
+                                ng-click="updateCurrentViewStage(statistic, stage)">
+                              {{ stage.name }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="feature-detail-summary" bindonce>
+                        <div ng-switch on="statistic.currentStage">
+                          <div ng-switch-when="Overview" class="content-panel" style="width: 100%;">
+                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                              <div class="inner">
+                                <h4><%= t('statistics.index.overview') %></h4>
+                                <div class="grid_12 alpha">
+                                  <table class="vertical-table pull-left no-hover">
+                                    <tbody>
+                                    <tr>
+                                      <th><%= t('statistics.index.updated_at') %></th>
+                                      <td bo-text="statistic.updated_at | date:'dd/MM/yyyy HH:mm'"></td>
+                                    </tr>
+                                    <tr>
+                                      <th><%= t('statistics.index.group_by') %></th>
+                                      <td bo-text="statistic.grouping_factor.description | removeId"></td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                              <div class="inner">
+                                <h4><%= t('statistics.index.owner') %></h4>
+                                <div class="grid_12 alpha">
+                                  <table class="vertical-table pull-left no-hover">
+                                    <tbody>
+                                    <tr>
+                                      <th><%= t('statistics.index.type') %></th>
+                                      <td bo-text="statistic.owner_type"></td>
+                                    </tr>
+                                    <tr>
+                                      <th><%= t('statistics.index.name') %></th>
+                                      <td bo-text="statistic.owner_id"></td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div ng-switch-when="Criterion" class="content-panel" style="width: 100%;">
+                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                              <div class="inner" ng-if="statistic.criterion.description">
+                                <h4><%= t('statistics.index.criterion') %></h4>
+                                <div class="grid_24">
+                                  {{statistic.criterion.description}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
+                              <div class="inner" ng-if="statistic.statistic_timeframes.length > 0">
+                                <h4><%= t('statistics.index.timeframes') %></h4>
+                                <div class="grid_24">
+                                  <ol>
+                                    <li ng-repeat="timeframe in statistic.statistic_timeframes">
+                                      {{timeframe.timeframe_type}}
+                                    </li>
+                                  </ol>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- results-contents -->
+          </div><!-- ng-repeat -->
+        </div>
+      </div>
+    </div>
+    <div id="bottom-pagination">
+      <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                               template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+  </div>
+</div>
+<div class="action-bar primary">
+  <ul>
+    <li>
+      <a id="stat-delete" ng-click="checkSelection() === false || openConfirmation('disable')" required-user
+         role="rule_manager" level="member" class="button" ng-disabled="checkSelection() === false"
+         ng-class="checkSelection() === false ? 'disabled' : ''"><%=t('generic_buttons.delete')%></a>
+    </li>
+  </ul>
+</div>
+

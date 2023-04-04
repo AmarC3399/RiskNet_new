@@ -1,0 +1,55 @@
+<div id="journal_controller">
+  <div class="filter">
+    <ul>
+      <li id="journal-filter" class="filter-button">
+        <a class="button" data-badge="{{alertJournalBase.filter.count}}"
+           ng-click="toggleSidebar('alertJournalBase', alertJournalBase.filter.sideBar)"
+           title="<%= t('generic_buttons.filter') %>">
+          <i class="fa fa-filter"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div id="journal-table" class="analysis-table-wrapper"
+       ng-class="alertJournalBase.pagination.totalPages > 1 ? '' : 'no-action-bar'">
+    <table class="analysis-table striped lined" style="width:1440px;">
+      <thead>
+      <tr>
+        <th style="width: 120px;">
+          <span class="column_label"><%= t('alerts.analysis.journal.evt_type') %></span>
+        </th>
+        <th style="width: 200px;">
+          <span class="column_label"><%= t('alerts.analysis.journal.evt_date') %></span>
+        </th>
+        <th style="width: 120px;">
+          <span class="column_label"><%= t('alerts.analysis.journal.entered_by') %></span>
+        </th>
+        <th style="width: 250px;">
+          <span class="column_label"><%= t('alerts.analysis.journal.comments') %></span>
+        </th>
+        <th style="width: 200px;">
+          <span class="column_label"><%= t('alerts.analysis.journal.additional_info') %></span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr bindonce
+          dir-paginate="row in alertJournalBase.journalRows | itemsPerPage: alertJournalBase.pagination.rowsPerPage"
+          total-items="alertJournalBase.pagination.totalRows"
+          current-page="alertJournalBase.pagination.currentPage">
+        <td bo-text="row.event_type"></td>
+        <td bo-text="row.event_date | date:'dd/MM/yyyy HH:mm:ss'"></td>
+        <td bo-text="row.entered_by"></td>
+        <td bo-text="row.info_2"></td>
+        <td bo-text="row.info_1"></td>
+      </tr>
+      <tr ng-if="alertJournalBase.journalRows.length<1">
+        <td colspan=5><%= t('search.no_results') %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="action-bar secondary" ng-if="alertJournalBase.pagination.totalPages > 1">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+</div>

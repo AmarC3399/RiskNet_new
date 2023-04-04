@@ -1,0 +1,18 @@
+-# No text in this file has been translated
+-#- cache ['layouts', 'notificationsLog', I18n.locale] do
+-#  #pageslide{"ng-hide" => "$state.includes('login') || $state.includes('reset')"}
+-#    %div#target.pageslide
+-#      #log-error-header
+-#        %button#target-close.button.pull_right{href: "#"}= t('notifications.sidebar.close_button')
+-#        %button#clear_all_errors.button.red.pull_right{"ng-click" => "removeAllErrors()", type: "button"}= t('notifications.sidebar.clear_all_button')
+-#        %h3= t('notifications.sidebar.title')
+-#      %ul
+-#        %li{"ng-repeat" => "notification in notifications"}
+-#          %div{"class" => "{{notification.type}}"}
+-#            %div.colour-block
+-#            %h5 {{notification.message}}
+-#            %button{"ng-click" => "removeError($index)", type: "button"}
+-#              %span.icon-close-circle
+-#            %p.timestamp {{notification.date | date:'dd/MM/yyyy HH:mm:ss'}}
+-#            %p{"ng-if" => "notification.type === 'error'"}= t('notifications.sidebar.error_message')
+-#            %p{"ng-if" => "notification.type === 'success'"}= t('notifications.sidebar.success_message')

@@ -1,0 +1,23 @@
+<header class="sub-header-content move-header">
+  <h3><%= t('alerts.analysis.title') %></h3>
+</header>
+<div class="section-navigation">
+  <ul class="nav analysis-nav">
+    <li ng-repeat="tab in alertAnalysisBase.tabs">
+      <a id="{{tab.name}}" ng-class="($index === alertAnalysisBase.currentTab) ? 'selected' : ''"
+         ng-click="changeTab($index)">{{ getTabName(tab.name) }}</a>
+  </ul>
+</div>
+<div class="analysis-wrapper" loading=""
+     urls="^/api/.*/.*/(activities|violations|allocated_comments|authorisations|journals).*$">
+  <div ui-view="analysis-view" id="analysis-view"></div>
+</div>
+
+
+
+
+
+
+
+
+

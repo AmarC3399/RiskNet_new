@@ -1,0 +1,26 @@
+<div id="modal" class="modal warning-modal">
+  <div id="page-overlay" class="show-overlay logout-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.generic.logout.signing_out') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('layouts.application.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body logout">
+        <p ng-model="countDown"><%= t('modals.generic.logout.due_to_inactivity') %> {{logoutDuration}} <%= t('modals.generic.logout.seconds')
+          %> </p>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a class="button neutral" ng-click="cancelLogout()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

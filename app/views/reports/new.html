@@ -1,0 +1,284 @@
+<div id="new-reports-page">
+  <div id="header-container">
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'fraud_activity'"><%=
+      t('reports.new.sub_title_fraud_activity')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'rule_efficiency'"><%=
+      t('reports.new.sub_title_rule_performance')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'operational_user'"><%=
+      t('reports.new.sub_title_operational_user')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'operational_merchant'"><%=
+      t('reports.new.sub_title_operational_merchant')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'active_override'"><%=
+      t('reports.new.sub_title_active_override')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'override_by_operator'"><%=
+      t('reports.new.sub_title_override_by_operator')%></h1>
+    <h1 class="pull-left" ng-if="reportsBase.options.type == 'overridden_transactions'"><%=
+      t('reports.new.sub_title_overridden_transactions')%></h1>
+  </div>
+  <div id="sidebar" class="sidebar-left sidebar-menu no-footer">
+    <div class="header-content">
+      <h2><%= t('reports.new.options')%></h2>
+    </div>
+    <ul id="report_steps" class="panel-list menu-list">
+      <li ng-class="reportsBase.newReportStage === 'overview' ? 'selected' : ''">
+        <a ng-click="changeStage('overview')"><%= t('reports.new.overview') %></a>
+      </li>
+      <li ng-disabled="isDisabled()"
+          ng-class="{selected: reportsBase.newReportStage === 'elements', disabled: isDisabled()}">
+        <a ng-click="isDisabled() || changeStage('elements')"><%= t('reports.new.elements') %></a>
+      </li>
+    </ul>
+  </div>
+  <div id="page-contents" class="with-left-sidebar no-footer" ng-if="reportsBase.newReportStage === 'overview'">
+    <form name="new_report" novalidate>
+      <div id="overview_section" class="section new-report">
+        <div class="sub-header-content">
+          <h3><%= t('reports.new.overview') %></h3>
+        </div>
+        <div class="content-panel-wrapper with-action-bar">
+          <div class="container_24 group" style="margin-top:20px;padding-bottom:40px;">
+            <div class="grid_24">
+              <ul class="labelled-form-full-width grid_22 suffix_2">
+                <li>
+                  <p class="capitalise">
+                    <span><%= t('reports.new.report_name') %></span>
+                  </p>
+                </li>
+                <li style="float:none;">
+                  <input type="text" ng-model="reportsBase.new.title" class="form-control"
+                         placeholder="<%= t('generic_placeholders.required') %>" required>
+                </li>
+              </ul>
+            </div>
+            <div ng-if="reportsBase.options.type === 'operational_user'" class="grid_24">
+              <hr/>
+              <ul class="labelled-form-full-width grid_22 suffix_2">
+                <li>
+                  <p class="capitalise">
+                    <span><%= t('reports.new.user') %></span>
+                  </p>
+                </li>
+                <li style="float:none;">
+                  <select id="users_list"
+                          placeholder="<%= t('reports.new.select_users') %>"
+                          ng-model="reportsBase.new.report_grouping.user" ui-select2 multiple>
+                    <option value="" disabled selected></option>
+                    <option ng-repeat="user in reportsBase.users" value="{{user.id}}">{{user.name}}
+                      [{{user.owner.name}}]
+                    </option>
+                  </select>
+                </li>
+              </ul>
+            </div>
+            <div class="grid_24">
+              <hr/>
+              <input type="radio" name="Date Type" id="reportRadio1" ng-click="clearDate($event)"
+                     ng-model="reportsBase.options.date_range" value="standard" class="radio-button">
+              <label class="radio-label" for="reportRadio1">
+                <%= t('reports.new.fixed_date_range') %>
+              </label>
+              <div class="container_24 no_margin">
+                <div class="grid_10 prefix_1 form-group">
+                  <input type="text" class="form-control"
+                         id="allocatedStartDate"
+                         uib-datepicker-popup="{{format}}"
+                         is-open="popup1.opened"
+                         datepicker-options="dateOptions"
+                         ng-click="open1()"
+                         ng-class="reportsBase.options.date_range === 'relative' ? 'disabled' : ''"
+                         ng-disabled="reportsBase.options.date_range === 'relative'"
+                         ng-model="reportsBase.options.allocatedStartDate"
+                         ng-model-options="{timezone:'UTC'}"
+                         placeholder="<%= t('reports.new.start_date') %>"
+                         ng-required="reportsBase.options.date_range === 'standard'"/>
+                </div>
+                <div class="grid_10 prefix_2 form-group">
+                  <input type="text" class="form-control"
+                         id="allocatedEndDate"
+                         uib-datepicker-popup="{{format}}"
+                         is-open="popup2.opened"
+                         datepicker-options="dateOptions"
+                         ng-click="open2()"
+                         ng-class="reportsBase.options.date_range === 'relative' ? 'disabled' : ''"
+                         ng-disabled="reportsBase.options.date_range === 'relative'"
+                         ng-model="reportsBase.options.allocatedEndDate"
+                         ng-model-options="{timezone:'UTC'}"
+                         placeholder="<%= t('reports.new.end_date') %>"
+                         ng-required="reportsBase.options.date_range === 'standard'"/>
+                </div>
+              </div>
+              <br>
+              <input type="radio" name="Date Type" id="reportRadio2"
+                     ng-click="clearDate($event)"
+                     ng-model="reportsBase.options.date_range" value="relative" class="radio-button">
+              <label class="radio-label" for="reportRadio2">
+                <%= t('reports.new.relative_date_range') %>
+              </label>
+              <div class="container_24 no_margin">
+                <div class="grid_10 prefix_1 suffix_13 form-group">
+                  <select id="select-date-range"
+                          ng-class="reportsBase.options.date_range === 'standard' ? 'disabled' : ''"
+                          ng-disabled="reportsBase.options.date_range === 'standard'"
+                          placeholder="<%= t('reports.new.select_date_range') %>"
+                          ng-model="reportsBase.new.date_range" style="width: calc(100% + 24px);"
+                          ng-required="reportsBase.options.date_range === 'relative'"
+                          ui-select2>
+                    <option value="" disabled selected></option>
+                    <option value="day, 0"><%= t('reports.new.today')%></option>
+                    <option value="day, 1"><%= t('reports.new.yesterday')%></option>
+                    <option value="week,1"><%= t('reports.new.last_week')%></option>
+                    <option value="month,1"><%= t('reports.new.last_month')%></option>
+                    <option value="month, 3, false, true"><%= t('reports.new.last_3_months')%>
+                    </option>
+                    <option value="year, 0, true"><%= t('reports.new.year_to_date')%></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="grid_23 prefix_1" ng-if="reportsBase.options.date_range === 'relative'">
+              <div class="well information grid_24 alert alert-info">
+                <table class="vertical compact no-hover">
+                  <tr>
+                    <td style="width:150px;"><b><%= t('reports.new.today')%></b></td>
+                    <td><%= t('reports.new.today_description')%></td>
+                  </tr>
+                  <tr>
+                    <td><b><%= t('reports.new.yesterday')%></b></td>
+                    <td><%= t('reports.new.yesterday_description')%></td>
+                  </tr>
+                  <tr>
+                    <td><b><%= t('reports.new.last_week')%></b></td>
+                    <td><%= t('reports.new.last_week_description')%></td>
+                  </tr>
+                  <tr>
+                    <td><b><%= t('reports.new.last_month')%></b></td>
+                    <td><%= t('reports.new.last_month_description')%></td>
+                  </tr>
+                  <tr>
+                    <td><b><%= t('reports.new.last_3_months')%></b></td>
+                    <td><%= t('reports.new.last_3_months_description')%></td>
+                  </tr>
+                  <tr>
+                    <td><b><%= t('reports.new.year_to_date')%></b></td>
+                    <td><%= t('reports.new.year_to_date_description')%></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="grid_24">
+                <hr/>
+                <div ng-include="'/templates/partials/level_select_wizard.html'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="action-bar primary">
+          <ul>
+            <li>
+              <button id="cancel-one" type="button" class="button negative" ng-click="openConfirmation('cancel')"
+                      data-unique="1">
+                <%= t('generic_buttons.cancel') %>
+              </button>
+            </li>
+            <li>
+              <button id="overview_next" ng-click="switchStage()" class="button" ng-disabled="new_report.$invalid"
+                      ng-class="new_report.$invalid ? 'disabled' : ''"><%= t('tooltips.next_button') %>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="page-contents" class="with-left-sidebar no-footer" ng-if="reportsBase.newReportStage === 'elements'">
+    <div id="elements_section" class="section new-report">
+      <div class="sub-header-content">
+        <h3><%= t('reports.new.elements') %> &#x26 <%= t('reports.new.sorting') %> </h3>
+      </div>
+      <div class="content-panel-wrapper with-action-bar">
+        <div class="container_24">
+          <div id="report-elements">
+            <h3><%= t('reports.new.report') %>&nbsp;<%= t('reports.new.elements') %></h3>
+            <ul class="switch-list no-list-padding no-list-style">
+              <li ng-repeat="element in reportsBase.listItems">
+                <!-- WORK IN PROGRESS .as -->
+                <i class="more-info fa fa-question-circle" uib-popover="{{element.description}}"
+                   data-unique="1"
+                   popover-placement="right" popover-trigger="mouseenter" html="false" container="body"
+                   data-container="body"></i>
+                <input class="checkbox" type="checkbox" id="field{{$index}}" ng-true-value="{{element.id}}"
+                       name="field[]"
+                       ng-model="reportsBase.new.report_definition.fields[$index]"
+                       checked="true" ng-change="resetSortedBy()">
+                <label for="field{{$index}}" class="checkbox-label">{{element.frontend_name}}</label>
+              </li>
+            </ul>
+          </div>
+          <div id="report-sorting">
+            <h3><%= t('reports.new.sorting_criteria') %></h3>
+            <i id="sorting-help" class="more-info fa fa-question-circle"
+               uib-popover="{{meta.tooltips.report_new_sorting}}"
+               data-unique="1"
+               popover-placement="bottom" popover-trigger="mouseenter" html="false" container="body"
+               data-container="body"></i>
+            <p><%= t('reports.new.order_table_results_by') %></p>
+            <select id="orderResultsPrimary" ng-model="reportsBase.options.sorted_by1" ng-disabled="!reportsBase.options.sorting"
+                    ng-class="!reportsBase.options.sorting ? 'disabled' : ''"
+                    placeholder="Select Field..." ui-select2>
+              <option value="" disabled></option>
+              <option
+                ng-repeat="item in reportsBase.listItems | filterBySelected:reportsBase.new.report_definition.fields"
+                ng-selected="item.id === reportsBase.new.report_definition.sorted_by[0].id" value="{{item.id}}" }>
+                {{item.frontend_name}}
+              </option>
+            </select>
+            <p><%= t('reports.new.then_by') %></p>
+            <select id="orderResultsSecondary" ng-model="reportsBase.options.sorted_by2" ng-disabled="!reportsBase.options.sorting"
+                    ng-class="!reportsBase.options.sorting ? 'disabled' : ''"
+                    placeholder="Select Field..." ui-select2>
+              <option value="" disabled></option>
+              <option
+                ng-repeat="item in reportsBase.listItems | filterBySelected:reportsBase.new.report_definition.fields"
+                ng-selected="item.id === reportsBase.new.report_definition.sorted_by[1].id" value="{{item.id}}" }>
+                {{item.frontend_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar primary">
+        <ul>
+          <li>
+            <button id="cancel-two" type="button" class="button negative" ng-click="openConfirmation('cancel')" data-unique="1">
+              <%= t('generic_buttons.cancel') %>
+            </button>
+          </li>
+          <li>
+            <button id="back-one" type="button" class="button neutral" ng-click="switchStage()">
+              <%= t('generic_buttons.back') %>
+            </button>
+          </li>
+          <li>
+            <button id="elements-create" ng-disabled="reports.options.save"
+                    ng-class="reports.options.save ? 'disabled' : ''"
+                    ng-click="reports.options.save || addReport(false)" class="button">
+                <%= t('reports.new.save_report') %>
+            </button>
+          </li>
+          <li>
+            <button id="elements-create-execute" ng-disabled="reports.options.save"
+                    ng-class="reports.options.save ? 'disabled' : ''"
+                    ng-click="reports.options.save || addReport(true)"
+                    class="button">
+                <%= t('reports.new.save_and_execute') %>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

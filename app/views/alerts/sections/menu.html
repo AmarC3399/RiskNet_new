@@ -1,0 +1,92 @@
+<div class="filter">
+  <ul>
+    <li class="search-form">
+      <form>
+        <input id="alert-search" class="form-control" placeholder="<%= t('search.search') %>"
+               ng-model="alertMenuBase.filter.search" ng-change="alertMenuBase.filter.searchUpdate=true"
+               type="text" uib-popover="<%= t('alerts.menu.tooltip') %>"
+               popover-placement="bottom" popover-trigger="outsideClick"
+               ng-keypress="($event.which === 13 ) ? !alertMenuBase.filter.searchUpdate || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="alertMenuBase.filter.search"></span>
+        <div id="alert-search-submit" class="input-group-addon search-button button" ng-disabled="!alertMenuBase.filter.searchUpdate"
+             ng-click="!alertMenuBase.filter.searchUpdate || loadFilters()" type="submit">
+          <i class="fa fa-search"></i>
+        </div>
+      </form>
+    </li>
+    <li id="alert-filter" class="filter-button">
+      <a class="button" data-badge="{{alertMenuBase.filter.count}}"
+         ng-click="toggleSidebar('alertMenuBase', alertMenuBase.filter.sideBar)"
+         title="<%= t('generic_buttons.filter') %>"><i class="fa fa-filter"></i></a>
+    </li>
+  </ul>
+</div>
+<ul id="alert-list" class="panel-list scrollable-content"
+    loading="" urls="^/api/alerts((\\?.*)?|/[0-9]+\.[0-9]+-[0-9]+)$">
+  <li class="no_results" ng-if="alertMenuBase.orderedAlerts.length < 1"><%= t('search.no_results') %></li>
+  <li bindonce ng-repeat="alert in alertMenuBase.orderedAlerts" ng-click="setMainAlert(alert)"
+      ng-class="(alert.id === alertBase.reminder.alert_id) ? 'selected-panel' : ''">
+    <div ng-class="chartFactory.testCheck(alert.subject)"></div>
+    <div class="id">
+      <div class="tag-overflow">
+        <i class="fa fa-tag"></i>
+        <span bo-text="alert.original_id" bo-title="alert.original_id"></span>
+      </div>
+    </div>
+    <div class="pie-chart-canvas">
+      <canvas id="chart-area1" width="70" height="70" class="chart chart-doughnut"
+              chart-data="chartFactory.setDoughnutData(alert.priority)"
+              chart-labels="alertMenuBase.doughnut.labels"
+              chart-options="alertMenuBase.doughnut.options"
+              chart-colours="chartFactory.setDoughnutColour(alert.subject)"/>
+      </canvas>
+      <p bo-text="alert.priority"></p>
+    </div>
+    <div class="alert-response">
+      <span class="details-icon">
+        <i class="fa fa-flag-o"></i>
+      </span>
+      <span bo-text="alert.subject"></span>
+    </div>
+    <ul class="alert-details">
+      <li>
+        <p>
+          <span class="details-icon">
+            <i class="fa fa-user"></i>
+          </span>
+          <span bo-text="alert.customer_merchant_name"></span>
+          <span bo-if="!alert.customer_merchant_name"><%= t('alerts.menu.merchant_not_found') %></span>
+        </p>
+      </li>
+      <li>
+        <p>
+
+          <span class="details-icon">
+            <i class="fa fa-university"></i>
+          </span>
+          <span bo-text="alert.alert_owner.issuer"></span>
+          <span bo-if="!alert.alert_owner.issuer"><%= t('alerts.menu.issuer_not_found') %></span>
+        </p>
+      </li>
+      <li>
+        <p>
+          <span class="details-icon">
+            <i class="fa fa-calendar-o"></i>
+          </span>
+          <span bo-text="alert.run_date | date:'dd/MM/yyyy HH:mm:ss'"></span>
+          <span bo-if="!alert.run_date"><%= t('alerts.menu.date_not_found') %></span>
+        </p>
+      </li>
+    </ul>
+    <div class="notification-corner"
+         ng-class="{'expired' : isReminderExpired(alert)}"
+         ng-if="isReminderExpired(alert) || isReminderLive(alert)" uib-popover-template="'/templates/modals/alerts/reminder_info.html'" data-unique="1"
+         popover-placement="right" popover-trigger="mouseenter" html="false" container="body" data-container="body">
+      <div class="reminder-notification">
+        <i class="fa fa-bell-slash-o" ng-show="isReminderExpired(alert)"></i>
+        <i class="fa fa-bell-o" ng-show="isReminderLive(alert)"></i>
+      </div>
+    </div>
+  </li>
+</ul>

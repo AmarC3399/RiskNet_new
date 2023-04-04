@@ -1,0 +1,8 @@
+<div id="modal" ng-if="rule.deleted" class="rule-deleted-message"><h6><%= t('modals.alerts.rule_info.rule_deleted') %></h6></div>
+
+<p><label><%= t('modals.alerts.rule_info.internal_code') %>:</label> {{rule.internal_code}} </p>
+<hr>
+<p><label><%= t('modals.alerts.rule_info.owner_type') %>:</label> {{rule.owner_type | convertToFELevels}} </p>
+<hr>
+<p><label><%= t('modals.alerts.rule_info.description') %>:</label> {{rule.description}} </p>
+

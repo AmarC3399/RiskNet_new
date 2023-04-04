@@ -1,0 +1,36 @@
+<div id="modal" class="modal">
+  <div id="page-overlay" class="show-overlay"></div>
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="main-title sub-header-content">
+        <h3><%= t('modals.alerts.clear_reminder.title') %></h3>
+      </div>
+      <div class="section-title sub-header-content">
+        <h3><%= t('modals.alerts.title') %></h3>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body clear_reminder">
+        <p><%= t('modals.alerts.clear_reminder.record_your_reasons') %></p>
+        <form class="form" id="clear_reminder" name="form" novalidate="">
+          <fieldset>
+            <textarea id="comment_text" name="comment_text" ng-model="clear_reminder.comments_attributes.comment_text"
+                      placeholder="<%= t('modals.alerts.clear_reminder.details') %>" rows="2"
+                      style="width: calc(100% - 24px); min-height:200px;margin-top:5px;" required></textarea>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer action-bar primary">
+      <ul>
+        <li>
+          <a class="button neutral" ng-click="$dismiss()"><%= t('generic_buttons.cancel') %></a>
+        </li>
+        <li>
+          <a class="button" ng-disabled="form.$invalid" ng-class="form.$invalid ? 'disabled' : ''"
+             ng-click="form.$invalid || clearReminder()"><%= t('modals.alerts.clear_reminder.title') %></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

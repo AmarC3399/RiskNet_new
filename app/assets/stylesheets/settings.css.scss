@@ -1,0 +1,20 @@
+
+#analysis {
+  margin: 11px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+}
+
+abbr[title] {
+  border-bottom: none;
+}
+
+.used-field-name {
+  width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

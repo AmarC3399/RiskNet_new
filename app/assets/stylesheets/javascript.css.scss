@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+/* Styles css used by javascript plugins
+
+/* Order the attributes in the following order:
+
+/*  Positioning  */
+/*  Display and Box Model  */
+/*  Color  */
+/*  Text  */
+/*  Other  */
+
+@import "blue-theme-colors";
+
+/* ==========================================================================
+   FloatThread Table (Fixed scrolling table header)
+   ========================================================================== */
+
+.floatThead-table {
+	background-color: #fff;
+}
