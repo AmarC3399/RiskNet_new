@@ -1,0 +1,132 @@
+<style >
+  #header-container {
+    
+position:initial !important;
+margin-top: -24px !important;
+margin-bottom: 50px important;
+}
+</style>
+
+
+
+<div id="header-container">
+  <h1 class="pull-left"><%= t('settings.settings') %></h1>
+</div>
+
+<!-- The main display is in the middle -->
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="section" id="analysis">
+    <style >
+  #sub-header-container {
+    
+position:initial !important;
+margin-top: 126px !important;
+}
+</style>
+    <div class="sub-header-content grey">
+      <h3><%= t('settings.field_mappings') %></h3>
+    </div>
+
+    <div id="settingsUnusedItems" class="give-and-take give">
+      <div class="sub-header-content">
+        <h3><%= t('settings.unused_database_fields') %></h3>
+      </div>
+      <div class="filter">
+        <ul>
+          <li class="search-form">
+            <form>
+              <input id="search_fields" type="text" class="form-control"
+                     placeholder="<%= t('search.search') %>" ng-model="settingsBase.filter.search">
+              <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                    ng-if="settingsBase.filter.search"></span>
+              <div class="input-group-addon search-button button clear-button"><i class="fa fa-search"></i></div>
+            </form>
+          </li>
+          <li id="settings-filter" class="filter-button">
+            <a class="button" data-badge="{{settingsBase.filter.count}}"
+               ng-click="toggleSidebar('settingsBase', settingsBase.filter.sideBar)"
+               title="<%= t('generic_buttons.filter') %>"><i class="fa fa-filter"></i></a>
+          </li>
+        </ul>
+      </div>
+      <div class="give-and-take-contents scrollable-content selectDataBaseFields" style="bottom:0;"
+           ng-mouseover="showPointer('right')" ng-mouseleave="showPointer('')">
+        <ul class="panel-list">
+          <li
+            ng-repeat="column in settingsBase.unusedFields | filter: isFieldCurrentlyUnUsed(column.column_name) | filter:settingsBase.filter.search | orderBy: 'column_name' "
+            class="selectable-region" ng-click="addMapping(column.column_name)">
+            <abbr title="{{column.column_name}}">{{ column.column_name }}</abbr>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="give-and-take-pointer">
+      <i ng-if="settingsBase.arrowDirection === 'left'" class="fa fa-chevron-left"></i>
+      <i ng-if="settingsBase.arrowDirection === 'right'" class="fa fa-chevron-right"></i>
+    </div>
+
+    <!--- RIGHT HAND SIDE -->
+    <div id="settingsUsedItems" class="give-and-take take">
+      <div class="sub-header-content">
+        <h3><%= t('settings.used_fields') %></h3>
+      </div>
+      <div class="give-and-take-contents" style="bottom:0;top:53px;">
+        <form name="field_mappings">
+          <ul class="panel-list">
+            <li
+              ng-repeat="used_field in settingsBase.usedFields | orderBy: 'column'"
+              ng-class="{'has-error': typeIsEmpty(used_field), 'has-success': !typeIsEmpty(used_field)}">
+              <label class="fa fa-tag blue-label"></label>
+							<span class="used-field-name">
+								{{ used_field.column | wrapLongText }}
+						 	</span>
+              <div class="field_dropdown">
+                <label class="fa fa-link inline blue-label"></label>
+                <input id="select_field_type_mappings" class="inline" ng-model="used_field.mapping"
+                       ng-change="updateFieldTypeMapping()" name="{{ used_field.field_name }}"
+                       ui-validate="{ notempty: '!used_field.mapping' }" placeholder="<%= t('rules.new.value') %>"
+                       type="text" style="width: 80%;" required>
+                </input>
+              </div>
+              <div style="padding:3px;">
+								<span>
+									<button id="remove_field_type_mapping_button" type="button" id="close-button-{{$index}}" class="close"
+                          data-dismiss="alert" aria-label="Close" ng-click="openConfirmation(used_field)" select
+                          ng-mouseover="showPointer('left')" ng-mouseleave="showPointer('')">
+                    <i class="glyphicon glyphicon-remove-circle"></i>
+                  </button>
+								</span>
+              </div>
+
+              <div class="container_24 group">
+                <div class="grid_21 omega">
+                  <div class="alert alert-danger" role="alert" ng-show="!used_field.mapping">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    <span class="alert-text"><%= t('settings.field_mapping_is_required').upcase %></span>
+                  </div>
+                </div>
+              </div><!-- container_24 -->
+              <div class="text-right pull-right value" ng-show="settingsBase.isUpdating" class="text-right value">
+                <span class="glyphicon glyphicon-refresh white"
+                      ng-class="{ 'rotating': base.filterAuthorisationsUpdating }"></span>
+              </div>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <div class="action-bar primary">
+      <ul>
+        <li>
+          <button id="update_field_type_mappings_button" class="button" ng-hide="settingsBase.isUpdating"
+                  ng-disabled="!settingsBase.fieldTypeMappingsUpdated || field_mappings.$invalid"
+                  ng-class="!settingsBase.fieldTypeMappingsUpdated || field_mappings.$invalid ? 'disabled' : ''"
+                  ng-click="saveAllFieldMappings()">
+            <%=t('settings.update_field_mappings') %>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div><!-- section -->
+</div>
+

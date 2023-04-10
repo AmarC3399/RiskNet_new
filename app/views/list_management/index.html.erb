@@ -1,0 +1,337 @@
+<div id="list-management">
+  <div id="header-container">
+    <h1 class="pull-left">List Management</h1>
+    <div class="pull-right" style="margin:20px;">
+      <a id="list-new" class="button" href="/lists/new" required-user role="admin, rule_manager">
+        <%= t('list_management.index.new_list') %></a>
+    </div>
+  </div>
+  <div id="sidebar" class="sidebar-left sidebar-menu no-footer">
+    <div class="header-content">
+      <h2><%= t('list_management.index.List Management') %></h2>
+    </div>
+    <div class="filter">
+      <ul>
+        <li class="search-form">
+          <form>
+            <input id="list-search" class="form-control" placeholder="<%= t('search.search') %>"
+                   ng-model="listsBase.filter.search" ng-change="listsBase.filter.searchUpdate=true"
+                   type="text" uib-popover="<%= t('list_management.index.tooltip') %>"
+                   popover-placement="bottom" popover-trigger="outsideClick"
+                   ng-keypress="($event.which === 13 ) ? !listsBase.filter.searchUpdate || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="listsBase.filter.search"></span>
+
+            <div id="list-search-submit" list-search-submit class="input-group-addon search-button button"
+                 ng-disabled="!listsBase.filter.searchUpdate" ng-click="!listsBase.filter.searchUpdate || loadFilters()"
+                 type="submit"><i class="fa fa-search"></i>
+            </div>
+          </form>
+        </li>
+        <li id="list-filter" class="filter-button">
+          <a class="button" data-badge="{{listsBase.filter.count}}"
+             ng-click="toggleSidebar('listsBase', listsBase.filter.sideBar)"
+             title="<%= t('generic_buttons.filter') %>"><i class="fa fa-filter"></i></a>
+        </li>
+      </ul>
+    </div>
+    // Following style added to hide pagination div for now
+    <div id="list-scroll" ng-class="listsBase.pagination.lists.totalPages > 1 ? 'with-pagination' : ''">
+      <ul class="panel-list scrollable-content">
+        <li id="list-{{dataList.name | addDash }}"
+            dir-paginate="dataList in listsBase.dataLists | itemsPerPage: listsBase.pagination.lists.listsPerPage"
+            total-items="listsBase.pagination.lists.totalLists" current-page="listsBase.pagination.lists.currentPage"
+            pagination-id="list" ng-class="{active: dataList.id === listsBase.selectedDataList.id}"
+            ui-sref="lists.update({listID: dataList.id})">{{dataList.name}}
+        </li>
+
+        </li>
+      </ul>
+    </div>
+    <div ng-class="listsBase.pagination.lists.totalPages > 1 ? 'list-management-pagination' : ''">
+      <dir-pagination-controls boundary-links="true" on-page-change="changeListsPage(newPageNumber)" max-size="6"
+                               template-url="/templates/layouts/dirPagination.tpl.html"
+                               pagination-id="list"></dir-pagination-controls>
+    </div>
+  </div>
+  <div id="page-contents" class="with-left-sidebar no-footer">
+    <div id="associatedTable" ng-class="associatedTableExpand ? 'expand-table' : ''">
+      <div class="container_24 no_margin">
+        <div class="grid_22 alpha">
+          <table class="compact no-hover">
+            <thead>
+            <tr>
+              <th><%= t('list_management.index.creation_date') %></th>
+              <th><%= t('list_management.index.created_by') %></th>
+              <th><%= t('list_management.index.associated_table') %></th>
+              <th ng-if="listsBase.selectedDataList.table != 'CustomList'">
+                <%= t('list_management.index.associated_field') %>
+              </th>
+              <th ng-if="listsBase.selectedDataList.current_rules.length > 0">
+                <%= t('list_management.index.associated_rules') %>
+              </th>
+              <th><%= t('list_management.index.associated_rules') %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{listsBase.selectedDataList.created_at | date}}</td>
+              <td>{{listsBase.selectedDataList.user}}</td>
+              <td>
+                <span ng-if="listsBase.selectedDataList.table == 'CustomList'">
+                    {{listsBase.selectedDataList.field}}
+                </span>
+                <span ng-if="listsBase.selectedDataList.table != 'CustomList'">
+                    {{listsBase.selectedDataList.table}}
+                </span>
+              </td>
+              <td ng-if="listsBase.selectedDataList.table != 'CustomList'">
+                {{listsBase.selectedDataList.field}}
+              </td>
+              <td>
+                <span ng-if="listsBase.selectedDataList.current_rules.length > 0"
+                      ng-repeat="rule in listsBase.selectedDataList.current_rules">
+                    {{rule.internal_code}}{{$last ? '' : ', '}}
+                </span>
+                <span ng-if="listsBase.selectedDataList.current_rules.length === 0">
+                    No associated rules
+                </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid_2 omega pull-right">
+          <a id="list-details" class="button pull-right" ng-click="associatedTableExpand = !associatedTableExpand"
+             title="<%= t('generic_buttons.details') %>">
+            <i class="fa fa-expand"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="section" id="list-tems">
+      <div class="sub-header-content">
+        <h3 ng-if="!listsBase.selectedDataList.id">
+          <%= t('list_management.index.edit_List') %>
+        </h3>
+        <h3 ng-if="listsBase.selectedDataList.id">
+          <%= t('list_management.index.edit_title') %>
+          <%= t('list_management.index.in') %>
+          '{{listsBase.selectedDataList.name}}'
+        </h3>
+      </div>
+      <div id="list-list" class="content-panel-wrapper with-action-bar"
+           ng-class="listsBase.pagination.items.totalPages > 1 ? 'with-pagination' : ''">
+        <div class="container_24">
+          <div class="alert alert-info" style="margin-top:15px;" ng-if="!listsBase.selectedDataList.id">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span class="alert-text"><%= t('list_management.index.intro') %></span>
+          </div>
+        </div>
+        <div class="create-item">
+          <div class="create-item-title group" ng-if="listsBase.selectedDataList.data_type">
+            <ul class="no-list-margin no-list-style container_24 no-margin">
+              <li class="grid_10 alpha">
+                <p class="filter_label"><%= t('list_management.index.item_name') %></p>
+                <p class="micro-text" style="color:#999"><%= t('list_management.index.list_item_desc') %></p>
+              </li>
+              <li class="grid_10 omega">
+                <p class="filter_label"><%= t('list_management.index.item_value') %></p>
+                <p class="micro-text" style="color:#999"><%= t('list_management.index.list_value_desc') %></p>
+              </li>
+            </ul>
+          </div>
+          <ul class="no-list-margin no-list-style container_24 no-margin group"
+              ng-if="listsBase.selectedDataList.read_only !== true" style="margin: 0 0 10px;">
+            <li class="grid_8 suffix_2 alpha">
+              <div class="input-container" ng-if="listsBase.selectedDataList.data_type">
+                <input class="form-control" ng-model="listsBase.newItem.list" type="text"
+                       placeholder="<%= t('list_management.index.string') %>" required maxlength="255">
+              </div>
+            </li>
+            <li class="grid_8 suffix_2 omega">
+              <div class="input-container" ng-if="listsBase.selectedDataList.data_type === 'string'">
+                <input class="form-control" ng-model="listsBase.newItem.value" type="text"
+                       placeholder="<%= t('list_management.index.string_value') %>" required maxlength="255">
+              </div>
+              <div class="input-container"
+                   ng-if="listsBase.selectedDataList.data_type === 'integer' || listsBase.selectedDataList.data_type === 'decimal'">
+                <input class="form-control" ng-model="listsBase.newItem.value" type="number"
+                       placeholder="<%= t('list_management.index.integer_value') %>" required>
+              </div>
+              <div class="input-container" ng-if="listsBase.selectedDataList.data_type === 'datetime'">
+                <input type="text" class="form-control"
+                       uib-datepicker-popup="{{vars.datepicker.format}}"
+                       is-open="vars.datepicker.popup1.opened"
+                       datepicker-options="vars.datepicker.dateOptions"
+                       ng-click="vars.datepicker.open1()"
+                       ng-model="listsBase.newItem.value"
+                       ng-model-options="{timezone:'UTC'}"
+                       placeholder="<%= t('list_management.index.datetime_value') %>"
+                       show-button-bar="false" ui-select required/>
+              </div>
+            </li>
+            <li class="grid_4 omega">
+              <button id="add_list_item" class="button" ng-if="listsBase.selectedDataList.id"
+                      ng-disabled="checkEntries()" ng-class="checkEntries() ? 'disabled' : ''"
+                      ng-click="checkEntries() || addListItem()">
+                <%= t('list_management.index.add_item') %>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="created-item" ng-class="listsBase.selectedDataList.read_only === true ? 'read_only' : ''">
+          <ul class="no-list-margin no-list-style container_24 no-margin">
+            <li dir-paginate="list_item in listsBase.listItems | itemsPerPage: listsBase.pagination.items.itemsPerPage"
+              total-items="listsBase.pagination.items.totalItems" current-page="listsBase.pagination.items.currentPage"
+                pagination-id="item" class="group" ng-if="!list_item._destroy">
+              <!-- Not read only, and not installation user -->
+              <div class="grid_10 alpha"
+                   ng-if="listsBase.selectedDataList.read_only !== true && auth.currentUser.owner_type !== 'Installation'">
+                <span required-user role="admin, rule_manager" class="list_frontend_name"
+                      editable-text="list_item.frontend_name" id="list_name{{$index}}" e-ng-change="incrementCount()">
+                    <i class="fa fa-edit"></i>
+                    {{list_item.frontend_name}}
+                </span>
+                <span required-user role="user" class="list_frontend_name"
+                      id="list_name{{$index}}" e-ng-change="incrementCount()">
+                      {{list_item.frontend_name}}
+                </span>
+              </div>
+
+              <!-- Only installation users -->
+              <div class="grid_10 alpha" ng-if="auth.currentUser.owner_type === 'Installation'">
+                    <span required-user role="admin, rule_manager" class="list_frontend_name"
+                          editable-text="list_item.frontend_name" id="list_name{{$index}}" e-ng-change="incrementCount()">
+                    <i class="fa fa-edit"></i>
+                    {{list_item.frontend_name}}
+                </span>
+              </div>
+
+              <!-- Read only, and not installation user -->
+              <div class="grid_10 alpha"
+                   ng-if="listsBase.selectedDataList.read_only === true && auth.currentUser.owner_type !== 'Installation'">
+                <span required-user role="admin, rule_manager, user" class="list_frontend_name"
+                      id="list_name{{$index}}">
+                      {{list_item.frontend_name}}
+                </span>
+              </div>
+
+              <!-- Not read only -->
+              <div class="grid_10" ng-if="listsBase.selectedDataList.read_only !== true">
+                <div required-user role="admin, rule_manager">
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        editable-date="list_item.value"
+                        ng-if="listsBase.selectedDataList.data_type === 'datetime'"
+                        e-ng-change="incrementCount()">
+                      <i class="fa fa-edit"></i>
+                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        editable-number="list_item.value"
+                        ng-if="listsBase.selectedDataList.data_type === 'integer'"
+                        e-ng-change="incrementCount()">
+                      <i class="fa fa-edit"></i>
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        editable-number="list_item.value"
+                        ng-if="listsBase.selectedDataList.data_type === 'decimal'"
+                        e-ng-change="incrementCount()">
+                      <i class="fa fa-edit"></i>
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        editable-text="list_item.value"
+                        ng-if="listsBase.selectedDataList.data_type === 'string'"
+                        e-ng-change="incrementCount()">
+                      <i class="fa fa-edit"></i>
+                      {{list_item.value}}
+                  </span>
+                </div>
+
+                <!-- Not read only from above, and not installation user -->
+                <div required-user role="user" ng-if="auth.currentUser.owner_type !== 'Installation'">
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'datetime'">
+                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'integer'">
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'decimal'">
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'string'">
+                      {{list_item.value}}
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid_4 alpha" ng-if="listsBase.selectedDataList.read_only !== true">
+                <span id="delete{{$index}}" class="delete-list-item" ng-click="deleteListItem($index)">
+                    <i class="fa fa-close "></i>&nbsp;<%= t('generic_buttons.delete') %>
+                </span>
+              </div>
+
+              <!-- Read only -->
+              <div class="grid_10 suffix_4 omega" ng-if="listsBase.selectedDataList.read_only === true">
+                <div>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'datetime'">
+                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'integer'">
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'decimal'">
+                      {{list_item.value}}
+                  </span>
+                  <span id="list_value{{$index}}" class="list_item_value"
+                        ng-if="listsBase.selectedDataList.data_type === 'string'">
+                      {{list_item.value}}
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="list-management-pagination" ng-class="listsBase.pagination.items.totalPages > 1 ? 'item-pagination' : ''">
+        <dir-pagination-controls boundary-links="true" on-page-change="changeItemsPage(newPageNumber)" max-size="6"
+                                 template-url="/templates/layouts/dirPagination.tpl.html" pagination-id="item"></dir-pagination-controls>
+      </div>
+      <div class="action-bar primary">
+        <ul>
+          <li required-user role="admin, rule_manager">
+            <a id="list-export-items" class="button" ng-if="listsBase.selectedDataList.id"
+               href="/api/list_management/{{listsBase.selectedDataList.id}}/export" target="_self">
+              <%= t('list_management.index.export_items') %>
+            </a>
+            <button id="list-import-items" class="button" ng-if="listsBase.selectedDataList.id && listsBase.selectedDataList.read_only !== true"
+                    ng-click="openItemsConfirmation()">
+              <%= t('list_management.index.import_items') %>
+            </button>
+            <!-- Only show for read only reports if logged in as God, else show for all read/write reports -->
+            <button id="list-save" class="button" type="submit" ng-if="listsBase.selectedDataList.id
+                && ((listsBase.selectedDataList.read_only && auth.currentUser.owner_type === 'Installation')
+                || (!listsBase.selectedDataList.read_only))" ng-click="saveItemList()"
+                ng-disabled="!listsBase.changeCount" ng-class="!listsBase.changeCount ? 'disabled' : ''">
+              <%= t('generic_buttons.save_update') %>
+            </button>
+          </li>
+          <li ng-if="listsBase.selectedDataList.id && (listsBase.selectedDataList.owner_type === auth.currentUser.owner_type)">
+            <button id="list-delete" class="button" ng-click="openConfirmation(listsBase.selectedDataList.id)">
+              <%= t('generic_buttons.delete') %>
+            </button>
+          </li>
+        </ul>
+        <!-- ngSwitchWhen: configuring_filter -->
+      </div>
+    </div>
+  </div>
+</div>

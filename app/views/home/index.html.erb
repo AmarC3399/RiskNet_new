@@ -2,100 +2,7 @@
 <% if user_signed_in? %> 
 
 <% end %>
-<style >
-#header-global 
-#page-navigation ul li {
-  margin-right: -4px !important;
-</style>
 
-<style >
-  #header-global #logo a {
-    
-line-height: 18px !important;
-font-size: 19px !important;
-}
-</style>
-
-<div id="header-global">
-  <div id="logo">
-    <a class="ai-icon-home-link" ui-sref="home">
-      <%= image_tag("ai-logo.svg") %>
-
-      <p class="home-link"><%= t('layouts.application.home') %></p>
-    </a>
-    <a ui-sref="select" class="app-title" style="line-height:35px !important; font-size:25px !important"><%= t('layouts.application.RiskNet Real Time') %></a>
-
-     <div id="page-navigation" ng-intro-options="introOptions" ng-intro-method="showOnboarding">
-    <ul>
-      <li id="alerts-nav-options" class="nav-link" style="line-height: 15px !important;" ng-class="{active: $state.includes('alerts')}" ng-model="tabs.alerts"
-          required-user role="admin, rule_manager, user">
-        <a><%= t('layouts.application.alerts') %></a>
-        <ul>
-          <li id="alerts-nav-options-alerts">
-            <a ui-sref="alerts"  ng-model="tabs.alerts"><%= t('layouts.application.alerts') %></a>
-          </li>
-          <li required-user role="admin">
-            <a ui-sref="batch.index" ng-model="tabs.batch"><%= t('layouts.application.batch') %></a>
-          </li>
-        </ul>
-      </li>
-      <li class="nav-link" ng-class="{active: $state.includes('rules')}" ng-model="tabs.rules"
-          required-user role="admin, rule_manager">
-        <a ui-sref="rules.index"><%= t('layouts.application.rules') %></a>
-      </li>
-      <li class="nav-link" ng-class="{active: $state.includes('statistics')}" ng-model="tabs.stats"
-          required-user role="admin, rule_manager, user">
-        <a ui-sref="statistics.index"><%= t('layouts.application.statistics') %></a>
-      </li>          
-          <li class="nav-link" required-user role="admin, rule_manager">
-        <a ui-sref="advance.index"><%= t('layouts.application.advanced') %></a>
-        <ul>
-          <li>
-            <a ui-sref="authorisations.index" ng-model="tabs.authorisations"><%= t('layouts.application.authorisations')
-              %></a>
-          </li>
-          <li required-user role="admin, rule_manager, user" level="member, client">
-            <a ui-sref="customers.index" ng-model="tabs.customers"><%= t('layouts.application.customers') %></a>
-          </li>
-          <li required-user role="admin">
-            <a ui-sref="users.index" ng-model="tabs.users"><%= t('layouts.application.user_management') %></a>
-          </li>
-          <li required-user role="admin, rule_manager, user">
-            <a ui-sref="lists.index" ng-model="tabs.listmanagement">
-              <%= t('layouts.application.list_management') %></a>
-          </li>
-          <li required-user role="admin, rule_manager, user">
-            <a ui-sref="alertOverride.index" ng-model="tabs.alertOverride">
-              <%= t('layouts.application.alert_override') %></a>
-          </li>
-        </ul>
-      </li>
-
-            <li id="help" class="settings" id="helpStart" data-container="body" class="actions pull_right"
-          ng-click="showOnboarding()" ng-model="tabs.help" required-user role="admin, rule_manager, user">
-        <div class="nav-link"><%= t('layouts.application.help') %></div>
-      </li>
-      <li id="options" class="settings" required-user role="admin, rule_manager, user">
-        <div class="nav-link"><%= t('layouts.application.options') %></div>
-        <ul id="menuOptions">
-          <li id="about"><a ui-sref="about" required-user role="admin, rule_manager, user">
-            <%= t('layouts.application.about') %></a></li>
-          <li id="reset-password"><a ng-click="resetPassword()" required-user role="admin, rule_manager, user">
-            <%= t('layouts.application.reset_password') %></a></li>
-          <li required-user role="admin">
-            <a ui-sref="settings" ng-model="tabs.settings"><%=
-              t('layouts.application.settings') %></a>
-          </li>
-          <li id="sign-out"><link ng-click="logout()" required-user role="admin, rule_manager, user"
-                                               href="#">
-            <%= button_to "Sign out", destroy_user_session_path, method: :delete %></link>
-          </li>
-
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
 <main>
   <div ui-view></div>
 </main>
@@ -113,17 +20,17 @@ font-size: 19px !important;
       <ul class="homescreen-app-buttons">
         <li><p>Favourites - Select to begin</p></li>
         <li>
-          <a ui-sref="alerts" href="http://localhost:3000/alerts/index">
+          <a ui-sref="alerts" href="<%= alerts_path(@alerts) %>">
             <button class="button">Alerts</button>
           </a>
         </li>
         <li>
-          <a ui-sref="rules" href="http://localhost:3000/rules/all">
+          <a ui-sref="rules" href="<%= rules_path(@rules) %>">
             <!-- requiredUser:  --><button class="button ng-scope" required-user="" role="admin, rule_manager"><span class="translation_missing" title="translation missing: en.application.rules">Rules</span></button><!-- end requiredRole: undefined -->
           </a>
         </li>
         <li>
-          <a ui-sref="statistics" href="http://localhost:3000/statistics">
+          <a ui-sref="statistics" href="<%= statistics_path(@statistics) %>">
             <button class="button">Statistics</button>
           </a>
         </li>

@@ -1,0 +1,122 @@
+<div id="header-container">
+  <h1 class="pull-left"><%= t('authorisations.Authorisations') %></h1>
+</div>
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="section full-screen-table with-pagination">
+    <div class="filter" ng-init="authsBase.filter.showTags = true"
+         ng-class="{'filter-active': authsBase.filter.count > 0 && authsBase.filter.showTags}">
+      <ul>
+        <li class="search-form combo-search two-filter-buttons">
+          <form>
+            <input id="auth-search" class="form-control" placeholder="<%= t('search.search') %>"
+                   ng-model="authsBase.filter.search"
+                   type="text" uib-popover="<%= t('search.search_dropdown') %>"
+                   popover-placement="bottom" popover-trigger="outsideClick"
+                   ng-keypress="($event.which === 13 ) ? !authsBase.filter.search || !authsBase.filter.search_column || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="authsBase.filter.search"></span>
+            <select id="search_column" name="search_column" ng-model="authsBase.filter.search_column" ui-select2
+                    placeholder="<%= t('search.search_within') %>" required>
+              <option value="" disabled='disabled' selected='selected'></option>
+              <option ng-repeat="option in authsBase.filter.search_columns" value="authorisations_{{::option.column}}">
+                {{::option.mapping}}
+              </option>
+            </select>
+            <div id="auth-search-submit" class="input-group-addon search-button button"
+                 ng-disabled="!authsBase.filter.search || !authsBase.filter.search_column"
+                 ng-click="!authsBase.filter.search || !authsBase.filter.search_column || loadFilters()"
+                 type="submit"><i class="fa fa-search"></i>
+            </div>
+          </form>
+        </li>
+        <li id="auth-clear-ordering" class="sorting-button">
+          <a class="button" ng-click="resetOrder()" ng-disabled="authsBase.ordering.orderString === ''"><i
+            class="fa fa-unsorted"></i></a>
+        </li>
+        <li id="auth-filter" class="filter-button">
+          <a class="button" data-badge="{{authsBase.filter.count}}"
+             ng-click="toggleSidebar('authsBase', authsBase.filter.sideBar);authsBase.filter.showTags = true"
+             title="<%= t('generic_buttons.filter') %>">
+            <i class="fa fa-filter"></i></a>
+        </li>
+      </ul>
+      <ul class="filter-list" tag-overflow>
+        <li ng-repeat="(filterName, filterValue) in authsBase.filter.sideBar"
+            ng-if="filterValue != null && authsBase.filter.showTags"
+            class="filter-tag alert alert-success text-capitalise micro-text">
+          <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
+          {{filterValue | filterTag:levels:filterName }}
+          <button class="close" ng-click="removeFilterTag(filterName, 'authsBase', authsBase.filter)">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </button>
+        </li>
+      </ul>
+      <a id="hideFilterTags" class="fa fa-angle-double-up"
+         ng-click="authsBase.filter.showTags = !authsBase.filter.showTags"></a>
+    </div>
+    <div id="auth-table" class="content-panel"
+         ng-style="{top: authsBase.filter.count > 0 && authsBase.filter.showTags ? '86px' : '48px'}">
+      <div class="table-wrapper" style="width:3000px;" loading urls="/authorisations/all">
+        <multi-select selected="authsBase.selectedAuths" key="authorisation" selected-all="authsBase.selectAllAuths">
+          <table float-thead="vars.floatTheadOptions" class="striped lined" ng-model="authsBase.allAuths">
+            <thead>
+            <tr>
+              <th ng-repeat="item in authsBase.authObj.schema" id="{{item.column}}"
+               ng-click="authsBase.ordering.orderStates[item.column] = !authsBase.ordering.orderStates[item.column]; loadOrder(item.column, authsBase.ordering.orderStates[item.column]); hidden = !hidden">
+                <span>{{item.mapping}}</span>
+
+                <div class="sorting">
+                  <span class="sort-order" ng-if="authsBase.ordering.values[item.column]">
+                    {{authsBase.ordering.values[item.column]}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': authsBase.ordering.orderStates[item.column], 'glyphicon glyphicon-triangle-bottom': !authsBase.ordering.orderStates[item.column]}"></div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="{{$index}}" ng-class="(authorisation.latest_fraud.fraud_status === 1) ? 'highlight-red' : ''"
+                bindonce
+                dir-paginate="authorisation in authsBase.allAuths | itemsPerPage: authsBase.pagination.authsPerPage"
+                total-items="authsBase.pagination.totalAuths" current-page="authsBase.pagination.currentPage">
+              <td ng-repeat="item in authsBase.authObj.schema">
+                <span ng-if="!checkDateColumns(item)">{{authorisation[item.column]}}</span>
+                <span ng-if="checkDateColumns(item)">{{authorisation[item.column] | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+              </td>
+            </tr>
+            <tr ng-if="authsBase.allAuths.length < 1">
+              <td colspan=119><%= t('search.no_results') %></td>
+            </tr>
+            </tbody>
+          </table>
+        </multi-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-page-pagination">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
+    authsBase.display.from }} - {{ authsBase.display.to }} <%= t('pagination.of') %> {{
+    authsBase.pagination.totalAuths }}
+  </div>
+  <div class="action-bar primary">
+    <ul>
+      <li>
+        <a id="mark" ng-click="checkSelection() === false || checkState() === 1 || openConfirmation('mark')"
+           class="button" ng-disabled="checkSelection() === false || checkState() === 1"
+           ng-class="checkSelection() === false || checkState() === true ? 'disabled' : ''"><%=
+          t('authorisations.mark')%></a>
+      </li>
+      <li>
+        <a id="unmark" ng-click="checkSelection() === false || checkState() === 0 || openConfirmation('unmark')"
+           class="button" ng-disabled="checkSelection() === false || checkState() === 0"
+           ng-class="checkSelection() === false || checkState() === false ? 'disabled' : ''"><%=
+          t('authorisations.unmark') %></a>
+      </li>
+    </ul>
+  </div>
+</div>

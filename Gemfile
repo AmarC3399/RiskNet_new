@@ -178,3 +178,5 @@ end
 gem 'public_suffix', '~> 5.0.1'
 gem 'parallel_tests', '~> 4.2.0'
  gem 'webpacker'
+gem "hotwire-rails", "~> 0.1.3"
+gem 'importmap-rails'

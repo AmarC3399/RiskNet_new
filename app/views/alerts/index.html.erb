@@ -2,7 +2,7 @@
   <button class="workspace-button" ng-click="alertBase.alertVisible = !alertBase.alertVisible" title="<%= t('alerts.index.toggle_workspace_mode') %>"></button>
   <div id="sidebar" class="sidebar-left">
     <div class="header-content">
-      <h2><%= t('alerts.index.title') %></h2>
+      <h2><%= t('alerts.index.Alerts') %></h2>
     </div>
     <div ui-view="alert-menu" id="alert-menu"></div>
   </div>
@@ -22,10 +22,10 @@
   </div>
   <div id="page-footer" ng-controller="AlertStatsCtrl" ng-if="alertBase.alertVisible">
     <ul>
-      <li id="user"><p><%= t('alerts.index.user') %>: {{alertStatsBase.currentUser}}</p></li>
+      <li id="user"><p><%= t('alerts.index.user') %>: {{Current User: <%= current_user.email %>}}</p></li>
       <li id="alerts-pending"><p><%= t('alerts.index.allocated_pending') %>: {{alertStatsBase.alertsPending}}</p></li>
       <li id="alerts-examined"><p><%= t('alerts.index.examined') %>: {{alertStatsBase.alertsCompleted}}</p></li>
-      <li id="alerts-total"><p><%= t('alerts.index.total') %>: {{alertStatsBase.alertsTotal}}</p></li>
+    <li id="alerts-total"><p><%= t('alerts.index.total') %>: {{alertStatsBase.alertsTotal}}</p></li>
       <li><p>{{time | date:'dd/MM/yyyy'}}&nbsp;{{time | date:'HH:mm'}}</p></li>
     </ul>
   </div>

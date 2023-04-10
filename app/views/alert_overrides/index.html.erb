@@ -1,0 +1,126 @@
+<div id="header-container">
+  <h1 class="pull-left">Alert Override</h1>
+
+  <div class="pull-right" style="margin:20px;">
+    <a id="alert-override-new" class="button" href="/alertoverrides/new" required-user role="admin, rule_manager, user">
+      <%= t('alert_override.index.new_alert_override') %></a>
+  </div>
+</div>
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="section full-screen-table with-pagination">
+    <div class="filter" ng-init="alertOverridesBase.filter.showTags = true"
+         ng-class="{'filter-active': alertOverridesBase.filter.count > 0 && alertOverridesBase.filter.showTags}">
+      <ul>
+        <li class="search-form">
+          <form>
+            <input id="alert-override-search" class="form-control" placeholder="<%= t('search.search') %>"
+                   ng-model="alertOverridesBase.filter.search" ng-change="alertOverridesBase.filter.searchUpdate=true"
+                   type="text" uib-popover="<%= t('alert_override.index.tooltip') %>"
+                   popover-placement="bottom" popover-trigger="outsideClick"
+                   ng-keypress="($event.which === 13 ) ? !alertOverridesBase.filter.searchUpdate || loadFilters():0">
+
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="alertOverridesBase.filter.search"></span>
+
+            <div id="alert-override-search-submit" class="input-group-addon search-button button"
+                 ng-disabled="!alertOverridesBase.filter.searchUpdate"
+                 ng-click="!alertOverridesBase.filter.searchUpdate || loadFilters()" type="submit">
+              <i class="fa fa-search"></i>
+            </div>
+          </form>
+        </li>
+        <li id="alert-override-filter" class="filter-button">
+          <a class="button" data-badge="{{alertOverridesBase.filter.count}}"
+             ng-click="toggleSidebar('alertOverridesBase', alertOverridesBase.filter.sideBar);alertOverridesBase.filter.showTags = true"
+             title="<%= t('generic_buttons.filter') %>">
+            <i class="fa fa-filter"></i></a>
+        </li>
+      </ul>
+      <ul class="filter-list" tag-overflow>
+        <li ng-repeat="(filterName, filterValue) in alertOverridesBase.filter.sideBar"
+            ng-if="filterValue != null && alertOverridesBase.filter.showTags"
+            class="filter-tag alert alert-success text-capitalise micro-text">
+          <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
+          {{filterValue | filterTag:levels:filterName }}
+          <button class="close" ng-click="removeFilterTag(filterName, 'alertOverridesBase', alertOverridesBase.filter)">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </button>
+        </li>
+      </ul>
+      <a id="hideFilterTags" class="fa fa-angle-double-up"
+         ng-click="alertOverridesBase.filter.showTags = !alertOverridesBase.filter.showTags"></a>
+    </div>
+    <div id="alert-override-table" class="content-panel" style="width:100%;"
+         ng-style="{top: alertOverridesBase.filter.count > 0 && alertOverridesBase.filter.showTags ? '86px' : '48px'}">
+      <div class="table-wrapper" style="width:3000px;" loading urls="/alertoverrides">
+        <multi-select selected="alertOverridesBase.selectedAlertOverrides" key="alertOverride"
+                      selected-all="alertOverridesBase.selectAllAlertOverrides">
+          <table float-thead="vars.floatTheadOptions" class="striped lined"
+                 ng-model="alertOverridesBase.alertOverrides">
+            <thead>
+            <tr>
+              <th><%= t('alert_override.index.card_number') %></th>
+              <th><%= t('alert_override.index.type') %></th>
+              <th><%= t('alert_override.index.override_start_time') %></th>
+              <th><%= t('alert_override.index.override_expiry_time') %></th>
+              <th><%= t('alert_override.index.initiated_by') %></th>
+              <th><%= t('alert_override.index.rule_id') %></th>
+              <th><%= t('alert_override.index.rule_desc') %></th>
+              <th><%= t('alert_override.index.owner_level') %></th>
+              <th><%= t('alert_override.index.owner') %></th>
+              <th><%= t('alert_override.index.notes') %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+              dir-paginate="alertOverride in alertOverridesBase.alertOverrides | itemsPerPage: alertOverridesBase.pagination.alertOverridesPerPage"
+              id="alert_override{{$index}}" bindonce
+              total-items="alertOverridesBase.pagination.totalAlertOverrides"
+              current-page="alertOverridesBase.pagination.currentPage">
+              <td id="card_number{{$index}}" bo-text="alertOverride.card_number"></td>
+              <td id="type{{$index}}" bo-text="alertOverride.type | capitalise"></td>
+              <td id="start_time{{$index}}">{{alertOverride.start_time | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td id="expiry_time{{$index}}">{{alertOverride.end_time | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td id="initiated_by{{$index}}" bo-text="alertOverride.initiated_by"></td>
+              <td id="rule_id{{$index}}" bo-text="alertOverride.rule_id"></td>
+              <td id="rule_name{{$index}}" bo-text="alertOverride.rule_name"></td>
+              <td id="owner_level{{$index}}">{{alertOverride.owner_type | convertToFELevels}}</td>
+              <td id="owner{{$index}}">{{alertOverride.owner}}</td>
+              <td id="notes{{$index}}">{{alertOverride.comment}}</td>
+            </tr>
+            <tr ng-if="alertOverridesBase.alertOverrides.length < 1">
+              <td colspan=10><%= t('search.no_results') %></td>
+            </tr>
+            </tbody>
+          </table>
+        </multi-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-page-pagination">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
+    alertOverridesBase.display.from }} - {{ alertOverridesBase.display.to }} <%= t('pagination.of') %> {{
+    alertOverridesBase.pagination.totalAlertOverrides }}
+  </div>
+  <div class="action-bar primary">
+    <ul>
+      <li>
+        <a id="alert-override-edit" ng-click="(checkOneSelected() === false ? $event.preventDefault() : '')"
+           href="/alertoverrides/{{alertOverridesBase.selectedAlertOverride.id}}" required-user
+           role="admin, rule_manager, user"
+           class="button" ng-disabled="checkOneSelected() === false"
+           ng-class="checkOneSelected() === false ? 'disabled' : ''"><%= t('alert_override.index.edit')%></a>
+      </li>
+      <li>
+        <a id="alert-override-deactivate" ng-click="checkSelection() === false || openConfirmation('deactivate')"
+           required-user role="admin, rule_manager, user" class="button"
+           ng-disabled="checkSelection() === false" ng-class="checkSelection() === false ? 'disabled' : ''"><%=
+          t('alert_override.index.deactivate')%></a>
+      </li>
+    </ul>
+  </div>
+</div>

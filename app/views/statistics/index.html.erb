@@ -1,5 +1,24 @@
+<style type="text/css">
+  body {
+    background-image: none !important;
+  }
+
+   #header-container {
+   margin-top: 0px !important;
+}
+
+#header-global #page-navigation ul li.settings ul {
+    background: #4B5561;
+    position: relative !important;
+    overflow: visible !important;
+    display: block !important;
+    z-index: 77 !important;
+    margin-top: -48px !important;
+}
+</style>
+   
 <div id="header-container">
-  <h1 class="pull-left"><%= t('statistics.index.title') %></h1>
+  <h1 class="pull-left">Statistics</h1>
 
   <div class="pull-right" style="margin:20px;">
     <a id="stat-new" class="button" href="/statistics/new" ng-click="resetAll()" required-user role="rule_manager"

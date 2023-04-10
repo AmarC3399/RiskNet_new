@@ -1,69 +1,97 @@
-Rails.application.routes.draw do
-  get 'users/index'
-  get 'users/forwardable'
-  get 'users/verify_user'
-  get 'users/show'
-  get 'users/create'
-  get 'users/update'
-  get 'users/block'
-  get 'users/unblock'
-  get 'users/update_password'
-  get 'users/installations'
-  get 'users/members'
-  get 'users/clients'
-  get 'users/merchants'
-  get 'users/report_users'
-  get 'alert_overrides/index'
-  get 'alert_overrides/show'
-  get 'alert_overrides/create'
-  get 'alert_overrides/update'
-  get 'alert_overrides/deactivate'
-  get 'alert_overrides/send_args'
-  get 'alert_overrides/this_param'
-  get 'statistic_timeframes/index'
-  get 'statistics_operations/index'
-  get 'rule_schedules/show'
-  get 'rule_schedules/create'
-  get 'rule_schedules/edit'
-  get 'rule_schedules/disable'
-  get 'rule_schedules/resources'
-  get 'statistics/index'
-  get 'statistics/list'
-  get 'statistics/show'
-  get 'statistics/create'
-  get 'statistics/disable'
-  get 'rules/all'
-  get 'rules/show'
-  get 'rules/create'
-  get 'rules/update'
-  get 'rules/destroy'
-  get 'rules/disable'
-  get 'rules/activate'
-  get 'rules/deactivate'
-  get 'rules/live'
-  get 'rules/authorisation_ids'
-  get 'alerts/index'
-  get 'alerts/batch_alerts'
-  get 'alerts/show'
-  get 'alerts/allocated_commnets'
-  get 'alerts/update'
-  get 'alerts/batch_update'
- # get 'login/index'
+Rails.application.routes.draw  do 
+
+  devise_for :user
+    root to: "home#index" 
+
+    devise_scope :user do
+      get '/sign-in' => "devise/sessions#new", :as => :login
+      delete "sign_out", to: "sessions#destroy"
+    end
+
+  get "/users", to: "users#index"
+  get "/users", to: "users#forwardable"
+  get "/users", to: "users#verify_user"
+  get "/users", to: "users#show"
+  get "/users", to: "users#create"
+  get "/users", to: "users#update"
+  get "/users", to: "users#block"
+  get "/users", to: "users#unblock"
+  get "/users", to: "users#update_password"
+  get "/users", to: "users#installations"
+  get "/users", to: "users#members"
+  get "/users", to: "users#clients"
+  get "/users", to: "users#merchants"
+  get "/users", to: "users#report_users"
+
+  get "/alert_overrides", to: "alert_overrides#index"
+  get "/alert_overrides", to: "alert_overrides#show"
+  get "/alert_overrides", to: "alert_overrides#create"
+  get "/alert_overrides", to: "alert_overrides#update"
+  get "/alert_overrides", to: "alert_overrides#deactivate"
+  get "/alert_overrides", to: "alert_overrides#send_args"
+  get "/alert_overrides", to: "alert_overrides#this_param"
+
+   get "/alerts", to: "alerts#index"
+   get "/alerts", to: "alerts#batch_alerts"
+   get "/alerts", to: "alerts#show"
+   get "/alerts", to: "alerts#allocated_comments"
+   get "/alerts", to: "alerts#update"
+   get "/alerts", to: "alerts#batch_update"
+
+   get "/authorisations", to: "authorisations#index"
+   get "/authorisations", to: "authorisations#all"
+   get "/authorisations", to: "authorisations#mark"
+   get "/authorisations", to: "authorisations#unmark"
+   get "/authorisations", to: "authorisations#unused_fields"
+   get "/authorisations", to: "authorisations#used_fields"
+
+   get "/batch", to: "batch#index"
+
+   get "/customers", to: "customers#index"
+  
+  get "/statistic_timeframes", to: "statistic_timeframes#index"  
+
+  get "/statistics_operations", to: "statistics_operations#index"
+ 
+  get "/rule_schedules", to: "rule_schedules#show"
+  get "/rule_schedules", to: "rule_schedules#create"
+  get "/rule_schedules", to: "rule_schedules#edit"
+  get "/rule_schedules", to: "rule_schedules#disable"
+  get "/rule_schedules", to: "rule_schedules#resources"
+  
+  get "/statistics", to: "statistics#index"
+  get "/statistics", to: "statistics#list"
+  get "/statistics", to: "statistics#show"
+  get "/statistics", to: "statistics#create"
+  get "/statistics", to: "statistics#disable"
+
+  get "/list_management", to: "list_management#index"
+  get "/list_management", to: "list_management#show"
+  get "/list_management", to: "list_management#update"
+  get "/list_management", to: "list_management#import"
+  get "/list_management", to: "list_management#export"
+  get "/list_management", to: "list_management#disable"
+  get "/list_management", to: "list_management#dropdown_list"
+
+      
+ get "/rules", to: "rules#all"
+ get "/rules", to: "rules#show"
+ get "/rules", to: "rules#create"
+ get "/rules", to: "rules#update"
+ get "/rules", to: "rules#disable"
+ get "/rules", to: "rules#activate"
+ get "/rules", to: "rules#deactivate"
+ get "/rules", to: "rules#live"
+ get "/rules", to: "rules#authorisation_ids"
+
+
+
+get "/about", to: "about#index"  
+
+get "/settings", to: "settings#index"
+
+ get "reset_password", to: "reset_password#index"
 
   
-
-  devise_for :users
-
-  root to: "home#index" 
-
-  devise_scope :user do
-  get '/sign-in' => "devise/sessions#new", :as => :login
   
-end
-  #get "/alerts", to: "alerts#index"
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end

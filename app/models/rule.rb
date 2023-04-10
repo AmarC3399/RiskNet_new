@@ -30,7 +30,7 @@
 
 class Rule < ApplicationRecord
 
-  schema_validations unless Rails.env.test?
+  # schema_validations unless Rails.env.test?
 
   include Broadcastable
   include Filter
