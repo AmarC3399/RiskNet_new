@@ -4,7 +4,7 @@
   }
 
    #header-container {
-   margin-top: 0px !important;
+   margin-top: -34px !important;
 }
 
 #header-global #page-navigation ul li.settings ul {
@@ -21,9 +21,9 @@
   <h1 class="pull-left">Statistics</h1>
 
   <div class="pull-right" style="margin:20px;">
-    <a id="stat-new" class="button" href="/statistics/new" ng-click="resetAll()" required-user role="rule_manager"
+    <!-- <a id="stat-new" class="button" href="/statistics/new" ng-click="resetAll()" required-user role="rule_manager"
        level="member">
-      <%= t('statistics.index.new_statistic') %>
+       <%= t('statistics.index.new_statistic') %> -->
     </a>
   </div>
 </div>
@@ -42,7 +42,7 @@
                        type="text" uib-popover="<%= t('statistics.index.tooltip') %>"
                        popover-placement="bottom" popover-trigger="outsideClick"
                        ng-keypress="($event.which === 13 ) ? !statsBase.filter.searchUpdate || loadFilters():0">
-                <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                <span id="search-clear" search="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
                       ng-if="statsBase.filter.search"></span>
                 <div id="stat-search-submit" class="input-group-addon search-button button" ng-disabled="!statsBase.filter.searchUpdate"
                      ng-click="!statsBase.filter.searchUpdate || loadFilters()" type="submit"><i
@@ -228,12 +228,12 @@
   </div>
 </div>
 <div class="action-bar primary">
-  <ul>
+ <!--  <ul>
     <li>
       <a id="stat-delete" ng-click="checkSelection() === false || openConfirmation('disable')" required-user
          role="rule_manager" level="member" class="button" ng-disabled="checkSelection() === false"
          ng-class="checkSelection() === false ? 'disabled' : ''"><%=t('generic_buttons.delete')%></a>
     </li>
-  </ul>
+  </ul> -->
 </div>
 

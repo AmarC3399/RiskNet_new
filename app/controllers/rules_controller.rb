@@ -1,36 +1,36 @@
 class RulesController < ApplicationController
-  authorize_actions_for Rule, actions: {all: :read,
-    activate: :update,
-    deactivate: :update,
-    disable: :delete,
-    live: :update,
-    authorisation_ids: :read,
-    show: :read,
-    create: :create
-  }
-  before_action :set_rule, only: [:show, :update, :destroy, :authorisation_ids]
+  # authorize_actions_for Rule, actions: {all: :read,
+  #   activate: :update,
+  #   deactivate: :update,
+  #   disable: :delete,
+  #   live: :update,
+  #   authorisation_ids: :read,
+  #   show: :read,
+  #   create: :create
+  # }
+  # before_action :set_rule, only: [:show, :update, :destroy, :authorisation_ids]
   
-  def all
-     calc_limit = 16
-    calc_offset = ([params[:page].to_i.abs, 1].max - 1) * calc_limit
-    calc_order = Rule.process_order_params(params)
+  # def all
+  #    calc_limit = 16
+  #   calc_offset = ([params[:page].to_i.abs, 1].max - 1) * calc_limit
+  #   calc_order = Rule.process_order_params(params)
     
     
-    @rules = RuleAuthorizer::Scope.new(current_user, Rule).resolve.includes(:criteria, :owner)
-                .boolean_filter(params[:type], :active)
-                .date_filter(params[:start_date], params[:end_date], :created_at)
-                .search(params[:search], "rules.internal_code", :priority, :description)
-                .filter_by_owner(params[:only_mine] ? params.merge(user: current_user) : params)
-                .order(calc_order.empty? ? "rules.updated_at DESC" : calc_order)
-                .limit(calc_limit)
-                .offset(calc_offset || 0)
-    # puts @rules.to_sql
-    total_items = @rules.except(:limit, :offset).count
+  #   @rules = RuleAuthorizer::Scope.new(current_user, Rule).resolve.includes(:criteria, :owner)
+  #               .boolean_filter(params[:type], :active)
+  #               .date_filter(params[:start_date], params[:end_date], :created_at)
+  #               .search(params[:search], "rules.internal_code", :priority, :description)
+  #               .filter_by_owner(params[:only_mine] ? params.merge(user: current_user) : params)
+  #               .order(calc_order.empty? ? "rules.updated_at DESC" : calc_order)
+  #               .limit(calc_limit)
+  #               .offset(calc_offset || 0)
+  #   # puts @rules.to_sql
+  #   total_items = @rules.except(:limit, :offset).count
     
-    # render json: { rules: @rules.as_json(root: false), criteria: {original: true}, meta: { total: total_items, itemsPerPage: calc_limit, totalPages: (total_items / calc_limit), currentPage: params[:page].to_i}}.as_json
-    render json: @rules, criteria: {original: true}, root: 'rules', meta: page_meta_info(total_items, calc_limit, params[:page])
-    # render json: @rules, include: [{criteria: {original: true}}], root: false
-  end
+  #   # render json: { rules: @rules.as_json(root: false), criteria: {original: true}, meta: { total: total_items, itemsPerPage: calc_limit, totalPages: (total_items / calc_limit), currentPage: params[:page].to_i}}.as_json
+  #   render json: @rules, criteria: {original: true}, root: 'rules', meta: page_meta_info(total_items, calc_limit, params[:page])
+  #   # render json: @rules, include: [{criteria: {original: true}}], root: false
+  # end
 
   def show
      authorize_action_for @rule
