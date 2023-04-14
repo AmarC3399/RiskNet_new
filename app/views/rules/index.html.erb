@@ -1,0 +1,308 @@
+<div id="header-container">
+  <h1 class="pull-left">Rules</h1>
+  <div class="pull-right" style="margin:20px;">
+    <!--<a id="grid-list-icon" class="button" ng-if="rulesBase.layout === 'list'" ng-click="toggleGridListView('grid')">-->
+      <!--<i class="fa fa-th"></i>-->
+    <!--</a>-->
+    <!--<a id="grid-list-icon" class="button" ng-if="rulesBase.layout === 'grid'" ng-click="toggleGridListView('list')">-->
+      <!--<i class="fa fa-list-ul"></i>-->
+    <!--</a>-->
+    <a id="rule-new" class="button" href="/rules/new" ng-click="resetAll()" required-user role="rule_manager"><%=
+      t('rules.index.new_rule') %></a>
+  </div>
+</div>
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="section full-screen-table with-pagination">
+    <div class="filter" id="rules-filter" ng-init="rulesBase.filter.showTags = true"
+         ng-class="{'filter-active': rulesBase.filter.count > 0 && rulesBase.filter.showTags}">
+      <ul>
+        <li class="search-form two-filter-buttons">
+          <form>
+            <input id="rule-search" class="form-control" placeholder="<%= t('search.search') %>"
+                   ng-model="rulesBase.filter.search" ng-change="rulesBase.filter.searchUpdate=true"
+                   type="text" uib-popover="<%= t('rules.index.tooltip') %>"
+                   popover-placement="bottom" popover-trigger="outsideClick"
+                   ng-keypress="($event.which === 13 ) ? !rulesBase.filter.searchUpdate || loadFilters():0">
+            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
+                  ng-if="rulesBase.filter.search"></span>
+            <div id="rules-search-submit" class="input-group-addon search-button button" ng-disabled="!rulesBase.filter.searchUpdate"
+                 ng-click="!rulesBase.filter.searchUpdate || loadFilters()" type="submit"><i
+              class="fa fa-search"></i>
+            </div>
+          </form>
+        </li>
+        </li>
+        <li id="rule-clear-ordering" class="sorting-button">
+          <a class="button" ng-click="resetOrder()" ng-disabled="rulesBase.ordering.orderString === ''"><i
+            class="fa fa-unsorted"></i></a>
+        </li>
+        <li id="rule-filter" class="filter-button">
+          <a class="button" data-badge="{{rulesBase.filter.count}}"
+             ng-click="toggleSidebar('rulesBase', rulesBase.filter.sideBar);rulesBase.filter.showTags = true"
+             title="<%= t('generic_buttons.filter') %>">
+            <i class="fa fa-filter"></i></a>
+        </li>
+      </ul>
+      <ul class="filter-list">
+        <li ng-repeat="(filterName, filterValue) in rulesBase.filter.sideBar"
+            ng-if="filterValue != null && rulesBase.filter.showTags"
+            class="filter-tag alert alert-success text-capitalise micro-text">
+          <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
+          {{filterValue | filterTag:levels:filterName }}
+          <button class="close" ng-click="removeFilterTag(filterName, 'rulesBase', rulesBase.filter)">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </button>
+        </li>
+      </ul>
+      <a id="hideFilterTags" class="fa fa-angle-double-up"
+         ng-click="rulesBase.filter.showTags = !rulesBase.filter.showTags"></a>
+    </div>
+    <div loading urls="/rules">
+      <div id="rules-contents" class="content-panel rules-contents-grid" ng-if="rulesBase.layout === 'grid'" style="width:100%;"
+           ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
+        <div class="table-wrapper">
+          <ul id="rules-grid" class="no-list-style no-list-padding" bindonce>
+            <li dir-paginate="rule in rulesBase.allRules | itemsPerPage: rulesBase.pagination.rulesPerPage"
+                total-items="rulesBase.pagination.totalRules"
+                current-page="rulesBase.pagination.currentPage"
+                ng-class="(rule.active === true) ? 'active' : ''" id="rule_item{{$index}}">
+              <div ng-class="chartFactory.testCheck(rule.outcome)"></div>
+              <div class="pie-chart-canvas">
+                <canvas id="chart-area1" width="25" height="25" class="chart chart-doughnut"
+                        chart-data="chartFactory.setDoughnutData(rule.priority)"
+                        chart-labels="rulesBase.doughnut.labels"
+                        chart-options="rulesBase.doughnut.options"
+                        chart-colours="chartFactory.setDoughnutColour(rule.outcome)">
+                </canvas>
+                <p bo-text="rule.priority"></p>
+              </div>
+              <ul class="rule-details">
+                <li>
+                  <p><b bo-text="rule.internal_code" bo-title="rule.internal_code"></b></p>
+                </li>
+                <li class="micro-text">
+                  <p class="label"><%= t('rules.index.owner_type')%></p>
+                  <p bo-text="rule.owner_type | convertToFELevels"></p>
+                  <p ng-if="!rule.owner_type"><%= t('rules.index.owner_not_found')%></p>
+                </li>
+                <li class="micro-text">
+                  <p class="label"><%= t('rules.index.created')%></p>
+                  <p bo-text="rule.created_at | date:'dd/MM/yyyy HH:mm:ss'"></p>
+                  <p ng-if="!rule.created_at"><%= t('rules.index.date_not_found')%></p>
+                </li>
+              </ul>
+
+              <span ng-if="rule.schedule" id="rule-schedule-icon" class="glyphicon glyphicon-time"
+                    title="A schedule is applied to this rule">
+              </span>
+
+              <div class="rule-criteria">
+                <ol class="no-list-style no-list-padding">
+                  <li class="micro-text" ng-repeat="criteria in rule.criteria">
+                    <p>{{criteria.description}}</p>
+                  </li>
+                  <li ng-if="rulesBase.allRules.length<1"><%= t('search.no_results')%></li>
+                </ol>
+              </div>
+              <div class="action-bar secondary">
+                <input type="checkbox" id="rule{{$index}}" class="checkbox large-checkbox pull_left" name="rule[]"
+                       value="rule.id"
+                       ng-model="rulesBase.selectedRules[$index]" ng-true-value="{{rule.id}}"
+                       ng-change="changeState(rule)" required-user role="admin, rule_manager">
+                <label for="rule{{$index}}" class="checkbox-label large-checkbox-label"></label>
+                <ul>
+                  <li>
+                    <a id="grid_more{{$index}}" class="button secondary" href="/rules/{{rule.id}}"
+                       title="<%= t('generic_buttons.details') %>">
+                      <i class="fa fa-expand"></i></a>
+                  </li>
+                  <li>
+                    <a id="grid_edit{{$index}}" class="button secondary" href="/rules/{{rule.id}}/edit"
+                       ng-click="setAction('edit')" required-user role="rule_manager"
+                       title="<%= t('rules.index.edit') %>"><i class="fa fa-edit"></i></a>
+                  </li>
+                  <li>
+                    <a id="grid_clone{{$index}}" class="button secondary" href="/rules/{{rule.id}}/clone"
+                       ng-click="setAction('clone')" required-user role="rule_manager"
+                       title="<%= t('rules.index.clone') %>"><i class="fa fa-clone"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <div ng-if="rulesBase.allRules.length<1" style="padding-left:5px;">
+            <%= t('search.no_results') %>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div id="rules-contents" class="content-panel rules-contents-list" ng-if="rulesBase.layout === 'list'" style="width:100%;"
+           ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
+        <multi-select selected="rulesBase.selectedRules" key="rulelist" selected-all="rulesBase.selectAllRules">
+          <table id="rules_list" float-thead="vars.floatTheadOptions" ng-model="rulesBase.allRules" class="lined" bindonce>
+            <thead>
+            <tr ng-if="rulesBase.allRules.length>=1">
+              <th style="width:54px;">
+                <span><%= t('rules.index.details') %></span>
+              </th>
+              <th id="internal_code"
+                  ng-click="rulesBase.ordering.orderStates.internal_code_order = !rulesBase.ordering.orderStates.internal_code_order; loadOrder('internal_code', rulesBase.ordering.orderStates.internal_code_order); hidden = !hidden">
+                <span><%= t('rules.index.rule_id') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.internal_code">
+                    {{rulesBase.ordering.values.internal_code}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top':  rulesBase.ordering.orderStates.internal_code_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.internal_code_order}"></div>
+                </div>
+              </th>
+              <th id="created_at"
+                  ng-click="rulesBase.ordering.orderStates.created_at_order = !rulesBase.ordering.orderStates.created_at_order; loadOrder('created_at', rulesBase.ordering.orderStates.created_at_order); hidden = !hidden">
+                <span><%= t('rules.index.created_at') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.created_at">
+                    {{rulesBase.ordering.values.created_at}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top':rulesBase.ordering.orderStates.created_at_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.created_at_order}"></div>
+                </div>
+              </th>
+              <th id="owner_type"
+                  ng-click="rulesBase.ordering.orderStates.owner_type_order = !rulesBase.ordering.orderStates.owner_type_order; loadOrder('owner_type', rulesBase.ordering.orderStates.owner_type_order); hidden = !hidden">
+                <span><%= t('rules.index.owner_type') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.owner_type">
+                    {{rulesBase.ordering.values.owner_type}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.owner_type_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.owner_type_order}"></div>
+                </div>
+              </th>
+              <th id="scope"
+                  ng-click="rulesBase.ordering.orderStates.evaluation_type_order = !rulesBase.ordering.orderStates.evaluation_type_order; loadOrder('evaluation_type', rulesBase.ordering.orderStates.evaluation_type_order); hidden = !hidden">
+                <span><%= t('rules.index.scope') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.evaluation_type">
+                    {{rulesBase.ordering.values.evaluation_type}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.evaluation_type_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.evaluation_type_order}"></div>
+                </div>
+              </th>
+              <th id="applies_to"
+                  ng-click="rulesBase.ordering.orderStates.rule_evaluation_type_order = !rulesBase.ordering.orderStates.rule_evaluation_type_order; loadOrder('rule_evaluation_type', rulesBase.ordering.orderStates.rule_evaluation_type_order); hidden = !hidden">
+                <span><%= t('rules.index.applies_to') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.rule_evaluation_type">
+                    {{rulesBase.ordering.values.rule_evaluation_type}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.rule_evaluation_type_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.rule_evaluation_type_order}"></div>
+                </div>
+              </th>
+              <th id="priority"
+                  ng-click="rulesBase.ordering.orderStates.priority_order = !rulesBase.ordering.orderStates.priority_order; loadOrder('priority', rulesBase.ordering.orderStates.priority_order); hidden = !hidden">
+                <span><%= t('rules.index.priority') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.priority">
+                    {{rulesBase.ordering.values.priority}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.priority_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.priority_order}"></div>
+                </div>
+              </th>
+              <th id="outcome"
+                  ng-click="rulesBase.ordering.orderStates.outcome_order = !rulesBase.ordering.orderStates.outcome_order; loadOrder('outcome', rulesBase.ordering.orderStates.outcome_order); hidden = !hidden">
+                <span><%= t('rules.index.outcome') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.outcome">
+                    {{rulesBase.index.outcome}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.outcome_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.outcome_order}"></div>
+                </div>
+              </th>
+              <th id="simulation" style="width: 100px;"
+                  ng-click="rulesBase.ordering.orderStates.simulation_order = !rulesBase.ordering.orderStates.simulation_order; loadOrder('simulation', rulesBase.ordering.orderStates.simulation_order); hidden = !hidden">
+                <span><%= t('rules.index.simulation') %></span>
+                <div class="sorting">
+                  <span class="sort-order" ng-if="rulesBase.ordering.values.simulation">
+                    {{rulesBase.ordering.values.simulation}}
+                  </span>
+                  <div class="inverted-arrows"
+                       ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.simulation_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.simulation_order}"></div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="ruleList{{$index}}" ng-repeat="rulelist in rulesBase.allRules"
+                ng-class="(rulelist.active !== true) ? 'inactive-rule' : 'rule-active'">
+              <td><a class="button secondary" href="/rules/{{rulelist.id}}"><i
+                class="fa fa-expand"></i></a></td>
+              <td id="internal_code{{$index}}">{{rulelist.internal_code}}</td>
+              <td id="created_at{{$index}}" bo-text="rulelist.created_at | date:'dd/MM/yyyy HH:mm'"></td>
+              <td id="owner_type{{$index}}" bo-text="rulelist.owner_type | convertToFELevels"></td>
+              <td id="evaluation_type{{$index}}">{{rulelist.evaluation_type}}</td>
+              <td id="rule_evaluation_type{{$index}}">{{rulelist.rule_evaluation_type}}</td>
+              <td id="priority{{$index}}">{{rulelist.priority}}</td>
+              <td id="outcome{{$index}}">{{rulelist.outcome | capitalise | challengeToReview}}</td>
+              <td id="simulation{{$index}}" class="center">
+                <i class="fa fa-check" ng-if="rulelist.simulation"></i>
+                <i class="fa fa-close" ng-if="!rulelist.simulation"></i>
+              </td>
+            </tr>
+            <tr ng-if="rulesBase.allRules.length<1">
+              <td id ="no-results" colspan="12"><%= t('search.no_results') %></td>
+            </tr>
+            </tbody>
+          </table>
+        </multi-select>
+      </div>
+    </div>
+  </div>
+  <div class="full-page-pagination">
+    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
+                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
+    rulesBase.display.from }} - {{ rulesBase.display.to }} <%= t('pagination.of') %> {{
+    rulesBase.pagination.totalRules }}
+  </div>
+  <div class="action-bar primary">
+    <ul>
+      <li>
+        <button id="rule-schedule" ng-click="openScheduler()" required-user role="admin, rule_manager"
+            class="button" ng-disabled="checkSelection() === false || checkScheduleState() === 1"
+            ng-class="checkSelection() === false || checkScheduleState() === 1 ? 'disabled' : ''"><%=t('rules.index.schedule')%></button>
+      </li>
+      <li>
+        <button id="rule-unschedule" ng-click="openConfirmation('schedule/disable')" required-user role="admin, rule_manager"
+            class="button" ng-disabled="checkSelection() === false || checkScheduleState() === 0"
+            ng-class="checkSelection() === false || checkScheduleState() === 0 ? 'disabled' : ''"><%=t('rules.index.unschedule')%></button>
+      </li>
+      <li>
+        <button id="rule-activate" ng-click="openConfirmation('activate')" required-user role="admin, rule_manager"
+           class="button" ng-disabled="checkSelection() === false || checkState() === true"
+           ng-class="checkSelection() === false || checkState() === true ? 'disabled' : ''"><%=t('rules.index.activate')%></button>
+      </li>
+      <li>
+        <button id="rule-deactivate" ng-click="openConfirmation('deactivate')" required-user role="admin, rule_manager"
+           class="button" ng-disabled="checkSelection() === false || checkState() === false"
+           ng-class="checkSelection() === false || checkState() === false ? 'disabled' : ''"><%=t('rules.index.deactivate')%></button>
+      </li>
+      <li>
+        <button id="rule-disable" ng-click="openConfirmation('disable')" required-user role="rule_manager"
+           class="button" ng-disabled="checkSelection() === false"
+           ng-class="checkSelection() === false ? 'disabled' : ''"><%=t('rules.index.delete')%></button>
+      </li>
+      <li>
+        <button id="rule-live" ng-click="openConfirmation('live')" required-user role="rule_manager"
+           class="button" ng-disabled="checkSelection() === false || checkSimState() === false"
+           ng-class="checkSelection() === false || checkSimState() === false ? 'disabled' : ''"><%=t('rules.index.live')%></button>
+      </li>
+    </ul>
+  </div>
+</div>

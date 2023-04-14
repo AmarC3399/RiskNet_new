@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe "alert_overrides/send_args.html.haml", type: :view do
+RSpec.describe "alertoverrides/show.html.haml", type: :view do
   pending "add some examples to (or delete) #{__FILE__}"
 end

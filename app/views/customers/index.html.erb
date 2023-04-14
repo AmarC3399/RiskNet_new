@@ -2,18 +2,19 @@
   <h1 class="pull-left">Customer Management</h1>
   <div class="pull-right button-dropdown-group" style="margin:20px 20px 20px 0;" required-user role="admin"
        level="member">
-    <button id="customer-new" class="button" ng-click="showCustomerTypes = !showCustomerTypes">
+   <button id="customer-new" class="button" ng-click="showCustomerTypes = !showCustomerTypes">
       <%= t('customers.index.new_customer') %>
       <span class="caret"></span>
-    </button>
-    <ul class="button-dropdown right-align" ng-init="showCustomerTypes = false" ng-show="showCustomerTypes">
+    </button> 
+
+      <ul class="button-dropdown right-align" ng-init="showCustomerTypes = false" ng-show="showCustomerTypes">
       <li>
-        <a id="client" ng-if="user.level < 2" href="/customers/new/client">
+        <a id="client" ng-if="user.level < 2" href="/customers/client">
           <%= t('levels.client') %>
         </a>
       </li>
       <li>
-        <a id="merchant" ng-if="user.level < 3" href="/customers/new/merchant">
+        <a id="merchant" ng-if="user.level < 3" href="/customers/merchant">
           <%= t('levels.merchant') %>
         </a>
       </li>
@@ -88,10 +89,10 @@
             <th ng-repeat="item in customersBase.headers" id="{{item.name}}"
                 ng-click="customersBase.ordering.orderStates[item.order] = !customersBase.ordering.orderStates[item.order]; loadOrder(item.name, customersBase.ordering.orderStates[item.order]); hidden = !hidden"
                 ng-style="item.style">
-              <span>{{item.displayName}}</span>
+              <span>item.displayName</span>
               <div class="sorting">
                   <span class="sort-order" ng-if="customersBase.ordering.values[item.name]">
-                      {{customersBase.ordering.values[item.name]}}
+                      customersBase.ordering.values[item.name]
                   </span>
                 <div class="inverted-arrows"
                      ng-class="{'glyphicon glyphicon-triangle-top': customersBase.ordering.orderStates[item.order], 'glyphicon glyphicon-triangle-bottom': !customersBase.ordering.orderStates[item.order]}"></div>
@@ -108,14 +109,14 @@
             <td><a id="expand{{$index}}" class="button secondary" href="/customers/{{customer.id}}"
                    title="<%= t('generic_buttons.details') %>">
               <i class="fa fa-expand"></i></a></td>
-            <td>{{customer.business.internal_code}}</td>
-            <td>{{customer.contact.name}}</td>
-            <td>{{customer.contact.address1}}</td>
-            <td>{{customer.contact.country}}</td>
-            <td>{{customer.contact.post_code}}</td>
-            <td>{{customer.business.currency_code}}</td>
-            <td>{{customer.business.mcc}}</td>
-            <td>{{customer.business.business_type}}</td>
+            <td>customer.business.internal_code</td>
+            <td>customer.contact.name</td>
+            <td>customer.contact.address1</td>
+            <td>customer.contact.country</td>
+            <td>customer.contact.post_code</td>
+            <td>customer.business.currency_code</td>
+            <td>customer.business.mcc</td>
+            <td>customer.business.business_type</td>
           </tr>
           <tr ng-if="customersBase.customers.length < 1">
             <td colspan=17><%= t('search.no_results') %></td>

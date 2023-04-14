@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%= favicon_link_tag asset_path('favicon.jpg') %>
     <title>RiskNet</title>
     <header>
 
@@ -65,7 +66,7 @@ font-size: 23px !important;
             <a ui-sref="lists.index" <%= link_to "List Management", list_management_path(@list_management) %>
           </li>
           <li required-user role="admin, rule_manager, user">
-            <a ui-sref="alertOverride.index" <%= link_to "Alert Override", alert_overrides_path(@lert_overrides) %>
+            <a ui-sref="alertOverride.index" <%= link_to "Alert Override", alertoverrides_path(@alertoverrides) %>
           </li>
         </ul>
       </li>
@@ -104,6 +105,7 @@ font-size: 23px !important;
     <%= javascript_include_tag "/assets/application.js", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
+    
   </head>
 
   <body>

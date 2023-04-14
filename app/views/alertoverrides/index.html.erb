@@ -2,7 +2,7 @@
   <h1 class="pull-left">Alert Override</h1>
 
   <div class="pull-right" style="margin:20px;">
-    <a id="alert-override-new" class="button" href="/alertoverrides/new" required-user role="admin, rule_manager, user">
+    <a id="alert-override-new" class="button" href="<%= new_alertoverride_path(@alertoverrides) %>" required-user role="admin, rule_manager, user">
       <%= t('alert_override.index.new_alert_override') %></a>
   </div>
 </div>
@@ -12,6 +12,13 @@
          ng-class="{'filter-active': alertOverridesBase.filter.count > 0 && alertOverridesBase.filter.showTags}">
       <ul>
         <li class="search-form">
+
+          <%= form_tag(alertoverrides_path, method: :get) do %>
+            <%= text_field_tag(:search, params[:search]) %>
+            <%= submit_tag("search") %>
+            <% end %>
+
+            
           <form>
             <input id="alert-override-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="alertOverridesBase.filter.search" ng-change="alertOverridesBase.filter.searchUpdate=true"

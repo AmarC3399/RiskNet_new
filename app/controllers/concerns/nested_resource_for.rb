@@ -10,7 +10,7 @@ module NestedResourceFor
       # Include our callbacks and setup the callback
       include CallbackMethods
 
-      before_filter :load_parent_resource
+      before_action :load_parent_resource
     end
   end
 

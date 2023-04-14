@@ -45,8 +45,8 @@ margin-bottom: 50px important;
       <ul class="filter-list" tag-overflow>
         <li ng-repeat="(filterName, filterValue) in batchBase.filter.sideBar"
             ng-if="filterValue != null && batchBase.filter.showTags"
-            class="filter-tag alert alert-success text-capitalise micro-text"><b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
-          {{filterValue | filterTag:levels:filterName }}
+            class="filter-tag alert alert-success text-capitalise micro-text"><b>filterName | removeUnderscore | convertToFELevels}}:</b>
+            filterValue | filterTag:levels:filterName 
           <button class="close" ng-click="removeFilterTag(filterName, 'batchBase', batchBase.filter)">
             <i class="glyphicon glyphicon-remove-circle"></i>
           </button>
@@ -82,18 +82,18 @@ margin-bottom: 50px important;
                 total-items="batchBase.pagination.totalAlerts"
                 current-page="batchBase.pagination.currentPage">
               <td bo-text="alert.id | splitAlertId"></td>
-              <td bo-text="alert.customer_merchant_name">{{}}</td>
+              <td bo-text="alert.customer_merchant_name"></td>
               <td bo-text="alert.priority"></td>
               <td bo-text="alert.run_date | date:'dd/MM/yyyy HH:mm'"></td>
               <td bo-text="alert.alert_type"></td>
               <td bo-text="alert.mcc"></td>
-              <td>{{alert.subject}}</td>
-              <td>{{alert.user.name}}</td>
-              <td>{{alert.allocated_on | date:'dd/MM/yyyy HH:mm'}}</td>
-              <td>{{alert.examined_on | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td>alert.subject</td>
+              <td>alert.user.name</td>
+              <td>alert.allocated_on | date:'dd/MM/yyyy HH:mm'</td>
+              <td>alert.examined_on | date:'dd/MM/yyyy HH:mm'</td>
               <td bo-text="alert.contact"></td>
               <td bo-text="alert.open_date | date:'dd/MM/yyyy HH:mm'"></td>
-              <td bo-text="alert.post_code">{{}}</td>
+              <td bo-text="alert.post_code"></td>
               <td bo-text="alert.country"></td>
             </tr>
             <tr ng-if="batchBase.batchAlerts.length < 1">
@@ -110,9 +110,9 @@ margin-bottom: 50px important;
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
-    batchBase.display.from }} - {{ batchBase.display.to }} <%= t('pagination.of') %> {{
-    batchBase.pagination.totalAlerts }}
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
+    batchBase.display.from - batchBase.display.to <%= t('pagination.of') %>
+    batchBase.pagination.totalAlerts 
   </div>
   <div class="action-bar primary">
     <ul>

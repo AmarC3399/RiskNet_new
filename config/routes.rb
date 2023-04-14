@@ -1,5 +1,10 @@
 Rails.application.routes.draw  do 
 
+   unless Rails.env.production?
+    post 'db/savepoint', to: 'db#savepoint'
+    post 'db/rollback', to: 'db#rollback'
+  end
+
   devise_for :user
     root to: "home#index" 
 
@@ -23,13 +28,16 @@ Rails.application.routes.draw  do
   get "/users", to: "users#merchants"
   get "/users", to: "users#report_users"
 
-  get "/alert_overrides", to: "alert_overrides#index"
-  get "/alert_overrides", to: "alert_overrides#show"
-  get "/alert_overrides", to: "alert_overrides#create"
-  get "/alert_overrides", to: "alert_overrides#update"
-  get "/alert_overrides", to: "alert_overrides#deactivate"
-  get "/alert_overrides", to: "alert_overrides#send_args"
-  get "/alert_overrides", to: "alert_overrides#this_param"
+  get "/about", to: "about#index"  
+
+  get "/activities", to: "activities#index"
+  get "/activities", to: "activities#create"
+
+  resources :alertoverrides
+  
+  get "/alertoverrides", to: "alertoverrides#deactivate"
+  get "/alertoverrides", to: "alertoverrides#send_args"
+  get "/alertoverrides", to: "alertoverrides#this_param"
 
    get "/alerts", to: "alerts#index"
    get "/alerts", to: "alerts#batch_alerts"
@@ -37,6 +45,7 @@ Rails.application.routes.draw  do
    get "/alerts", to: "alerts#allocated_comments"
    get "/alerts", to: "alerts#update"
    get "/alerts", to: "alerts#batch_update"
+
 
    get "/authorisations", to: "authorisations#index"
    get "/authorisations", to: "authorisations#all"
@@ -47,23 +56,41 @@ Rails.application.routes.draw  do
 
    get "/batch", to: "batch#index"
 
-   get "/customers", to: "customers#index"
-  
-  get "/statistic_timeframes", to: "statistic_timeframes#index"  
+   
+   resources :customers
 
-  get "/statistics_operations", to: "statistics_operations#index"
- 
-  get "/rule_schedules", to: "rule_schedules#show"
-  get "/rule_schedules", to: "rule_schedules#create"
-  get "/rule_schedules", to: "rule_schedules#edit"
-  get "/rule_schedules", to: "rule_schedules#disable"
-  get "/rule_schedules", to: "rule_schedules#resources"
-  
-  get "/statistics", to: "statistics#index"
-  get "/statistics", to: "statistics#list"
-  get "/statistics", to: "statistics#show"
-  get "/statistics", to: "statistics#create"
-  get "/statistics", to: "statistics#disable"
+    resources :criteria, only: [:create, :destroy]  do
+      collection do
+        post 'description', to: 'criteria#description'
+      end
+    end
+    resources :customers do
+      
+      collection do
+        get "/members", to: "customers#members"
+        # get 'clients' => "customers#clients"
+        get "/merchants", to: "customers#merchants"
+        
+        get "client_with_many_merchants", to: "customers#client_with_many_merchants"
+      end
+      
+    end
+     resources :fields_lists, only: [:show]
+    # resources :list_management, only: [:index, :show, :create, :update] do
+    #   collection do
+    #     get :dropdown_list
+    #     get :get_list
+    #     get :get_default_list
+    #   end
+    #   member do
+    #     get :export
+    #     post :import
+    #     get :disable
+    #   end
+    # end
+   
+   #get "/fields_lists", to: "fields_lists#show"
+
 
   get "/list_management", to: "list_management#index"
   get "/list_management", to: "list_management#show"
@@ -73,25 +100,57 @@ Rails.application.routes.draw  do
   get "/list_management", to: "list_management#disable"
   get "/list_management", to: "list_management#dropdown_list"
 
-      
- get "/rules", to: "rules#all"
- get "/rules", to: "rules#show"
- get "/rules", to: "rules#create"
- get "/rules", to: "rules#update"
- get "/rules", to: "rules#disable"
- get "/rules", to: "rules#activate"
- get "/rules", to: "rules#deactivate"
- get "/rules", to: "rules#live"
- get "/rules", to: "rules#authorisation_ids"
+  resources :members
+  resources :merchants
+  resources :clients 
 
 
-
-get "/about", to: "about#index"  
-
-get "/settings", to: "settings#index"
-
- get "reset_password", to: "reset_password#index"
+  resources :rules
+  get "/rules", to: "rules#all"
+  get "/rules", to: "rules#disable"
+  get "/rules", to: "rules#activate"
+  get "/rules", to: "rules#deactivate"
+  get "/rules", to: "rules#live"
+  get "/rules", to: "rules#authorisation_ids"
 
   
+  get "/rule_schedules", to: "rule_schedules#show"
+  get "/rule_schedules", to: "rule_schedules#create"
+  get "/rule_schedules", to: "rule_schedules#edit"
+  get "/rule_schedules", to: "rule_schedules#disable"
+  get "/rule_schedules", to: "rule_schedules#resources"
+
+  get "reminders", to: "reminders#index"
+  get "reminders", to: "reminders#show"
+  get "reminders", to: "reminders#create"
+  get "reminders", to: "reminders#update"
+
+  get "/reports", to: "reports#disable"
+  get "/reports", to: "reports#results"
+  get "/reports", to: "reports#execute"
+  get "/reports", to: "reports#disable_result"
+  get "/reports", to: "reports#results"
+  get "/reports", to: "reports#result_downloads"
+  get "/reports", to: "reports#result_download"
+
   
+  get "/statistics", to: "statistics#index"
+  get "/statistics", to: "statistics#list"
+  get "/statistics", to: "statistics#show"
+  get "/statistics", to: "statistics#create"
+  get "/statistics", to: "statistics#disable"
+
+  get "/statistic_timeframes", to: "statistic_timeframes#index"  
+
+  get "/statistics_operations", to: "statistics_operations#index"
+ 
+  get "/settings", to: "settings#index"
+
+  get "/suspect_lists", to: "suspect_lists#create"
+
+  get "/violations", to: "violations#index"
+
+  get "reset_password", to: "reset_password#index"
+
+   
 end

@@ -21,6 +21,8 @@ class ReportsController < ApplicationController
   end
 
   def results
+     results = Report.find(params[:id]).report_results
+    render html: results, status: :ok
   end
 
   def execute
