@@ -23,9 +23,9 @@
   <div id="page-footer" ng-controller="AlertStatsCtrl" ng-if="alertBase.alertVisible">
     <ul>
       <li id="user"><p><%= t('alerts.index.user') %> Current User: <%= current_user.email %></p></li>
-      <li id="alerts-pending"><p><%= t('alerts.index.allocated_pending') %>:alertStatsBase.alertsPending</p></li>
+      <li id="alerts-pending"><p><%= t('alerts.index.allocated_pending') %>: alertStatsBase.alertsPending</p></li>
       <li id="alerts-examined"><p><%= t('alerts.index.examined') %>: alertStatsBase.alertsCompleted</p></li>
-    <li id="alerts-total"><p><%= t('alerts.index.total') %>:alertStatsBase.alertsTotal</p></li>
+      <li id="alerts-total"><p><%= t('alerts.index.total') %>: alertStatsBase.alertsTotal</p></li>
       <li><p>time | date:'dd/MM/yyyy'&nbsp;time | date:'HH:mm'</p></li>
     </ul>
   </div>

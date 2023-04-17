@@ -195,7 +195,7 @@
                       <option
                         ng-repeat="category in rulesBase.new.categories |  restrictCategories:rulesBase.new.rule.outcome"
                         value="{{category.id}}">
-                        {{category.frontend_name}}
+                        category.frontend_name
                       </option>
                     </select>
                   </div>
@@ -556,7 +556,7 @@
                                   ui-select2>
                             <option value="" disabled selected></option>
                             <option ng-repeat="country in rulesBase.new.defaultLists.lists.country"
-                                    value="{{country.alpha3}}">{{country.name}}
+                                    value="{{country.alpha3}}">country.name
                             </option>
                           </select>
                         </li>
@@ -567,8 +567,8 @@
                                   ui-select2>
                             <option value="" disabled selected></option>
                             <option ng-repeat="currency in rulesBase.new.defaultLists.lists.ccy"
-                                    value="{{currency.iso_code}}">{{currency.name}}
-                              ({{currency.symbol}})
+                                    value="{{currency.iso_code}}">currency.name
+                              (currency.symbol)
                             </option>
                           </select>
                         </li>
@@ -632,7 +632,7 @@
                             <option ng-repeat="field in rulesBase.new.fields"
                                     value="{{field.id}}"
                                     ng-if="rulesBase.new.initial.leftable_attributes.data_type === field.data_type">
-                              {{field.description}}
+                              field.description
                             </option>
                           </select>
                         </li>
@@ -764,7 +764,7 @@
                             </option>
                             <option
                               ng-repeat="timeframe in rulesBase.new.timeframes |  restrictTimeframes:getStatisticTimeframes('auth')"
-                              value="{{timeframe.id}}">{{timeframe.timeframe_type}}
+                              value="timeframe.id">timeframe.timeframe_type
                             </option>
                           </select>
                         </li>
@@ -822,7 +822,7 @@
                           </option>
                           <option ng-repeat="dataList in rulesBase.new.dataLists"
                                   value="{{dataList.id}}">
-                            {{dataList.name}}
+                            dataList.name
                           </option>
                         </select>
                       </li>
@@ -864,7 +864,7 @@
                         <optgroup ng-repeat="group in rulesBase.new.stats"
                                   label="{{group.text}} ">
                           <option ng-repeat="stat in group.children" value="{{stat.id}}">
-                            {{stat.stat_code}} - {{stat.description}}
+                            stat.stat_code - stat.description
                           </option>
                         </optgroup>
                       </select>
@@ -897,7 +897,7 @@
                         </option>
                         <option
                           ng-repeat="timeframe in rulesBase.new.timeframes | restrictTimeframes:getStatisticTimeframes('left')"
-                          value="{{timeframe.id}}">{{timeframe.timeframe_type | capitalise | convertTimeframes}}
+                          value="{{timeframe.id}}">timeframe.timeframe_type | capitalise | convertTimeframes
                         </option>
                       </select>
                     </div>
@@ -1089,7 +1089,7 @@
                             </option>
                             <option ng-repeat="field in rulesBase.new.fields"
                                     value="{{field.id}}">
-                              {{field.description}}
+                              field.description
                             </option>
                           </select>
                         </li>
@@ -1148,7 +1148,7 @@
                             <optgroup ng-repeat="group in rulesBase.new.stats"
                                       label="{{group.text}} ">
                               <option ng-repeat="stat in group.children" value="{{stat.id}}">
-                                {{stat.stat_code}} - {{stat.description}}
+                                stat.stat_code - stat.description
                               </option>
                             </optgroup>
                           </select>
@@ -1244,7 +1244,7 @@
             <button id="view-criteria" ng-click="changeStage('criteria','summary')" type="button" class="button"
                     ng-disabled="rulesBase.new.criteria.length < 1">
               <%= t('rules.new.view_criteria_summary') %>
-              <span class="large-badge">{{rulesBase.new.criteria.length}}</span>
+              <span class="large-badge">rulesBase.new.criteria.length</span>
             </button>
           </li>
           <li ng-if="rulesBase.stage.secondary === 'summary'">
@@ -1270,7 +1270,7 @@
           <li ng-if="rulesBase.new.criteria.length === 0"><%= t('rules.new.no_criteria') %>
           </li>
           <li ng-repeat="criterion in rulesBase.new.criteria">
-            {{criterion.description}}
+            criterion.description
             <button ng-click="deleteDetails(criterion)" type="button"><i class="fa fa-close"></i>
             </button>
           </li>

@@ -65,10 +65,10 @@ margin-bottom: 50px important;
               <th ng-repeat="item in batchBase.headers" id="{{item.name}}"
                   ng-click="batchBase.ordering.orderStates[item.order] = !batchBase.ordering.orderStates[item.order]; loadOrder(item.name, batchBase.ordering.orderStates[item.order]); hidden = !hidden"
                   ng-style="item.style">
-                <span>{{item.displayName}}</span>
+                <span>item.displayName</span>
                 <div class="sorting">
                   <span class="sort-order" ng-if="batchBase.ordering.values[item.name]">
-                      {{batchBase.ordering.values[item.name]}}
+                      batchBase.ordering.values[item.name]
                   </span>
                   <div class="inverted-arrows"
                        ng-class="{'glyphicon glyphicon-triangle-top': batchBase.ordering.orderStates[item.order], 'glyphicon glyphicon-triangle-bottom': !batchBase.ordering.orderStates[item.order]}"></div>

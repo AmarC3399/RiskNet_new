@@ -196,7 +196,7 @@
                 <span><%= t('rules.index.applies_to') %></span>
                 <div class="sorting">
                   <span class="sort-order" ng-if="rulesBase.ordering.values.rule_evaluation_type">
-                    {{rulesBase.ordering.values.rule_evaluation_type}}
+                    rulesBase.ordering.values.rule_evaluation_type
                   </span>
                   <div class="inverted-arrows"
                        ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.rule_evaluation_type_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.rule_evaluation_type_order}"></div>
@@ -207,7 +207,7 @@
                 <span><%= t('rules.index.priority') %></span>
                 <div class="sorting">
                   <span class="sort-order" ng-if="rulesBase.ordering.values.priority">
-                    {{rulesBase.ordering.values.priority}}
+                    rulesBase.ordering.values.priority
                   </span>
                   <div class="inverted-arrows"
                        ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.priority_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.priority_order}"></div>
@@ -218,7 +218,7 @@
                 <span><%= t('rules.index.outcome') %></span>
                 <div class="sorting">
                   <span class="sort-order" ng-if="rulesBase.ordering.values.outcome">
-                    {{rulesBase.index.outcome}}
+                    rulesBase.index.outcome
                   </span>
                   <div class="inverted-arrows"
                        ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.outcome_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.outcome_order}"></div>
@@ -229,7 +229,7 @@
                 <span><%= t('rules.index.simulation') %></span>
                 <div class="sorting">
                   <span class="sort-order" ng-if="rulesBase.ordering.values.simulation">
-                    {{rulesBase.ordering.values.simulation}}
+                    rulesBase.ordering.values.simulation
                   </span>
                   <div class="inverted-arrows"
                        ng-class="{'glyphicon glyphicon-triangle-top': rulesBase.ordering.orderStates.simulation_order, 'glyphicon glyphicon-triangle-bottom': !rulesBase.ordering.orderStates.simulation_order}"></div>
@@ -267,9 +267,9 @@
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
-    rulesBase.display.from }} - {{ rulesBase.display.to }} <%= t('pagination.of') %> {{
-    rulesBase.pagination.totalRules }}
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
+    rulesBase.display.from - rulesBase.display.to  <%= t('pagination.of') %>
+    rulesBase.pagination.totalRules
   </div>
   <div class="action-bar primary">
     <ul>

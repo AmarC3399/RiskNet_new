@@ -56,8 +56,18 @@ Rails.application.routes.draw  do
 
    get "/batch", to: "batch#index"
 
-   
+   resources :journals, only: [:index]
+    resources :violations, only: [:index]
+       resources :comments, only: [:index, :create]
+      resources :activities, only: [:index, :create]
+      resources :investigations, only: [:create, :index]
+        
+        resources :reminders, except: [:destroy, :edit, :new], constraints: { id: /\d+(\.\d+)?-\d+/ }, shallow: true do #, shallow_path: 'api' do
+        resources :comments, only: [:index]
+      end
    resources :customers
+
+
 
     resources :criteria, only: [:create, :destroy]  do
       collection do
@@ -120,11 +130,7 @@ Rails.application.routes.draw  do
   get "/rule_schedules", to: "rule_schedules#disable"
   get "/rule_schedules", to: "rule_schedules#resources"
 
-  get "reminders", to: "reminders#index"
-  get "reminders", to: "reminders#show"
-  get "reminders", to: "reminders#create"
-  get "reminders", to: "reminders#update"
-
+ 
   get "/reports", to: "reports#disable"
   get "/reports", to: "reports#results"
   get "/reports", to: "reports#execute"
@@ -148,7 +154,6 @@ Rails.application.routes.draw  do
 
   get "/suspect_lists", to: "suspect_lists#create"
 
-  get "/violations", to: "violations#index"
 
   get "reset_password", to: "reset_password#index"
 

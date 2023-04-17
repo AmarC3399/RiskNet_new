@@ -20,12 +20,12 @@ class ActivitiesController < ApplicationController
      if current_user.can_create?(Activity, for: @alert)
       create_result = Activity.create_activity(@alert, activity_params, current_user)
       if create_result[:errors]
-        render json: {errors: create_result[:errors]}, status: :unprocessable_entity
+        render html: {errors: create_result[:errors]}, status: :unprocessable_entity
       else
-        render json: create_result[:activities], each_serializer: ActivitySerializer, status: :created
+        render html: create_result[:activities], each_serializer: ActivitySerializer, status: :created
       end
     else
-      render json: {errors: I18n.t('actioncontroller.errors.not_authorised')}, status: :forbidden
+      render html: {errors: I18n.t('actioncontroller.errors.not_authorised')}, status: :forbidden
     end
   end
 

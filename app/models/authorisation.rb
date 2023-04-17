@@ -53,11 +53,11 @@ require 'yaml'
 
 class Authorisation < ApplicationRecord
   include Filter
-  include Authorisation::Abilities
+  #include Authorisation::Abilities
 
   attr_accessor :member_name, :client_name, :merchant_name
   
-  self.primary_keys = :created_at, :id
+ # self.primary_keys = :created_at, :id
 
   # may cause problems with tests ..keep that in mind when testing
   has_many :authorisation_extras, foreign_key: [:created_at, :authorisation_id]
@@ -79,7 +79,7 @@ class Authorisation < ApplicationRecord
   accepts_nested_attributes_for :authorisation_extras
   accepts_nested_attributes_for :frauds
 
-  acts_as_commentable primary_key: :id
+  #acts_as_commentable primary_key: :id
   # rule_breaker:  checks rules against authorisations and create violations
   # include Feeder
 
