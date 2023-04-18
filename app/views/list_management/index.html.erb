@@ -13,7 +13,7 @@
     <div class="filter">
       <ul>
         <li class="search-form">
-          <form>
+         <!--  <form>
             <input id="list-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="listsBase.filter.search" ng-change="listsBase.filter.searchUpdate=true"
                    type="text" uib-popover="<%= t('list_management.index.tooltip') %>"
@@ -26,7 +26,11 @@
                  ng-disabled="!listsBase.filter.searchUpdate" ng-click="!listsBase.filter.searchUpdate || loadFilters()"
                  type="submit"><i class="fa fa-search"></i>
             </div>
-          </form>
+          </form> -->
+          <%= form_tag(list_management_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
         </li>
         <li id="list-filter" class="filter-button">
           <a class="button" data-badge="{{listsBase.filter.count}}"
@@ -42,8 +46,14 @@
             dir-paginate="dataList in listsBase.dataLists | itemsPerPage: listsBase.pagination.lists.listsPerPage"
             total-items="listsBase.pagination.lists.totalLists" current-page="listsBase.pagination.lists.currentPage"
             pagination-id="list" ng-class="{active: dataList.id === listsBase.selectedDataList.id}"
-            ui-sref="lists.update({listID: dataList.id})">{{dataList.name}}
+            ui-sref="lists.update({listID: dataList.id})">Actions
         </li>
+        <li>Fraud Activity</li>
+        <li>Operational Merchant</li>
+        <li>Operational User</li>
+        <li>Reminders</li>
+        <li>Rule Category</li>
+        <li>Rule Efficiency</li>
 
         </li>
       </ul>
@@ -61,14 +71,14 @@
           <table class="compact no-hover">
             <thead>
             <tr>
-              <th><%= t('list_management.index.creation_date') %></th>
-              <th><%= t('list_management.index.created_by') %></th>
-              <th><%= t('list_management.index.associated_table') %></th>
-              <th ng-if="listsBase.selectedDataList.table != 'CustomList'">
-                <%= t('list_management.index.associated_field') %>
+              <th>Creation date</th>
+              <th>Created by</th>
+              <th>Associated Table</th>
+              <th>
+                Associated Field
               </th>
-              <th ng-if="listsBase.selectedDataList.current_rules.length > 0">
-                <%= t('list_management.index.associated_rules') %>
+             <th>
+                Associated Rules
               </th>
               <th><%= t('list_management.index.associated_rules') %></th>
             </tr>
@@ -178,8 +188,8 @@
               </button>
             </li>
           </ul>
-        </div>
-        <div class="created-item" ng-class="listsBase.selectedDataList.read_only === true ? 'read_only' : ''">
+        <!-- </div>
+        <!-- <div class="created-item" ng-class="listsBase.selectedDataList.read_only === true ? 'read_only' : ''">
           <ul class="no-list-margin no-list-style container_24 no-margin">
             <li dir-paginate="list_item in listsBase.listItems | itemsPerPage: listsBase.pagination.items.itemsPerPage"
               total-items="listsBase.pagination.items.totalItems" current-page="listsBase.pagination.items.currentPage"
@@ -299,7 +309,7 @@
               </div>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
       <div class="list-management-pagination" ng-class="listsBase.pagination.items.totalPages > 1 ? 'item-pagination' : ''">
         <dir-pagination-controls boundary-links="true" on-page-change="changeItemsPage(newPageNumber)" max-size="6"
@@ -333,5 +343,5 @@
         <!-- ngSwitchWhen: configuring_filter -->
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

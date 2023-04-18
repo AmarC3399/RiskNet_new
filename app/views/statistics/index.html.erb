@@ -1,22 +1,4 @@
-<style type="text/css">
-  body {
-    background-image: none !important;
-  }
 
-   #header-container {
-   margin-top: -34px !important;
-}
-
-#header-global #page-navigation ul li.settings ul {
-    background: #4B5561;
-    position: relative !important;
-    overflow: visible !important;
-    display: block !important;
-    z-index: 77 !important;
-    margin-top: -48px !important;
-}
-</style>
-   
 <div id="header-container">
   <h1 class="pull-left">Statistics</h1>
 
@@ -65,8 +47,7 @@
             <li ng-repeat="(filterName, filterValue) in statsBase.filter.sideBar"
                 ng-if="filterValue != null && statsBase.filter.showTags"
                 class="filter-tag alert alert-success text-capitalise micro-text">
-              <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
-              {{filterValue | filterTag:levels:filterName }}
+              
               <button class="close" ng-click="removeFilterTag(filterName, 'statsBase', statsBase.filter)">
                 <i class="glyphicon glyphicon-remove-circle"></i>
               </button>
@@ -78,9 +59,9 @@
         <!-- search filters -->
         <form id="filters" class="form-inline group" role="form">
           <div id="stat_sort" class="container">
-            <div id="page_stats" class="pull-right micro-text"><%= t('pagination.displaying') %> {{
+            <!-- <div id="page_stats" class="pull-right micro-text"><%= t('pagination.displaying') %> {{
               statsBase.display.from }} - {{ statsBase.display.to }} <%= t('pagination.of') %> {{
-              statsBase.pagination.totalStats }}
+              statsBase.pagination.totalStats }} -->
             </div>
           </div>
         </form>
