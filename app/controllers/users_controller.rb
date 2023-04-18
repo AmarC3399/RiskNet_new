@@ -1,42 +1,24 @@
 class UsersController < ApplicationController
 
-   skip_before_filter :authenticate_user!, only: :update_password
+  #  skip_before_action :authenticate_user!, only: :update_password
 
-  before_filter :load_user, only: [:show, :update]
-  authorize_actions_for User, except: [:create, :update_password], actions: {all: :read,
-                                                                             verify_user: :read,
-                                                                             block: :update,
-                                                                             unblock: :update,
-                                                                             update: :update,
-                                                                             create: :create,
-                                                                             forwardable: :skip,
-                                                                             installations: :read,
-                                                                             members: :filter,
-                                                                             clients: :filter,
-                                                                             merchants: :filter,
-                                                                             report_users: :skip}
+  # before_filter :load_user, only: [:show, :update]
+  # authorize_actions_for User, except: [:create, :update_password], actions: {all: :read,
+  #                                                                            verify_user: :read,
+  #                                                                            block: :update,
+  #                                                                            unblock: :update,
+  #                                                                            update: :update,
+  #                                                                            create: :create,
+  #                                                                            forwardable: :skip,
+  #                                                                            installations: :read,
+  #                                                                            members: :filter,
+  #                                                                            clients: :filter,
+  #                                                                            merchants: :filter,
+  #                                                                            report_users: :skip}
 
   def index
-     calc_limit = 20
-    calc_offset = ([params[:page].to_i.abs, 1].max - 1) * calc_limit
-
-    @users = UserAuthorizer::Scope.new(current_user, User)
-                                  .resolve
-                                  .search(params[:search], 'users.name', 'users.email')
-                                  .filter_by_owner(params[:only_mine] ? params.merge(user: current_user) : params)
-                                  .order(created_at: :desc, id: :desc)
-                                  .limit(calc_limit).offset(calc_offset || 0)
-
-
-    if params[:type]
-      @users = @users.with_role(params[:type], :any)
-    end
-
-    total_items = @users.except(:limit, :offset).count
-
-    @users.load
-    render json: {users: @users.as_json(root: false), meta: page_meta_info(total_items, calc_limit, params[:page])}.as_json, status: :ok
   end
+    
   
   def forwardable
      @users = UserAuthorizer::ForwardingScope.new(current_user, User).resolve
@@ -175,50 +157,6 @@ class UsersController < ApplicationController
     render json: {users: @users.as_json(include: {owner: {only: :name}})}, status: :ok
   end
 
-  private
+ 
 
-  def load_user
-    begin
-      @user = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render json: {errors: e.message}, status: :unprocessable_entity
-    end
-  end
-
-  def user_details
-    params.require(:user).permit(:role, :name, :email, :password, :password_confirmation, :owner_type, :owner_id)
-  end
-
-  # get the actual owner from user params hash
-  def user_owner(owner_id, owner_type)
-
-    case owner_type
-      when "member"
-        owner_id.map { |id| Member.find id }
-      when "client"
-        owner_id.map { |id| Client.find id }
-      when "merchant"
-        owner_id.map { |id| Merchant.find id }
-    end
-  end
-
-
-  # def bulk_params
-  #   # {"users"=>{"ids"=>2}}
-  #   params.require(:users).permit(ids: [])
-  # end
-
-  def bulk_params_merchant_key
-    # {"merchants"=>{"ids"=>2}}
-    params.require(:merchants).permit(ids: [])
-  end
-
-  def password_update_params
-    params.require(:user).permit(:email, :current_password, :password, :password_confirmation)
-  end
-
-  # A custom method to create serialized json
-  def custom_serializer(data, serializer)
-    ActiveModel::ArraySerializer.new(data, each_serializer: serializer)
-  end
 end

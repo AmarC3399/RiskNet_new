@@ -12,7 +12,7 @@
          ng-class="{'filter-active': usersBase.filter.count > 0 && usersBase.filter.showTags}">
       <ul>
         <li class="search-form">
-          <form>
+         <!--  <form>
             <input id="user-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="usersBase.filter.search" ng-change="usersBase.filter.searchUpdate=true"
                    type="text" uib-popover="<%= t('users.index.tooltip') %>"
@@ -26,7 +26,12 @@
                  type="submit"><i
               class="fa fa-search"></i>
             </div>
-          </form>
+          </form> -->
+                    <%= form_tag(customers_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
+            
         </li>
         <li id="user-filter" class="filter-button">
           <a class="button" data-badge="{{usersBase.filter.count}}"
@@ -74,18 +79,18 @@
                 total-items="usersBase.pagination.totalUsers"
                 current-page="usersBase.pagination.currentPage"
                 ng-class="(user.enabled === true) ? 'highlighted-green' : 'highlighted-red'">
-              <td id="name{{$index}}">{{user.name}}</td>
-              <td id="enabled{{$index}}">{{user.enabled}}</td>
-              <td id="role{{$index}}">{{user.role | convertUser}}</td>
-              <td id="email{{$index}}"> {{::user.email}}</td>
-              <td id="owner_type{{$index}}">{{::user.owner_type | convertToFELevels}}</td>
-              <td id="owner_name{{$index}}">{{::user.owner_name}}</td>
-              <td>{{user.last_sign_in_at | date: 'dd/MM/yy H:mm'}}</td>
-              <td>{{::user.created_at | date: 'dd/MM/yy H:mm'}}</td>
+              <td>client admin</td>
+              <td>true</td>
+              <td>Admin</td>
+              <td >client_admin@aicorp.com</td>
+              <td>Client</td>
+              <td>Unregistered Member</td>
+              <td>10/03/23 14:24</td>
+              <td>13/07/23 14:42</td>
             </tr>
-            <tr ng-if="usersBase.users.length < 1">
+            <!-- <tr ng-if="usersBase.users.length < 1">
               <td colspan=8><%= t('search.no_results') %></td>
-            </tr>
+            </tr> -->
             </tbody>
           </table>
         </multi-select>

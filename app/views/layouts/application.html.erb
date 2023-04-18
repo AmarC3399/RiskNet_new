@@ -60,7 +60,7 @@ font-size: 23px !important;
             <a ui-sref="customers.index" <%= link_to "Customers", customers_path(@customers) %>
           </li>
           <li required-user role="admin">
-            <a ui-sref="users.index" ng-model="tabs.users"><%= t('layouts.application.user_management') %></a>
+            <a ui-sref="users.index" <%= link_to "Users Management", users_path(@users) %>
           </li>
           <li required-user role="admin, rule_manager, user">
             <a ui-sref="lists.index" <%= link_to "List Management", list_management_path(@list_management) %>

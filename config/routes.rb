@@ -13,12 +13,10 @@ Rails.application.routes.draw  do
       delete "sign_out", to: "sessions#destroy"
     end
 
-  get "/users", to: "users#index"
+    resources :users
+
   get "/users", to: "users#forwardable"
   get "/users", to: "users#verify_user"
-  get "/users", to: "users#show"
-  get "/users", to: "users#create"
-  get "/users", to: "users#update"
   get "/users", to: "users#block"
   get "/users", to: "users#unblock"
   get "/users", to: "users#update_password"
