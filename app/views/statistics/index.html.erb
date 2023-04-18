@@ -36,7 +36,12 @@
              ng-class="{'filter-active': statsBase.filter.count > 0 && statsBase.filter.showTags}">
           <ul>
             <li class="search-form">
-              <form id="model_text_filter">
+               <%= form_tag(statistics_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
+            
+             <!--  <form id="model_text_filter">
                 <input id="stat-search" class="form-control" placeholder="<%= t('search.search') %>"
                        ng-model="statsBase.filter.search" ng-change="statsBase.filter.searchUpdate=true"
                        type="text" uib-popover="<%= t('statistics.index.tooltip') %>"
@@ -47,7 +52,7 @@
                 <div id="stat-search-submit" class="input-group-addon search-button button" ng-disabled="!statsBase.filter.searchUpdate"
                      ng-click="!statsBase.filter.searchUpdate || loadFilters()" type="submit"><i
                   class="fa fa-search"></i></div>
-              </form>
+              </form> -->
             </li>
             <li id="stat-filter" class="filter-button">
               <a class="button" data-badge="{{statsBase.filter.count}}"

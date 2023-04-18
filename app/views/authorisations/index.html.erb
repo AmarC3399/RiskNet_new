@@ -1,3 +1,12 @@
+<style type="text/css">
+  tbody {
+    font-color: black !important;
+  }
+
+
+</style>
+
+
 <div id="header-container">
   <h1 class="pull-left"><%= t('authorisations.Authorisations') %></h1>
 </div>
@@ -7,7 +16,7 @@
          ng-class="{'filter-active': authsBase.filter.count > 0 && authsBase.filter.showTags}">
       <ul>
         <li class="search-form combo-search two-filter-buttons">
-          <form>
+          <!-- <form>
             <input id="auth-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="authsBase.filter.search"
                    type="text" uib-popover="<%= t('search.search_dropdown') %>"
@@ -27,7 +36,11 @@
                  ng-click="!authsBase.filter.search || !authsBase.filter.search_column || loadFilters()"
                  type="submit"><i class="fa fa-search"></i>
             </div>
-          </form>
+          </form> -->
+           <%= form_tag(authorisations_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
         </li>
         <li id="auth-clear-ordering" class="sorting-button">
           <a class="button" ng-click="resetOrder()" ng-disabled="authsBase.ordering.orderString === ''"><i
@@ -60,48 +73,72 @@
         <multi-select selected="authsBase.selectedAuths" key="authorisation" selected-all="authsBase.selectAllAuths">
           <table float-thead="vars.floatTheadOptions" class="striped lined" ng-model="authsBase.allAuths">
             <thead>
-            <tr>
-              <th ng-repeat="item in authsBase.authObj.schema" id="{{item.column}}"
-               ng-click="authsBase.ordering.orderStates[item.column] = !authsBase.ordering.orderStates[item.column]; loadOrder(item.column, authsBase.ordering.orderStates[item.column]); hidden = !hidden">
-                <span>{{item.mapping}}</span>
-
-                <div class="sorting">
-                  <span class="sort-order" ng-if="authsBase.ordering.values[item.column]">
-                    {{authsBase.ordering.values[item.column]}}
-                  </span>
-                  <div class="inverted-arrows"
-                       ng-class="{'glyphicon glyphicon-triangle-top': authsBase.ordering.orderStates[item.column], 'glyphicon glyphicon-triangle-bottom': !authsBase.ordering.orderStates[item.column]}"></div>
-                </div>
-              </th>
-            </tr>
+            <tr>              
+              <th>Alert ID</th>
+              <th>Fraud Status</th>
+              <th>Marked Fraud Date</th>
+              <th>Local Transacction Date</th>
+              <th>Authorisation Amount</th>
+              <th>Local Amount</th>
+              <th>Transmission Date</th>
+              <th>System Trace Audition No.</th>
+              <th>Expiration Date</th>
+              <th>MCC</th>
+              <th>POS Entry Mode</th>
+              <th>POS Condition Code</th>
+              <th>Approval Code</th>
+                <th>Approval Code</th>
+                <th>Approval Code Length</th>
+                <th>Retrieval Reference Number</th>
+                <th>Card Acceptor Business Code</th>
+                     <th>Card Acceptor Terminal ID</th>
+                     <th>Card Acceptor ID Code</th>
+                     <th>Currency</th>
+                     <th>Payee</th>
+                     <th>Processing Code </th>
+                     <th>Currency Code Billing</th>
+              </tr>
             </thead>
-            <tbody>
-            <tr id="{{$index}}" ng-class="(authorisation.latest_fraud.fraud_status === 1) ? 'highlight-red' : ''"
-                bindonce
-                dir-paginate="authorisation in authsBase.allAuths | itemsPerPage: authsBase.pagination.authsPerPage"
-                total-items="authsBase.pagination.totalAuths" current-page="authsBase.pagination.currentPage">
-              <td ng-repeat="item in authsBase.authObj.schema">
-                <span ng-if="!checkDateColumns(item)">{{authorisation[item.column]}}</span>
-                <span ng-if="checkDateColumns(item)">{{authorisation[item.column] | date:'dd/MM/yyyy HH:mm:ss'}}</span>
-              </td>
-            </tr>
-            <tr ng-if="authsBase.allAuths.length < 1">
-              <td colspan=119><%= t('search.no_results') %></td>
-            </tr>
+            <tbody >
+              <th>30088</th>
+              <th>-</th>
+              <th>-</th>
+              <th>2022-01-15T12:13:00Z</th>
+              <th>500.5</th>
+              <th>500.5</th>
+              <th>2022-01-15T11:22:00Z</th>
+              <th>033468</th>
+              <th>2020-12-31T23:59:59Z</th>
+              <th>1234</th>
+              <th>210101654044</th>
+            <th>10</th>
+            <th>362430</th>
+            <th>1</th>
+            <th>734015033468</th>
+            <th>5812</th>
+            <th>55311710</th>
+            <th>13870746</th>
+            <th>844</th>
+            <th>GBP</th>
+            <th>Dinners QA</th>
+            <th>3000</th>
+            <th>844</th>
+            </td>
+             </tr>
             </tbody>
           </table>
         </multi-select>
       </div>
     </div>
-  </div>
+  </div>   
 
   <div class="full-page-pagination">
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
-    authsBase.display.from }} - {{ authsBase.display.to }} <%= t('pagination.of') %> {{
-    authsBase.pagination.totalAuths }}
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> 
+    authsBase.display.from  - authsBase.display.to <%= t('pagination.of') %>
+    authsBase.pagination.totalAuths
   </div>
   <div class="action-bar primary">
     <ul>

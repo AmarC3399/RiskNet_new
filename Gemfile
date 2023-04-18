@@ -180,3 +180,4 @@ gem 'parallel_tests', '~> 4.2.0'
  gem 'webpacker'
 gem "hotwire-rails", "~> 0.1.3"
 gem 'importmap-rails'
+gem 'will_paginate'

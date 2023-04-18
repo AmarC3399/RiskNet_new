@@ -38,19 +38,12 @@
          ng-class="{'filter-active': customersBase.filter.count > 0 && customersBase.filter.showTags}">
       <ul>
         <li class="search-form two-filter-buttons">
-          <form>
-            <input id="customer-search" class="form-control" placeholder="<%= t('search.search') %>"
-                   ng-model="customersBase.filter.search" ng-change="customersBase.filter.searchUpdate=true"
-                   type="text" uib-popover="<%= t('customers.index.tooltip') %>"
-                   popover-placement="bottom" popover-trigger="outsideClick"
-                   ng-keypress="($event.which === 13 ) ? !customersBase.filter.searchUpdate || loadFilters():0">
-            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
-                  ng-if="customersBase.filter.search"></span>
-            <div id="customer-search-submit" class="input-group-addon search-button button"
-                 ng-disabled="!customersBase.filter.searchUpdate" ng-click="!customersBase.filter.searchUpdate || loadFilters()"
-                 type="submit"><i class="fa fa-search"></i>
-            </div>
-          </form>
+         
+          <%= form_tag(customers_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
+            
         </li>
         <li id="customer-clear-ordering" class="sorting-button">
           <a class="button" ng-click="resetOrder()" ng-disabled="customersBase.ordering.orderString === ''"><i
@@ -83,9 +76,15 @@
                ng-model="customersBase.customers">
           <thead>
           <tr>
-            <th id="details" style="width:54px;">
-              <span><%= t('customers.index.details') %></span>
-            </th>
+            <th>Details</th>
+            <th>Internal Code</th>
+            <th>Customer Name</th>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Post Code</th>
+            <th>Currency</th>
+            <th>MCC</th>
+            <th>Business Type</th>
             <th ng-repeat="item in customersBase.headers" id="{{item.name}}"
                 ng-click="customersBase.ordering.orderStates[item.order] = !customersBase.ordering.orderStates[item.order]; loadOrder(item.name, customersBase.ordering.orderStates[item.order]); hidden = !hidden"
                 ng-style="item.style">
@@ -109,14 +108,14 @@
             <td><a id="expand{{$index}}" class="button secondary" href="/customers/{{customer.id}}"
                    title="<%= t('generic_buttons.details') %>">
               <i class="fa fa-expand"></i></a></td>
-            <td>customer.business.internal_code</td>
-            <td>customer.contact.name</td>
-            <td>customer.contact.address1</td>
-            <td>customer.contact.country</td>
-            <td>customer.contact.post_code</td>
-            <td>customer.business.currency_code</td>
-            <td>customer.business.mcc</td>
-            <td>customer.business.business_type</td>
+            <td>2ccd547e-64b2-4b22-930c-1db708e701a2</td>
+            <td>Unregistered Client</td>
+            <td> - </td>
+            <td> - </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr ng-if="customersBase.customers.length < 1">
             <td colspan=17><%= t('search.no_results') %></td>

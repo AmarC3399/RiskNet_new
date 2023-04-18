@@ -17,7 +17,12 @@ margin-bottom: 50px important;
          ng-class="{'filter-active': batchBase.filter.count > 0 && batchBase.filter.showTags}">
       <ul>
         <li class="search-form two-filter-buttons">
-          <form>
+
+          <%= form_tag(batch_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
+         <!--  <form>
             <input id="batch-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="batchBase.filter.search" ng-change="batchBase.filter.searchUpdate=true"
                    type="text" uib-popover="<%= t('search.search_all_fields_except_dates') %>"
@@ -26,10 +31,10 @@ margin-bottom: 50px important;
             <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
                   ng-if="batchBase.filter.search"></span>
             <div id="batch-alert-search-submit" class="input-group-addon search-button button" ng-disabled="!batchBase.filter.searchUpdate"
-                 ng-click="!batchBase.filter.searchUpdate || loadFilters()" type="submit">
+                 ng-click="!batchBase.filterss.searchUpdate || loadFilters()" type="submit">
               <i class="fa fa-search"></i>
             </div>
-          </form>
+          </form> -->
         </li>
         <li id="batch-clear-ordering" class="sorting-button">
           <a class="button" ng-click="resetOrder()" ng-disabled="batchBase.ordering.orderString === ''"><i
@@ -62,44 +67,41 @@ margin-bottom: 50px important;
           <table float-thead="vars.floatTheadOptions" class="striped lined" style="width: 2500px;" ng-model="batchBase.batchAlerts">
             <thead>
             <tr>
-              <th ng-repeat="item in batchBase.headers" id="{{item.name}}"
-                  ng-click="batchBase.ordering.orderStates[item.order] = !batchBase.ordering.orderStates[item.order]; loadOrder(item.name, batchBase.ordering.orderStates[item.order]); hidden = !hidden"
-                  ng-style="item.style">
-                <span>item.displayName</span>
-                <div class="sorting">
-                  <span class="sort-order" ng-if="batchBase.ordering.values[item.name]">
-                      batchBase.ordering.values[item.name]
-                  </span>
-                  <div class="inverted-arrows"
-                       ng-class="{'glyphicon glyphicon-triangle-top': batchBase.ordering.orderStates[item.order], 'glyphicon glyphicon-triangle-bottom': !batchBase.ordering.orderStates[item.order]}"></div>
-                </div>
-              </th>
+              <th>Alert ID</th>
+              <th>Owner Name</th>
+              <th>Priority</th>
+              <th>Run Date</th>
+              <th>Alert Type</th>
+              <th>MCC</th>
+              <th>Response</th>
+              <th>Allocated To</th>
+              <th>Allocated On</th>
+              <th>Examined On</th>
+              <th>Contact Name</th>
+              <th>Open Date</th>
+              <th>Post Code</th>
+              <th>Country</th>
+                
             </tr>
             </thead>
             <tbody>
-            <tr bindonce
-                dir-paginate="alert in batchBase.batchAlerts | itemsPerPage: batchBase.pagination.alertsPerPage"
-                total-items="batchBase.pagination.totalAlerts"
-                current-page="batchBase.pagination.currentPage">
-              <td bo-text="alert.id | splitAlertId"></td>
-              <td bo-text="alert.customer_merchant_name"></td>
-              <td bo-text="alert.priority"></td>
-              <td bo-text="alert.run_date | date:'dd/MM/yyyy HH:mm'"></td>
-              <td bo-text="alert.alert_type"></td>
-              <td bo-text="alert.mcc"></td>
-              <td>alert.subject</td>
-              <td>alert.user.name</td>
-              <td>alert.allocated_on | date:'dd/MM/yyyy HH:mm'</td>
-              <td>alert.examined_on | date:'dd/MM/yyyy HH:mm'</td>
-              <td bo-text="alert.contact"></td>
-              <td bo-text="alert.open_date | date:'dd/MM/yyyy HH:mm'"></td>
-              <td bo-text="alert.post_code"></td>
-              <td bo-text="alert.country"></td>
+           
+              <td> 1</td>
+              <td> Unregistered Merchant</td>
+              <td> 1</td>
+              <td>13/07/2012 11:55</td>
+              <td>Auth</td>
+              <td>1234</td>
+              <td>Review</td>
+              <td>Client admin</td>
+              <td>10/03/2023 07:08</td>
+              <td>15/0/2023 08:53</td>
+              <td>null</td>
+              <td>13/07/2021 12:39</td>
+              <td>null</td>
+              <td>null</td>
             </tr>
-            <tr ng-if="batchBase.batchAlerts.length < 1">
-              <td colspan=16><%= t('search.no_results') %></td>
-            </tr>
-            </tbody>
+           </tbody>
           </table>
         </multi-select>
       </div>
