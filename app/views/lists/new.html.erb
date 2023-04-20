@@ -1,0 +1,175 @@
+<div id="header-container">
+  <h1 class="pull-left">List Management</h1>
+</div>
+
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="container_24">
+    <div class="grid_16 prefix_4 alpha omega">
+      <div id="list_form" class="section form-group group" style="top:20px;overflow: visible;padding: 0 0 80px;">
+        <div class="sub-header-content">
+          <h3 ng-model='fields.user'>Create a New List</h3>
+        </div>
+       
+          <form class="form-horizontal new_list" name="new_list" novalidate="">
+          <div class="grid_20 prefix_2 suffix_2 form-group" style="margin-top:20px;">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="list_name"><%= t('list_management.list_form.list_name') %></span>  
+                </p>
+              </li>
+              <li style="float:none;">
+                <input id="list_name" name="list_name" class="form-control" ng-model="listsBase.new.dataList.name"
+                       type="text" required maxlength="100" placeholder="<%= t('generic_placeholders.required') %>">
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_22">
+              <li>
+                <p class="capitalise">
+                  <span for="list_description"><%= t('list_management.list_form.description') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <textarea id="list_description" name="list_description" class="form-control"
+                          ng-model="listsBase.new.dataList.description" rows="2" required maxlength="255"
+                          placeholder="<%= t('generic_placeholders.required') %>"></textarea>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_24">
+            <hr/>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_23">
+              <li>
+                <p class="capitalise">
+                  <span for="type"><%= t('list_management.list_form.type') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <div class="grid_23 alpha">
+                  <select id="type" name="type" ng-model="listsBase.new.dataList.type"
+                          ng-change="loadTableDropDownFilters()" ui-select2 required style="width:100%"
+                          data-placeholder="<%= t('generic_placeholders.required') %>">
+                    <option value="" selected disabled></option>
+                    <option value="Field"><%= t('list_management.list_form.field') %></option>
+                    <option required-user role="admin" value="CustomList"><%= t('list_management.list_form.custom') %>
+                    </option>
+                  </select>
+                </div>
+                <div class="grid_1">
+                  <i id="type_help" class="more-info fa fa-question-circle"
+                     uib-popover="{{meta.tooltips.list_gen_type}}" data-unique="1" popover-placement="right"
+                     popover-trigger="mouseenter" html="false" container="body" data-container="body"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_23">
+              <li>
+                <p class="capitalise">
+                  <span for="table"><%= t('list_management.list_form.table') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <div class="grid_23 alpha">
+                  <select id="table" name="table" ng-model="listsBase.new.dataList.table"
+                          ng-change="loadFieldDropdownFilters()" ng-disabled="!listsBase.new.dataList.type"
+                          ui-select2 required style="width:100%"
+                          placeholder="<%= t('generic_placeholders.required') %>">
+                    <option value="" selected disabled></option>
+                    <option ng-repeat="table in listsBase.new.dropdowns.tableValues" value="{{table}}">{{table}}
+                    </option>
+                  </select>
+                </div>
+                <div class="grid_1">
+                  <i id="table_help" class="more-info fa fa-question-circle"
+                     uib-popover="{{meta.tooltips.list_gen_table}}" data-unique="1" popover-placement="right"
+                     popover-trigger="mouseenter" html="false" container="body" data-container="body"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_23">
+              <li>
+                <p class="capitalise">
+                  <span for="field"><%= t('list_management.list_form.field') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <div class="grid_23 alpha">
+                  <select id="field" name="field" ng-model="listsBase.new.dataList.field" ng-change="setDataType()"
+                          ng-disabled="!listsBase.new.dataList.table || listsBase.new.dataList.type == 'CustomList'"
+                          ng-required="listsBase.new.dataList.type == 'Field'"
+                          placeholder="<%= t('generic_placeholders.required') %>"
+                          ui-select2 style="width:100%">
+                    <option value="" selected disabled></option>
+                    <option ng-repeat="field in listsBase.new.dropdowns.fieldValues" value="{{field.name}}">
+                      {{field.description}}
+                    </option>
+                  </select>
+                </div>
+                <div class="grid_1">
+                  <i id="field_help" class="more-info fa fa-question-circle"
+                     uib-popover="{{meta.tooltips.list_gen_field}}" data-unique="1" popover-placement="right"
+                     popover-trigger="mouseenter" html="false" container="body" data-container="body"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+            <ul class="labelled-form-full-width grid_23">
+              <li>
+                <p class="capitalise">
+                  <span for="data_type"><%= t('list_management.list_form.data_type') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <div class="grid_23 alpha">
+                  <select id="data_type" name="data_type" ng-model="listsBase.new.dataList.data_type"
+                          ng-disabled="listsBase.new.dataList.type == 'Field'" ui-select2 required
+                          style="width:100%" placeholder="<%= t('generic_placeholders.required') %>">
+                    <option value="" selected disabled></option>
+                    <option value="string"><%= t('list_management.list_form.string') %></option>
+                    <option value="integer"><%= t('list_management.list_form.integer') %></option>
+                    <option value="decimal"><%= t('list_management.list_form.decimal') %></option>
+                    <option value="datetime"><%= t('list_management.list_form.datetime') %></option>
+                  </select>
+                </div>
+                <div class="grid_1">
+                  <i id="data_type_help" class="more-info fa fa-question-circle"
+                     uib-popover="{{meta.tooltips.list_gen_data_type}}" data-unique="1" popover-placement="right"
+                     popover-trigger="mouseenter" html="false" container="body" data-container="body"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="grid_24">
+            <hr/>
+          </div>
+          <div ng-include="'/templates/partials/level_select_form.html'"></div>
+        </form>
+        <div class="action-bar primary">
+          <ul>
+            <li>
+              <button id="back" type="button" ui-sref="lists.update({listID: listsBase.fromParams.listID})"
+                      class="button neutral">
+                  <%= t('generic_buttons.back') %>
+              </button>
+            </li>
+            <li>
+              <button id="create_new_list" class="button btn btn-primary" ng-click="new_list.$invalid || addList()"
+                      ng-disabled="new_list.$invalid" ng-class="new_list.$invalid ? 'disabled' : ''">
+                <%= t('generic_buttons.create') %>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

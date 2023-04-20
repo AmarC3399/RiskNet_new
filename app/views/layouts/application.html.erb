@@ -8,7 +8,7 @@
     <style >
 #header-global 
 #page-navigation ul li {
-  margin-right: -4px !important;
+  margin-right: -6px !important;
 </style>
 
 <style >
@@ -60,10 +60,10 @@ font-size: 23px !important;
             <a ui-sref="customers.index" <%= link_to "Customers", customers_path(@customers) %>
           </li>
           <li required-user role="admin">
-            <a ui-sref="users.index" <%= link_to "Users Management", users_path(@users) %>
+            <a ui-sref="users.index" <%= link_to " User Management ", users_path(@users) %>
           </li>
           <li required-user role="admin, rule_manager, user">
-            <a ui-sref="lists.index" <%= link_to "List Management", list_management_path(@list_management) %>
+            <a ui-sref="lists.index" <%= link_to "List Management", lists_path(@lists) %>
           </li>
           <li required-user role="admin, rule_manager, user">
             <a ui-sref="alertOverride.index" <%= link_to "Alert Override", alertoverrides_path(@alertoverrides) %>

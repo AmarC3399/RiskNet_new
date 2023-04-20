@@ -100,29 +100,29 @@
               </tr>
             </thead>
             <tbody >
-              <th>30088</th>
-              <th>-</th>
-              <th>-</th>
-              <th>2022-01-15T12:13:00Z</th>
-              <th>500.5</th>
-              <th>500.5</th>
-              <th>2022-01-15T11:22:00Z</th>
-              <th>033468</th>
-              <th>2020-12-31T23:59:59Z</th>
-              <th>1234</th>
-              <th>210101654044</th>
-            <th>10</th>
-            <th>362430</th>
-            <th>1</th>
-            <th>734015033468</th>
-            <th>5812</th>
-            <th>55311710</th>
-            <th>13870746</th>
-            <th>844</th>
-            <th>GBP</th>
-            <th>Dinners QA</th>
-            <th>3000</th>
-            <th>844</th>
+              <td>30088</td>
+              <td> </td>
+              <td> </td>
+              <td>2022-01-15T12:13:00Z</td>
+              <td>500.5</td>
+              <td>500.5</td>
+              <td>2022-01-15T11:22:00Z</td>
+              <td>033468</td>
+              <td>2020-12-31T23:59:59Z</td>
+              <td>1234</td>
+              <td>210101654044</td>
+            <td>10</td>
+            <td>362430</td>
+            <td>1</td>
+            <td>734015033468</td>
+            <td>5812</td>
+            <td>55311710</td>
+            <td>13870746</td>
+            <td>844</td>
+            <td>GBP</td>
+            <td>Dinners QA</td>
+            <td>3000</td>
+            <td>844</td>
             </td>
              </tr>
             </tbody>
@@ -136,10 +136,7 @@
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> 
-    authsBase.display.from  - authsBase.display.to <%= t('pagination.of') %>
-    authsBase.pagination.totalAuths
-  </div>
+   <%= will_paginate @authorisations %>
   <div class="action-bar primary">
     <ul>
       <li>
@@ -157,3 +154,4 @@
     </ul>
   </div>
 </div>
+ 

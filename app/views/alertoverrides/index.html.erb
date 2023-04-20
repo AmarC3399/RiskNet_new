@@ -19,7 +19,7 @@
             <% end %>
 
             
-          <form>
+        <!--   <form>
             <input id="alert-override-search" class="form-control" placeholder="<%= t('search.search') %>"
                    ng-model="alertOverridesBase.filter.search" ng-change="alertOverridesBase.filter.searchUpdate=true"
                    type="text" uib-popover="<%= t('alert_override.index.tooltip') %>"
@@ -34,7 +34,7 @@
                  ng-click="!alertOverridesBase.filter.searchUpdate || loadFilters()" type="submit">
               <i class="fa fa-search"></i>
             </div>
-          </form>
+          </form> -->
         </li>
         <li id="alert-override-filter" class="filter-button">
           <a class="button" data-badge="{{alertOverridesBase.filter.count}}"
@@ -66,16 +66,16 @@
                  ng-model="alertOverridesBase.alertOverrides">
             <thead>
             <tr>
-              <th><%= t('alert_override.index.card_number') %></th>
-              <th><%= t('alert_override.index.type') %></th>
-              <th><%= t('alert_override.index.override_start_time') %></th>
-              <th><%= t('alert_override.index.override_expiry_time') %></th>
-              <th><%= t('alert_override.index.initiated_by') %></th>
-              <th><%= t('alert_override.index.rule_id') %></th>
-              <th><%= t('alert_override.index.rule_desc') %></th>
-              <th><%= t('alert_override.index.owner_level') %></th>
-              <th><%= t('alert_override.index.owner') %></th>
-              <th><%= t('alert_override.index.notes') %></th>
+              <th>Card number</th>
+              <th>Type</th>
+              <th>Override Start Time</th>
+              <th>Override Expiry Time</th>
+              <th>Initiated By</th>
+              <th>Rule Id</th>
+              <th>Rule Desc</th>
+              <th>Owner Level</th>
+              <th>Owner</th>
+              <th>Notes</th>
             </tr>
             </thead>
             <tbody>
@@ -84,21 +84,18 @@
               id="alert_override{{$index}}" bindonce
               total-items="alertOverridesBase.pagination.totalAlertOverrides"
               current-page="alertOverridesBase.pagination.currentPage">
-              <td id="card_number{{$index}}" bo-text="alertOverride.card_number"></td>
-              <td id="type{{$index}}" bo-text="alertOverride.type | capitalise"></td>
-              <td id="start_time{{$index}}">{{alertOverride.start_time | date:'dd/MM/yyyy HH:mm'}}</td>
-              <td id="expiry_time{{$index}}">{{alertOverride.end_time | date:'dd/MM/yyyy HH:mm'}}</td>
-              <td id="initiated_by{{$index}}" bo-text="alertOverride.initiated_by"></td>
-              <td id="rule_id{{$index}}" bo-text="alertOverride.rule_id"></td>
-              <td id="rule_name{{$index}}" bo-text="alertOverride.rule_name"></td>
-              <td id="owner_level{{$index}}">{{alertOverride.owner_type | convertToFELevels}}</td>
-              <td id="owner{{$index}}">{{alertOverride.owner}}</td>
-              <td id="notes{{$index}}">{{alertOverride.comment}}</td>
+              <td>421112******1001</td>
+              <td> Block</td>
+              <td>10/03/2023 12:18</td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
             </tr>
-            <tr ng-if="alertOverridesBase.alertOverrides.length < 1">
-              <td colspan=10><%= t('search.no_results') %></td>
-            </tr>
-            </tbody>
+           </tbody>
           </table>
         </multi-select>
       </div>

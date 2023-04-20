@@ -99,14 +99,12 @@ Rails.application.routes.draw  do
    
    #get "/fields_lists", to: "fields_lists#show"
 
-
-  get "/list_management", to: "list_management#index"
-  get "/list_management", to: "list_management#show"
-  get "/list_management", to: "list_management#update"
-  get "/list_management", to: "list_management#import"
-  get "/list_management", to: "list_management#export"
-  get "/list_management", to: "list_management#disable"
-  get "/list_management", to: "list_management#dropdown_list"
+   resources :lists
+  
+  get "/lists", to: "list_management#import"
+  get "/lists", to: "list_management#export"
+  get "/lists", to: "list_management#disable"
+  get "/lists", to: "list_management#dropdown_list"
 
   resources :members
   resources :merchants

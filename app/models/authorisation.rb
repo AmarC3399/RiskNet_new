@@ -56,6 +56,7 @@ class Authorisation < ApplicationRecord
   #include Authorisation::Abilities
 
   attr_accessor :member_name, :client_name, :merchant_name
+  self.per_page = 10
   
  # self.primary_keys = :created_at, :id
 

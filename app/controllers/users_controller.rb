@@ -19,6 +19,9 @@ class UsersController < ApplicationController
   def index
   end
     
+  def new
+
+  end
   
   def forwardable
      @users = UserAuthorizer::ForwardingScope.new(current_user, User).resolve
