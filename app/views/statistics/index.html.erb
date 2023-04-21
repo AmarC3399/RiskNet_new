@@ -67,26 +67,19 @@
         </form>
         <div id="projects-list">
           <div id="modelTitleRow{{$index}}" class="container">
-            <p ng-if="statsBase.allStats.length < 1"><%= t('search.no_results') %></p>
+            <p ng-if="statsBase.allStats.length < 1"><%= t('search.no_results_found') %></p>
             <div id="statistic-list" class="result feature-item"
                  dir-paginate="statistic in statsBase.allStats | itemsPerPage: statsBase.pagination.statsPerPage"
                  current-page="statsBase.pagination.currentPage" total-items="statsBase.pagination.totalStats">
               <div class="container_24 slim_margin group">
-                <div class="button-group feature-item-actions">
-                  <button id="stat-details{{$index}}" class="button" ng-class="{ active: statistic.isDescriptionHidden }"
-                          ng-click="showHideStatDescription(statistic)" title="View statistic details"
-                          title="{{appBase.spTrans.view_model_details}}">
-                    <i ng-if="!statistic.isDescriptionHidden" class="fa fa-expand"></i>
-                    <i ng-if="statistic.isDescriptionHidden" class="fa fa-compress"></i>
-                  </button>
-                </div>
-                <div class="grid_1 alpha checkbox" required-user role="rule_manager" level="member">
+               
+                <!-- <div class="grid_1 alpha checkbox" required-user role="rule_manager" level="member">
                   <input id="statistic{{$index}}" class="checkbox" type="checkbox" name="statistics[]"
                          value="statistic.id"
                          ng-model="statsBase.selectedStats[$index]" ng-true-value="{{statistic.id}}">
                   <label class="checkbox-label" for="statistic{{$index}}"></label>
-                </div>
-                <div bindonce class="grid_23 omega">
+                </div> -->
+               <!--  <div bindonce class="grid_23 omega">
                   <div class="feature-item-title-container">
                     <h3 bo-text="statistic.stat_code"></h3>
                   </div>
@@ -114,9 +107,9 @@
                      ng-if="statistic.description !== '' ">
                   </p>
                 </div>
-              </div>
+              </div> -->
               <!-- search result expandable -->
-              <div ng-if="statistic.isDescriptionHidden" class="model-full-description group">
+              <!-- <div ng-if="statistic.isDescriptionHidden" class="model-full-description group">
                 <div>
                   <div class="feature-detail-view">
                     <div class="grid_24 alpha omega" style="margin-top: 5px;width:100%;">
@@ -138,8 +131,8 @@
                             <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
                               <div class="inner">
                                 <h4><%= t('statistics.index.overview') %></h4>
-                                <div class="grid_12 alpha">
-                                  <table class="vertical-table pull-left no-hover">
+                                <di -->
+                                 <!--  <table class="vertical-table pull-left no-hover">
                                     <tbody>
                                     <tr>
                                       <th><%= t('statistics.index.updated_at') %></th>
@@ -169,32 +162,14 @@
                                       <td bo-text="statistic.owner_id"></td>
                                     </tr>
                                     </tbody>
-                                  </table>
+                                  </table> -->
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div ng-switch-when="Criterion" class="content-panel" style="width: 100%;">
-                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
-                              <div class="inner" ng-if="statistic.criterion.description">
-                                <h4><%= t('statistics.index.criterion') %></h4>
-                                <div class="grid_24">
-                                  {{statistic.criterion.description}}
-                                </div>
-                              </div>
-                            </div>
-                            <div class="grid_24 alpha omega static-data-scroll-div content-panel compress">
-                              <div class="inner" ng-if="statistic.statistic_timeframes.length > 0">
-                                <h4><%= t('statistics.index.timeframes') %></h4>
-                                <div class="grid_24">
-                                  <ol>
-                                    <li ng-repeat="timeframe in statistic.statistic_timeframes">
-                                      {{timeframe.timeframe_type}}
-                                    </li>
-                                  </ol>
-                                </div>
-                              </div>
-                            </div>
+                          
+                            
+                            
                           </div>
                         </div>
                       </div>
@@ -202,7 +177,7 @@
                   </div>
                 </div>
               </div>
-            </div><!-- results-contents -->
+            </div><!-- results-contents
           </div><!-- ng-repeat -->
         </div>
       </div>
@@ -212,14 +187,5 @@
                                template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
     </div>
   </div>
-</div>
-<div class="action-bar primary">
- <!--  <ul>
-    <li>
-      <a id="stat-delete" ng-click="checkSelection() === false || openConfirmation('disable')" required-user
-         role="rule_manager" level="member" class="button" ng-disabled="checkSelection() === false"
-         ng-class="checkSelection() === false ? 'disabled' : ''"><%=t('generic_buttons.delete')%></a>
-    </li>
-  </ul> -->
 </div>
 

@@ -126,7 +126,7 @@
       <div id="rules-contents" class="content-panel rules-contents-list" ng-if="rulesBase.layout === 'list'" style="width:100%;"
            ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
         <multi-select selected="rulesBase.selectedRules" key="rulelist" selected-all="rulesBase.selectAllRules">
-        <!--  <table id="rules_list" float-thead="vars.floatTheadOptions" ng-model="rulesBase.allRules" class="lined" bindonce>
+         <!-- <table id="rules_list" float-thead="vars.floatTheadOptions" ng-model="rulesBase.allRules" class="lined" bindonce>
             <thead>
             <tr ng-if="rulesBase.allRules.length>=1">
               <th style="width:54px;">
@@ -229,9 +229,9 @@
   </div>
   <div class="full-page-pagination">
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
-                             tem 
+                             template-url="/templates/layouts/dirPagation.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> 
     rulesBase.display.from - rulesBase.display.to <%= t('pagination.of') %>
     rulesBase.pagination.totalRules
   </div>
