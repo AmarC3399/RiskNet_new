@@ -44,7 +44,9 @@ Rails.application.routes.draw  do
    get "/alerts", to: "alerts#update"
    get "/alerts", to: "alerts#batch_update"
 
-
+resources :authorisations do 
+   get '/page/:page', action: :index, on: :collection
+ end
    get "/authorisations", to: "authorisations#index"
    get "/authorisations", to: "authorisations#all"
    get "/authorisations", to: "authorisations#mark"

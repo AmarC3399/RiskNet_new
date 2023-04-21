@@ -17,26 +17,14 @@
          ng-class="{'filter-active': rulesBase.filter.count > 0 && rulesBase.filter.showTags}">
       <ul>
         <li class="search-form two-filter-buttons">
-          <form>
-            <input id="rule-search" class="form-control" placeholder="<%= t('search.search') %>"
-                   ng-model="rulesBase.filter.search" ng-change="rulesBase.filter.searchUpdate=true"
-                   type="text" uib-popover="<%= t('rules.index.tooltip') %>"
-                   popover-placement="bottom" popover-trigger="outsideClick"
-                   ng-keypress="($event.which === 13 ) ? !rulesBase.filter.searchUpdate || loadFilters():0">
-            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
-                  ng-if="rulesBase.filter.search"></span>
-            <div id="rules-search-submit" class="input-group-addon search-button button" ng-disabled="!rulesBase.filter.searchUpdate"
-                 ng-click="!rulesBase.filter.searchUpdate || loadFilters()" type="submit"><i
-              class="fa fa-search"></i>
-            </div>
-          </form>
+            <%= form_tag(rules_path, method: :get) do %>
+          <%= text_field_tag(:search, params[:search]) %>
+          <%= submit_tag ("Search") %>
+          <% end %>
+        
+            <i class="fa fa-filter"></i></a>
         </li>
-        </li>
-        <li id="rule-clear-ordering" class="sorting-button">
-          <a class="button" ng-click="resetOrder()" ng-disabled="rulesBase.ordering.orderString === ''"><i
-            class="fa fa-unsorted"></i></a>
-        </li>
-        <li id="rule-filter" class="filter-button">
+         <li id="rule-filter" class="filter-button">
           <a class="button" data-badge="{{rulesBase.filter.count}}"
              ng-click="toggleSidebar('rulesBase', rulesBase.filter.sideBar);rulesBase.filter.showTags = true"
              title="<%= t('generic_buttons.filter') %>">
@@ -47,8 +35,7 @@
         <li ng-repeat="(filterName, filterValue) in rulesBase.filter.sideBar"
             ng-if="filterValue != null && rulesBase.filter.showTags"
             class="filter-tag alert alert-success text-capitalise micro-text">
-          <b>{{filterName | removeUnderscore | convertToFELevels}}:</b>
-          {{filterValue | filterTag:levels:filterName }}
+          <b></b>
           <button class="close" ng-click="removeFilterTag(filterName, 'rulesBase', rulesBase.filter)">
             <i class="glyphicon glyphicon-remove-circle"></i>
           </button>
@@ -59,7 +46,7 @@
     </div>
     <div loading urls="/rules">
       <div id="rules-contents" class="content-panel rules-contents-grid" ng-if="rulesBase.layout === 'grid'" style="width:100%;"
-           ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
+      <!--      ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
         <div class="table-wrapper">
           <ul id="rules-grid" class="no-list-style no-list-padding" bindonce>
             <li dir-paginate="rule in rulesBase.allRules | itemsPerPage: rulesBase.pagination.rulesPerPage"
@@ -78,17 +65,18 @@
               </div>
               <ul class="rule-details">
                 <li>
-                  <p><b bo-text="rule.internal_code" bo-title="rule.internal_code"></b></p>
+
+                  <p>qdewd</p>
                 </li>
                 <li class="micro-text">
-                  <p class="label"><%= t('rules.index.owner_type')%></p>
+                  <p class="label">Owner Typ</p>
                   <p bo-text="rule.owner_type | convertToFELevels"></p>
-                  <p ng-if="!rule.owner_type"><%= t('rules.index.owner_not_found')%></p>
+                  <p ng-if="!rule.owner_type">Clients</p>
                 </li>
                 <li class="micro-text">
                   <p class="label"><%= t('rules.index.created')%></p>
                   <p bo-text="rule.created_at | date:'dd/MM/yyyy HH:mm:ss'"></p>
-                  <p ng-if="!rule.created_at"><%= t('rules.index.date_not_found')%></p>
+                  <p ng-if="!rule.created_at">21/07/2021 16:08:15</p>
                 </li>
               </ul>
 
@@ -99,9 +87,9 @@
               <div class="rule-criteria">
                 <ol class="no-list-style no-list-padding">
                   <li class="micro-text" ng-repeat="criteria in rule.criteria">
-                    <p>{{criteria.description}}</p>
+                    <p>The total number of authorisations 2 days ago is greater then the number 1</p>
                   </li>
-                  <li ng-if="rulesBase.allRules.length<1"><%= t('search.no_results')%></li>
+                 
                 </ol>
               </div>
               <div class="action-bar secondary">
@@ -111,12 +99,12 @@
                        ng-change="changeState(rule)" required-user role="admin, rule_manager">
                 <label for="rule{{$index}}" class="checkbox-label large-checkbox-label"></label>
                 <ul>
-                  <li>
+                   <li>
                     <a id="grid_more{{$index}}" class="button secondary" href="/rules/{{rule.id}}"
                        title="<%= t('generic_buttons.details') %>">
                       <i class="fa fa-expand"></i></a>
                   </li>
-                  <li>
+                  <!-- <li>
                     <a id="grid_edit{{$index}}" class="button secondary" href="/rules/{{rule.id}}/edit"
                        ng-click="setAction('edit')" required-user role="rule_manager"
                        title="<%= t('rules.index.edit') %>"><i class="fa fa-edit"></i></a>
@@ -125,15 +113,12 @@
                     <a id="grid_clone{{$index}}" class="button secondary" href="/rules/{{rule.id}}/clone"
                        ng-click="setAction('clone')" required-user role="rule_manager"
                        title="<%= t('rules.index.clone') %>"><i class="fa fa-clone"></i></a>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
             </li>
           </ul>
-          <div ng-if="rulesBase.allRules.length<1" style="padding-left:5px;">
-            <%= t('search.no_results') %>
-          </div>
-
+         
 
 
         </div>
@@ -141,7 +126,7 @@
       <div id="rules-contents" class="content-panel rules-contents-list" ng-if="rulesBase.layout === 'list'" style="width:100%;"
            ng-style="{top: rulesBase.filter.count > 0 && rulesBase.filter.showTags ? '86px' : '48px'}">
         <multi-select selected="rulesBase.selectedRules" key="rulelist" selected-all="rulesBase.selectAllRules">
-          <table id="rules_list" float-thead="vars.floatTheadOptions" ng-model="rulesBase.allRules" class="lined" bindonce>
+        <!--  <table id="rules_list" float-thead="vars.floatTheadOptions" ng-model="rulesBase.allRules" class="lined" bindonce>
             <thead>
             <tr ng-if="rulesBase.allRules.length>=1">
               <th style="width:54px;">
@@ -236,40 +221,19 @@
                 </div>
               </th>
             </tr>
-            </thead>
-            <tbody>
-            <tr id="ruleList{{$index}}" ng-repeat="rulelist in rulesBase.allRules"
-                ng-class="(rulelist.active !== true) ? 'inactive-rule' : 'rule-active'">
-              <td><a class="button secondary" href="/rules/{{rulelist.id}}"><i
-                class="fa fa-expand"></i></a></td>
-              <td id="internal_code{{$index}}">{{rulelist.internal_code}}</td>
-              <td id="created_at{{$index}}" bo-text="rulelist.created_at | date:'dd/MM/yyyy HH:mm'"></td>
-              <td id="owner_type{{$index}}" bo-text="rulelist.owner_type | convertToFELevels"></td>
-              <td id="evaluation_type{{$index}}">{{rulelist.evaluation_type}}</td>
-              <td id="rule_evaluation_type{{$index}}">{{rulelist.rule_evaluation_type}}</td>
-              <td id="priority{{$index}}">{{rulelist.priority}}</td>
-              <td id="outcome{{$index}}">{{rulelist.outcome | capitalise | challengeToReview}}</td>
-              <td id="simulation{{$index}}" class="center">
-                <i class="fa fa-check" ng-if="rulelist.simulation"></i>
-                <i class="fa fa-close" ng-if="!rulelist.simulation"></i>
-              </td>
-            </tr>
-            <tr ng-if="rulesBase.allRules.length<1">
-              <td id ="no-results" colspan="12"><%= t('search.no_results') %></td>
-            </tr>
-            </tbody>
-          </table>
+           
+          </table> -->
         </multi-select>
       </div>
     </div>
   </div>
   <div class="full-page-pagination">
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
-                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
+                             tem 
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
-    rulesBase.display.from }} - {{ rulesBase.display.to }} <%= t('pagination.of') %> {{
-    rulesBase.pagination.totalRules }}
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
+    rulesBase.display.from - rulesBase.display.to <%= t('pagination.of') %>
+    rulesBase.pagination.totalRules
   </div>
   <div class="action-bar primary">
     <ul>
@@ -293,7 +257,7 @@
            class="button" ng-disabled="checkSelection() === false || checkState() === false"
            ng-class="checkSelection() === false || checkState() === false ? 'disabled' : ''"><%=t('rules.index.deactivate')%></button>
       </li>
-      <li>
+     <!--  <li>
         <button id="rule-disable" ng-click="openConfirmation('disable')" required-user role="rule_manager"
            class="button" ng-disabled="checkSelection() === false"
            ng-class="checkSelection() === false ? 'disabled' : ''"><%=t('rules.index.delete')%></button>
@@ -302,7 +266,7 @@
         <button id="rule-live" ng-click="openConfirmation('live')" required-user role="rule_manager"
            class="button" ng-disabled="checkSelection() === false || checkSimState() === false"
            ng-class="checkSelection() === false || checkSimState() === false ? 'disabled' : ''"><%=t('rules.index.live')%></button>
-      </li>
+      </li> -->
     </ul>
   </div>
 </div>

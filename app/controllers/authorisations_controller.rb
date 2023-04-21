@@ -1,6 +1,6 @@
 class AuthorisationsController < ApplicationController
   def index
-     @authorisations = Authorisation.paginate(:page => params[:page], :per_page => 10)
+     @authorisations = Authorisation.order(:title).page params[:page]
   end
 
   def all

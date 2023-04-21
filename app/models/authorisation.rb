@@ -52,11 +52,12 @@ require 'yaml'
 #require 'authorisation_search'
 
 class Authorisation < ApplicationRecord
+  paginates_per 10
   include Filter
   #include Authorisation::Abilities
 
   attr_accessor :member_name, :client_name, :merchant_name
-  self.per_page = 10
+  
   
  # self.primary_keys = :created_at, :id
 

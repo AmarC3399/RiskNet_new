@@ -6,7 +6,7 @@
     <div class="grid_16 prefix_4 alpha omega">
       <div id="user_form" class="section form-group group" style="top:20px;overflow: visible;padding: 0 0 80px;">
         <div class="sub-header-content">
-          <h3 ng-if="usersBase.userForm.type === 'new'"><%= t('users.userform.register_new_user') %></h3>
+          <h3 ng-if="usersBase.userForm.type === 'new'">Register a New User</h3>
           <h3 ng-if="usersBase.userForm.type === 'view'"><%= t('users.userform.user_management') %></h3>
           <h3 ng-if="usersBase.userForm.type === 'edit'"><%= t('users.userform.edit_a_user') %></h3>
         </div>
@@ -211,4 +211,13 @@
 </div>
 
 
-
+<%= form_for @user do |f| %>
+  <%= f.label :Full_Name %> 
+  <%= f.text_field :name %>
+   <%= f.label :Email_Address %>
+   <%= form.text_field :email %>
+    <p><%= form.label :New_Password %></p>
+  <p><%= form.text_field :password %></p>
+<%= f.submit %> 
+<% end %>
+ 

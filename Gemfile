@@ -181,3 +181,4 @@ gem 'parallel_tests', '~> 4.2.0'
 gem "hotwire-rails", "~> 0.1.3"
 gem 'importmap-rails'
 gem 'will_paginate', "~> 3.0"
+gem 'kaminari'

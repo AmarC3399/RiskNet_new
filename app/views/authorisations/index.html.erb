@@ -133,10 +133,9 @@
   </div>   
 
   <div class="full-page-pagination">
-    <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
-                             template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
-  </div>
    <%= will_paginate @authorisations %>
+  </div>
+   
   <div class="action-bar primary">
     <ul>
       <li>
