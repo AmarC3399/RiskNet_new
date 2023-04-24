@@ -25,7 +25,7 @@
             <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
                   ng-if="authsBase.filter.search"></span>
             <select id="search_column" name="search_column" ng-model="authsBase.filter.search_column" ui-select2
-                    placeholder="<%= t('search.search_within') %>" required>
+                    placeholder="<%#= t('search.search_within') %>" required>
               <option value="" disabled='disabled' selected='selected'></option>
               <option ng-repeat="option in authsBase.filter.search_columns" value="authorisations_{{::option.column}}">
                 {{::option.mapping}}
@@ -37,9 +37,9 @@
                  type="submit"><i class="fa fa-search"></i>
             </div>
           </form> -->
-           <%= form_tag(authorisations_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+          <%= form_tag(authorisations_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+            <%= submit_tag "Search" %>
           <% end %>
         </li>
         <li id="auth-clear-ordering" class="sorting-button">

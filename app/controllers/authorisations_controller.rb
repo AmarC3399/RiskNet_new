@@ -1,3 +1,5 @@
+
+
 class AuthorisationsController < ApplicationController
   def index
      @authorisations = Authorisation.order(:title).page params[:page]

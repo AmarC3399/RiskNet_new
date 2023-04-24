@@ -2,12 +2,231 @@
   <button class="workspace-button" ng-click="alertBase.alertVisible = !alertBase.alertVisible" title="<%= t('alerts.index.toggle_workspace_mode') %>"></button>
   <div id="sidebar" class="sidebar-left">
     <div class="header-content">
-      <h2><%= t('alerts.index.Alerts') %></h2>
+      <h2>Alerts</h2>
     </div>
     <div ui-view="alert-menu" id="alert-menu"></div>
   </div>
 
   <div id="page-contents" class="with-left-sidebar with-fullpage-action-bar">
+
+    <header class="sub-header-content grey move-header">
+  <h3>Details</h3>
+</header>
+<div id="card-details" class="content-panel-wrapper">
+  <div class="content-panel compress">
+    <div class="inner">
+      <h4>Card Details</h4>
+      <div class="container_24 no_margin">
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tbody>
+            <tr>
+              <th>NAME</th>
+              <td id="name" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.name_on_card"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                
+              </td>
+            </tr>
+            <tr>
+              <th>CARD NUMBER</th>
+              <td id="card-number" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_number"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                421112******1001
+              </td>
+            </tr>
+            <tr>
+              <th>EXPIRY DATE</th>
+              <td id="expiry-date" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.expiration_date"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                12/2022
+              </td>
+            </tr>
+            <tr>
+              <th>CARD TYPE</th>
+              <td id="card-type" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_type"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tbody>
+            <tr>
+              <th>CARD CLASS</th>
+              <td id="card-class" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.card_class"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                
+              </td>
+            </tr>
+            <tr>
+              <th>CARD ISSUER</th>
+              <td id="card-issuer" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.issuer"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                
+              </td>
+            </tr>
+            <tr>
+              <th>ISSUER COUNTRY</th>
+              <td id="issuer-country" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="alertMerchantsBase.alertOwner.country"
+                  data-trigger="focus" data-container="body" data-placement="left">
+                
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-panel compress">
+    <div class="inner">
+      <h4>Customer Details</h4>
+      <div class="container_24 no_margin">
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tr>
+              <th>ADDRESS</th>
+              <td id="address" placeholder="-" bs-tooltip="base.activeAuthorisation.address" data-trigger="hover"
+                  data-container="body" data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>CITY</th>
+              <td id="city" placeholder="-" type="text" readonly="readonly" bs-tooltip="base.activeAuthorisation.city"
+                  data-trigger="focus" data-container="body" data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>COUNTY</th>
+              <td id="county" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.county" data-trigger="focus" data-container="body"
+                  data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>POST CODE</th>
+              <td id="post-code" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.post_code" data-trigger="focus" data-container="body"
+                  data-placement="left">
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="details-column">
+          <table class="vertical-table pull-left no-hover compact">
+            <tr>
+              <th>COUNTRY</th>
+              <td id="country" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.country"
+                  data-trigger="focus" data-container="body" data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>E-MAIL</th>
+              <td id="email" placeholder="-" type="text" readonly="readonly" bs-tooltip="base.activeAuthorisation.email"
+                  data-trigger="focus" data-container="body" data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>TELEPHONE</th>
+              <td id="phone-number" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.phone_number" data-trigger="focus" data-container="body"
+                  data-placement="left">
+              </td>
+            </tr>
+            <tr>
+              <th>IP ADDRESS</th>
+              <td id="ip-address" placeholder="-" type="text" readonly="readonly"
+                  bs-tooltip="base.activeAuthorisation.customer_ip_address" data-trigger="focus" data-container="body"
+                  data-placement="left">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!--   <header class="sub-header-content move-header">
+  <h3>Analysis</h3>
+</header>
+<div class="section-navigation">
+  <ul class="nav analysis-nav">
+    <li ng-repeat="tab in alertAnalysisBase.tabs">
+      <a id="{{tab.name}}" ng-class="($index === alertAnalysisBase.currentTab) ? 'selected' : ''"
+         ng-click="changeTab($index)">Authorisations</a>
+         <li ng-repeat="tab in alertAnalysisBase.tabs">
+          <a>Actions</a>
+          <li ng-repeat="tab in alertAnalysisBase.tabs">
+            <a>Violation</a>
+            <li ng-repeat="tab in alertAnalysisBase.tabs">
+            <a>Journal</a>
+
+  </ul>
+</div> -->
+<!--%button.button.rule_info{"bs-popover" => "'/templates/modals/alerts/rule_info.html'", "data-unique" => "1", :type => "button", "data-trigger" => "hover"}-->
+<!--.sprite.info-->
+<!-- <div resize-alert-rules>
+  <header id="alert-rule-table-header" class="sub-header-content move-header">
+    <h3>Rules</h3>
+  </header>
+  <div id="alert-rule-table" loading="" urls="^/api/alerts((\\?.*)?|/[0-9]+\.[0-9]+-[0-9]+)$">
+    <div class="alert-rule-table-contents">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Rule ID</th>
+          <th>Priority</th>
+          <th>Outcome</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'selected-row': rule === selected}" ng-click="setMainRule(rule)"
+            bindonce ng-repeat="rule in alertRulesBase.rules">
+          <td>review all clients</td>
+          <td>1</td>
+          <td>Review</td>
+          <td>
+            <i id="more-info{{$index}}" class="more-info fa fa-question-circle"
+               uib-popover-template="'/templates/modals/alerts/rule_info.html'" data-unique="1"
+               popover-placement="left-top" popover-trigger="mouseenter" html="false" container="body"
+               data-container="body"></i>
+          </td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+ -->
+
+<div class="analysis-wrapper" loading=""
+     urls="^/api/.*/.*/(activities|violations|allocated_comments|authorisations|journals).*$">
+  <div ui-view="analysis-view" id="analysis-view"></div>
+</div>
+
+
+
+
+
+
+
+
+
     <div gridster>
       <ul id="alert-gridster-list" class="resize-grid">
         <li gridster-item id="{{item.id}}"  row="item.position[1]" col="item.position[0]" size-x="item.size.x" size-y="item.size.y" class="section gridster-item" ng-repeat="item in vars.gridsterItems">
@@ -30,3 +249,4 @@
     </ul>
   </div>
 </div>
+

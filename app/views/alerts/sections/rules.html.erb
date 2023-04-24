@@ -9,9 +9,9 @@
       <table class="table">
         <thead>
         <tr>
-          <th><%= t('alerts.rules.rule_id') %></th>
-          <th><%= t('alerts.rules.priority') %></th>
-          <th><%= t('alerts.rules.outcome') %></th>
+          <th>Rule ID</th>
+          <th>Priority</th>
+          <th>Outcome</th>
           <th></th>
         </tr>
         </thead>
@@ -19,8 +19,8 @@
         <tr ng-class="{'selected-row': rule === selected}" ng-click="setMainRule(rule)"
             bindonce ng-repeat="rule in alertRulesBase.rules">
           <td bo-text="rule.internal_code"></td>
-          <td bo-text="rule.priority"></td>
-          <td bo-text="rule.outcome | challengeToReview"></td>
+          <td>1</td>
+          <td>Review</td>
           <td>
             <i id="more-info{{$index}}" class="more-info fa fa-question-circle"
                uib-popover-template="'/templates/modals/alerts/rule_info.html'" data-unique="1"

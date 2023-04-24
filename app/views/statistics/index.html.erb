@@ -9,7 +9,6 @@
     </a>
   </div>
 </div>
-
 <div id="page-contents" class="with-header-container with-fullpage-action-bar no-footer">
   <div id="feature-list" class="container_24" loading urls="/statistics">
     <div id="statistics-list-section" class="grid_20 prefix_2 alpha omega group">
@@ -18,9 +17,10 @@
              ng-class="{'filter-active': statsBase.filter.count > 0 && statsBase.filter.showTags}">
           <ul>
             <li class="search-form">
-               <%= form_tag(statistics_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+            
+           <%= form_tag(authorisations_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+            <%= submit_tag "Search" %>
           <% end %>
             
              <!--  <form id="model_text_filter">
