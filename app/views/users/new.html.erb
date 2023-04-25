@@ -15,15 +15,11 @@
           <div class="grid_20 prefix_2 suffix_2 form-group">
             <ul class="labelled-form-full-width grid_22">
               <li>
-                <p class="capitalise">
-                  <span for="name"><%= t('users.userform.full_name') %></span>
+                <p>
+                  Full Name
                 </p>
               </li>
-              <li style="float:none;">
-                <input id="name" name="name" class="form-control" ng-model="usersBase.userObj.name"
-                       placeholder="<%= t('generic_placeholders.required') %>" type="text" value="{{user.name}}"
-                       ng-disabled="usersBase.userForm.type === 'view'" required maxlength="100">
-              </li>
+             
               <li style="float:none;">
                 <div ng-show="new_user.name.$invalid && new_user.name.$dirty" class="alert alert-warning">
                   <span class="glyphicon glyphicon-question-sign"></span>
@@ -211,13 +207,5 @@
 </div>
 
 
-<%= form_for @user do |f| %>
-  <%= f.label :Full_Name %> 
-  <%= f.text_field :name %>
-   <%= f.label :Email_Address %>
-   <%= form.text_field :email %>
-    <p><%= form.label :New_Password %></p>
-  <p><%= form.text_field :password %></p>
-<%= f.submit %> 
-<% end %>
+
  

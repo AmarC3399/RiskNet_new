@@ -15,7 +15,10 @@
 
           <%= form_tag(alertoverrides_path, method: :get) do %>
             <%= text_field_tag(:search, params[:search]) %>
-            <%= submit_tag("search") %>
+             <%= button_tag type: 'submit', class: "button postfix" do %>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            <% end %>
+          
             <% end %>
 
             

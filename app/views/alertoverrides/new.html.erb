@@ -42,11 +42,7 @@
                 </p>
               </li>
               <li style="float:none;">
-                <input id="card_number" name="card_number" class="form-control"
-                       ng-model="alertOverridesBase.overrideObj.card_number"
-                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
-                       required maxlength="100" ng-disabled="alertOverridesBase.overrideForm.type === 'edit'"
-                       ng-class="alertOverridesBase.overrideForm.type === 'edit' ? 'disabled' : ''">
+                <input id="card_number" name="card_number" class="form-control">
               </li>
               <li style="float:none;">
                 <div ng-show="new_alert_override.card_number.$invalid && new_alert_override.card_number.$dirty"

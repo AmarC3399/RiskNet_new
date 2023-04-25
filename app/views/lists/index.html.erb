@@ -27,9 +27,10 @@
                  type="submit"><i class="fa fa-search"></i>
             </div>
           </form> -->
-          <%= form_tag(lists_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+          
+           <%= form_tag(lists_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+            <%= submit_tag "Search" %>
           <% end %>
         </li>
         <li id="list-filter" class="filter-button">
@@ -121,13 +122,9 @@
     <div class="section" id="list-tems">
       <div class="sub-header-content">
         <h3 ng-if="!listsBase.selectedDataList.id">
-          <%= t('list_management.index.edit_List') %>
+          Edit List Item
         </h3>
-        <h3 ng-if="listsBase.selectedDataList.id">
-          <%= t('list_management.index.edit_title') %>
-          <%= t('list_management.index.in') %>
-          '{{listsBase.selectedDataList.name}}'
-        </h3>
+
       </div>
       <div id="list-list" class="content-panel-wrapper with-action-bar"
            ng-class="listsBase.pagination.items.totalPages > 1 ? 'with-pagination' : ''">
@@ -138,7 +135,7 @@
           </div>
         </div>
         <div class="create-item">
-          <div class="create-item-title group" ng-if="listsBase.selectedDataList.data_type">
+          <!-- <div class="create-item-title group" ng-if="listsBase.selectedDataList.data_type">
             <ul class="no-list-margin no-list-style container_24 no-margin">
               <li class="grid_10 alpha">
                 <p class="filter_label"><%= t('list_management.index.item_name') %></p>
@@ -148,9 +145,9 @@
                 <p class="filter_label"><%= t('list_management.index.item_value') %></p>
                 <p class="micro-text" style="color:#999"><%= t('list_management.index.list_value_desc') %></p>
               </li>
-            </ul>
-          </div>
-          <ul class="no-list-margin no-list-style container_24 no-margin group"
+            </ul>s
+          </div> -->
+          <!-- <ul class="no-list-margin no-list-style container_24 no-margin group"
               ng-if="listsBase.selectedDataList.read_only !== true" style="margin: 0 0 10px;">
             <li class="grid_8 suffix_2 alpha">
               <div class="input-container" ng-if="listsBase.selectedDataList.data_type">
@@ -187,7 +184,7 @@
                 <%= t('list_management.index.add_item') %>
               </button>
             </li>
-          </ul>
+          </ul> -->
         <!-- </div>
         <!-- <div class="created-item" ng-class="listsBase.selectedDataList.read_only === true ? 'read_only' : ''">
           <ul class="no-list-margin no-list-style container_24 no-margin">
@@ -195,117 +192,11 @@
               total-items="listsBase.pagination.items.totalItems" current-page="listsBase.pagination.items.currentPage"
                 pagination-id="item" class="group" ng-if="!list_item._destroy">
               <!-- Not read only, and not installation user -->
-              <div class="grid_10 alpha"
-                   ng-if="listsBase.selectedDataList.read_only !== true && auth.currentUser.owner_type !== 'Installation'">
-                <span required-user role="admin, rule_manager" class="list_frontend_name"
-                      editable-text="list_item.frontend_name" id="list_name{{$index}}" e-ng-change="incrementCount()">
-                    <i class="fa fa-edit"></i>
-                    {{list_item.frontend_name}}
-                </span>
-                <span required-user role="user" class="list_frontend_name"
-                      id="list_name{{$index}}" e-ng-change="incrementCount()">
-                      {{list_item.frontend_name}}
-                </span>
-              </div>
-
-              <!-- Only installation users -->
-              <div class="grid_10 alpha" ng-if="auth.currentUser.owner_type === 'Installation'">
-                    <span required-user role="admin, rule_manager" class="list_frontend_name"
-                          editable-text="list_item.frontend_name" id="list_name{{$index}}" e-ng-change="incrementCount()">
-                    <i class="fa fa-edit"></i>
-                    {{list_item.frontend_name}}
-                </span>
-              </div>
-
+             
               <!-- Read only, and not installation user -->
-              <div class="grid_10 alpha"
-                   ng-if="listsBase.selectedDataList.read_only === true && auth.currentUser.owner_type !== 'Installation'">
-                <span required-user role="admin, rule_manager, user" class="list_frontend_name"
-                      id="list_name{{$index}}">
-                      {{list_item.frontend_name}}
-                </span>
-              </div>
-
-              <!-- Not read only -->
-              <div class="grid_10" ng-if="listsBase.selectedDataList.read_only !== true">
-                <div required-user role="admin, rule_manager">
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        editable-date="list_item.value"
-                        ng-if="listsBase.selectedDataList.data_type === 'datetime'"
-                        e-ng-change="incrementCount()">
-                      <i class="fa fa-edit"></i>
-                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        editable-number="list_item.value"
-                        ng-if="listsBase.selectedDataList.data_type === 'integer'"
-                        e-ng-change="incrementCount()">
-                      <i class="fa fa-edit"></i>
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        editable-number="list_item.value"
-                        ng-if="listsBase.selectedDataList.data_type === 'decimal'"
-                        e-ng-change="incrementCount()">
-                      <i class="fa fa-edit"></i>
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        editable-text="list_item.value"
-                        ng-if="listsBase.selectedDataList.data_type === 'string'"
-                        e-ng-change="incrementCount()">
-                      <i class="fa fa-edit"></i>
-                      {{list_item.value}}
-                  </span>
-                </div>
-
-                <!-- Not read only from above, and not installation user -->
-                <div required-user role="user" ng-if="auth.currentUser.owner_type !== 'Installation'">
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'datetime'">
-                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'integer'">
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'decimal'">
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'string'">
-                      {{list_item.value}}
-                  </span>
-                </div>
-              </div>
-
-              <div class="grid_4 alpha" ng-if="listsBase.selectedDataList.read_only !== true">
-                <span id="delete{{$index}}" class="delete-list-item" ng-click="deleteListItem($index)">
-                    <i class="fa fa-close "></i>&nbsp;<%= t('generic_buttons.delete') %>
-                </span>
-              </div>
-
+             
               <!-- Read only -->
-              <div class="grid_10 suffix_4 omega" ng-if="listsBase.selectedDataList.read_only === true">
-                <div>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'datetime'">
-                      {{list_item.value | date:'dd/MM/yyyy HH:mm'}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'integer'">
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'decimal'">
-                      {{list_item.value}}
-                  </span>
-                  <span id="list_value{{$index}}" class="list_item_value"
-                        ng-if="listsBase.selectedDataList.data_type === 'string'">
-                      {{list_item.value}}
-                  </span>
-                </div>
+             
               </div>
             </li>
           </ul>
@@ -317,7 +208,7 @@
       </div>
       <div class="action-bar primary">
         <ul>
-          <li required-user role="admin, rule_manager">
+          <!-- <li required-user role="admin, rule_manager">
             <a id="list-export-items" class="button" ng-if="listsBase.selectedDataList.id"
                href="/api/list_management/{{listsBase.selectedDataList.id}}/export" target="_self">
               <%= t('list_management.index.export_items') %>
@@ -343,5 +234,5 @@
         <!-- ngSwitchWhen: configuring_filter -->
       </div>
     </div>
-  </div> -->
+  </div>
 </div>

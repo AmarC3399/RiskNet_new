@@ -1,3 +1,5 @@
+
+
 @charset "UTF-8";
 
 // Place all the styles related to the alerts controller here.
@@ -986,7 +988,7 @@ ul {
     }
   }
 
-   .search-form {
+  .search-form {
     position: absolute;
     right: 55px;
     left: 5px;
@@ -1004,7 +1006,8 @@ ul {
       #search-clear {
         right: 305px;
       }
-    
+
+      
 
       .select2-container {
         width: 250px;
@@ -1036,10 +1039,9 @@ ul {
     }
 
     input {
-      position: absolute;
       left: 0;
       height: 40px;
-      padding-right: 43px;
+      padding-right: 1180px;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -5293,7 +5295,7 @@ img.fw-bg {
       }
 
       button {
-        width: 270px;
+        width: 272px;
         box-shadow: inset 9px 0px 22px rgba(0, 0, 0, 0.1),
         0px 6px 5px rgba(0, 0, 0, 0.10);
       }

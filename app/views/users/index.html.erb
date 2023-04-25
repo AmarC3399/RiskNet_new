@@ -27,11 +27,13 @@
               class="fa fa-search"></i>
             </div>
           </form> -->
-                    <%= form_tag(customers_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+           
+             <%= form_tag(users_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+             <%= button_tag type: 'submit', class: "button postfix" do %>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            <% end %>
           <% end %>
-            
         </li>
         <li id="user-filter" class="filter-button">
           <a class="button" data-badge="{{usersBase.filter.count}}"

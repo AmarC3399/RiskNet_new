@@ -18,9 +18,9 @@ margin-bottom: 50px important;
       <ul>
         <li class="search-form two-filter-buttons">
 
-          <%= form_tag(batch_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+           <%= form_tag(batch_path, method: "get") do %>
+           <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+           <%= submit_tag "Search" %>
           <% end %>
          <!--  <form>
             <input id="batch-search" class="form-control" placeholder="<%= t('search.search') %>"

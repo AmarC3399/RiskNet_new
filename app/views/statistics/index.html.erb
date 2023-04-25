@@ -18,9 +18,11 @@
           <ul>
             <li class="search-form">
             
-           <%= form_tag(authorisations_path, method: "get") do %>
+           <%= form_tag(statistics_path, method: "get") do %>
             <%= text_field_tag :search, nil, placeholder: 'Search'  %>
-            <%= submit_tag "Search" %>
+             <%= button_tag type: 'submit', class: "button postfix" do %>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            <% end %>
           <% end %>
             
              <!--  <form id="model_text_filter">
@@ -182,10 +184,13 @@
         </div>
       </div>
     </div>
-    <div id="bottom-pagination">
-      <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
-                               template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
-    </div>
+    
+  <div class="action-bar primary">
+    <ul>
+     
+    </ul>
+  </div>
+</div>
   </div>
 </div>
 

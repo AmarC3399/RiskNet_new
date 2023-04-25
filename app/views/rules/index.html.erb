@@ -17,9 +17,11 @@
          ng-class="{'filter-active': rulesBase.filter.count > 0 && rulesBase.filter.showTags}">
       <ul>
         <li class="search-form two-filter-buttons">
-            <%= form_tag(rules_path, method: :get) do %>
-          <%= text_field_tag(:search, params[:search]) %>
-          <%= submit_tag ("Search") %>
+            <%= form_tag(rules_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+             <%= button_tag type: 'submit', class: "button postfix" do %>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            <% end %>
           <% end %>
         
             <i class="fa fa-filter"></i></a>

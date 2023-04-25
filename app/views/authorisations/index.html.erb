@@ -39,7 +39,10 @@
           </form> -->
           <%= form_tag(authorisations_path, method: "get") do %>
             <%= text_field_tag :search, nil, placeholder: 'Search'  %>
-            <%= submit_tag "Search" %>
+          
+             <%= button_tag type: 'submit', class: "button postfix" do %>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            <% end %>
           <% end %>
         </li>
         <li id="auth-clear-ordering" class="sorting-button">

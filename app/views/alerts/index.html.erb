@@ -238,6 +238,32 @@
 
   <div class="action-bar primary full-page">
     <div ui-view="menu-bar-view"></div>
+    <ul>
+  <li id="alert-add-reminder" required-user role="admin, user">
+    <!-- ngIfs to remove from DOM for help text -->
+    <a id="open_set_reminder" class="button neutral"
+       ng-if="!alertBase.reminderDetails || alertBase.reminderDetails.cleared === true"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openReminder()" ng-model="alertBase.reminder.details">
+      <span><%= t('alerts.menu_bar.Set_A_reminder') %></span>
+    </a>
+    
+  </li>
+  <li required-user role="admin, user">
+    <a id="alert-forward" class="button" ng-disabled="!alertBase.reminder.alert_id"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openForwardAlert()">
+      <span><%= t('alerts.menu_bar.forward_the_alert') %></span>
+    </a>
+  </li>
+  <li>
+    <a id="alert-examine" class="button" ng-disabled="!alertBase.reminder.alert_id"
+       ng-class="(!alertBase.reminder.alert_id) ? 'disabled' : ''"
+       ng-click="(!alertBase.reminder.alert_id) || openConfirmation()">
+      <span><%= t('alerts.menu_bar.mark_as_examined') %></span>
+    </a>
+  </li>
+</ul>
   </div>
   <div id="page-footer" ng-controller="AlertStatsCtrl" ng-if="alertBase.alertVisible">
     <ul>
