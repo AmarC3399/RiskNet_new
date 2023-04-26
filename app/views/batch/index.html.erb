@@ -5,53 +5,59 @@ position:initial !important;
 margin-top: -24px !important;
 margin-bottom: 50px important;
 }
+
+<div id="header-container">
 </style>
 
 
 <div id="header-container">
-  <h1 class="pull-left">Batch Alert Management</h1>
+  <h1>Batch Alert Management</h1>
 </div>
 <div id="page-contents" class="no-footer with-header-container">
   <div class="section full-screen-table with-pagination">
     <div class="filter" ng-init="batchBase.filter.showTags = true"
          ng-class="{'filter-active': batchBase.filter.count > 0 && batchBase.filter.showTags}">
       <ul>
+      
         <li class="search-form two-filter-buttons">
 
            <%= form_tag(batch_path, method: "get") do %>
            <%= text_field_tag :search, nil, placeholder: 'Search'  %>
-           <%= submit_tag "Search" %>
+            <%= button_tag type: 'submit', class: "button postfix" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px; margin: 2px;">
+  <path fill="white" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+            <% end %>
           <% end %>
-         <!--  <form>
-            <input id="batch-search" class="form-control" placeholder="<%= t('search.search') %>"
-                   ng-model="batchBase.filter.search" ng-change="batchBase.filter.searchUpdate=true"
-                   type="text" uib-popover="<%= t('search.search_all_fields_except_dates') %>"
-                   popover-placement="bottom" popoover-class="search-specific-popover" popover-trigger="outsideClick"
-                   ng-keypress="($event.which === 13 ) ? !batchBase.filter.searchUpdate || loadFilters():0">
-            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
-                  ng-if="batchBase.filter.search"></span>
-            <div id="batch-alert-search-submit" class="input-group-addon search-button button" ng-disabled="!batchBase.filter.searchUpdate"
-                 ng-click="!batchBase.filterss.searchUpdate || loadFilters()" type="submit">
-              <i class="fa fa-search"></i>
-            </div>
-          </form> -->
+        </li>
+        <li id="auth-clear-ordering" class="sorting-button">
+          <a class="button" style="width: 25px; background: #4495D1;position: relative;" ng-click="resetOrder()" ng-disabled="authsBase.ordering.orderString === ''">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; position: relative; bottom: 5px;">
+  <path fill="white" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; transform: rotate(180deg);position: absolute;
+    left: 21px;
+    top: 13px;">
+  <path fill="white" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+          </a>
+        </li>
+        <li id="batch-filter" class="filter-button">
+          <a class="button"
+             ng-click="toggleSidebar('batchBase', batchBase.filter.sideBar);batchBase.filter.showTags = true"
+             >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;">
+  <path fill="white" d="M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg></a>
+        </li>
+      </ul>
         </li>
         <li id="batch-clear-ordering" class="sorting-button">
           <a class="button" ng-click="resetOrder()" ng-disabled="batchBase.ordering.orderString === ''"><i
             class="fa fa-unsorted"></i></a>
         </li>
-        <li id="batch-filter" class="filter-button">
-          <a class="button" data-badge="{{batchBase.filter.count}}"
-             ng-click="toggleSidebar('batchBase', batchBase.filter.sideBar);batchBase.filter.showTags = true"
-             title="<%= t('generic_buttons.filter') %>">
-            <i class="fa fa-filter"></i></a>
-        </li>
+       
       </ul>
       <ul class="filter-list" tag-overflow>
         <li ng-repeat="(filterName, filterValue) in batchBase.filter.sideBar"
             ng-if="filterValue != null && batchBase.filter.showTags"
-            class="filter-tag alert alert-success text-capitalise micro-text"><b>filterName | removeUnderscore | convertToFELevels}}:</b>
-            filterValue | filterTag:levels:filterName 
+            class="filter-tag alert alert-success text-capitalise micro-text">
           <button class="close" ng-click="removeFilterTag(filterName, 'batchBase', batchBase.filter)">
             <i class="glyphicon glyphicon-remove-circle"></i>
           </button>
@@ -67,7 +73,7 @@ margin-bottom: 50px important;
           <table float-thead="vars.floatTheadOptions" class="striped lined" style="width: 2500px;" ng-model="batchBase.batchAlerts">
             <thead>
             <tr>
-              <th>Alert ID</th>
+               <th>Alert ID</th>
               <th>Owner Name</th>
               <th>Priority</th>
               <th>Run Date</th>
@@ -84,8 +90,12 @@ margin-bottom: 50px important;
                 
             </tr>
             </thead>
-            <tbody>           
-              <td> 1</td>
+            <tbody>
+            <tr bindonce
+                dir-paginate="alert in batchBase.batchAlerts | itemsPerPage: batchBase.pagination.alertsPerPage"
+                total-items="batchBase.pagination.totalAlerts"
+                current-page="batchBase.pagination.currentPage">
+                 <td> 1</td>
               <td> Unregistered Merchant</td>
               <td> 1</td>
               <td>13/07/2012 11:55</td>
@@ -99,8 +109,10 @@ margin-bottom: 50px important;
               <td>13/07/2021 12:39</td>
               <td>null</td>
               <td>null</td>
+              
             </tr>
-           </tbody>
+
+            </tbody>
           </table>
         </multi-select>
       </div>
@@ -111,9 +123,9 @@ margin-bottom: 50px important;
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
-    batchBase.display.from - batchBase.display.to <%= t('pagination.of') %>
-    batchBase.pagination.totalAlerts 
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
+    batchBase.display.from }} - {{ batchBase.display.to }} <%= t('pagination.of') %> {{
+    batchBase.pagination.totalAlerts }}
   </div>
   <div class="action-bar primary">
     <ul>
@@ -128,15 +140,18 @@ margin-bottom: 50px important;
       <li>
         <a id="batch-forward" ng-click="checkSelection() === false || openForwardAlert()" class="button"
            ng-disabled="checkSelection() === false" ng-class="checkSelection() === false ? 'disabled' : ''">
-          <%= t('batch.forward_alerts') %></a>
+          <%= t('batch.forward_alert(s)') %></a>
       </li>
       <li>
         <a id="batch-delete" ng-click="checkSelection() === false || openConfirmation()" class="button"
            ng-disabled="checkSelection() === false" ng-class="checkSelection() === false ? 'disabled' : ''"><%=
-          t('batch.examine_alerts') %></a>
+          t('batch.examine_alert(s)') %></a>
       </li>
     </ul>
   </div>
 </div>
+
+
+
 
 

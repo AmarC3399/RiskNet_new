@@ -28,10 +28,8 @@
                    type="text" uib-popover="<%= t('alert_override.index.tooltip') %>"
                    popover-placement="bottom" popover-trigger="outsideClick"
                    ng-keypress="($event.which === 13 ) ? !alertOverridesBase.filter.searchUpdate || loadFilters():0">
-
             <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
                   ng-if="alertOverridesBase.filter.search"></span>
-
             <div id="alert-override-search-submit" class="input-group-addon search-button button"
                  ng-disabled="!alertOverridesBase.filter.searchUpdate"
                  ng-click="!alertOverridesBase.filter.searchUpdate || loadFilters()" type="submit">
