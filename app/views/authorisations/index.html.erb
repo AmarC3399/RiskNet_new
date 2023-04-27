@@ -16,27 +16,7 @@
          ng-class="{'filter-active': authsBase.filter.count > 0 && authsBase.filter.showTags}">
       <ul>
         <li class="search-form combo-search two-filter-buttons">
-          <!-- <form>
-            <input id="auth-search" class="form-control" placeholder="<%= t('search.search') %>"
-                   ng-model="authsBase.filter.search"
-                   type="text" uib-popover="<%= t('search.search_dropdown') %>"
-                   popover-placement="bottom" popover-trigger="outsideClick"
-                   ng-keypress="($event.which === 13 ) ? !authsBase.filter.search || !authsBase.filter.search_column || loadFilters():0">
-            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
-                  ng-if="authsBase.filter.search"></span>
-            <select id="search_column" name="search_column" ng-model="authsBase.filter.search_column" ui-select2
-                    placeholder="<%#= t('search.search_within') %>" required>
-              <option value="" disabled='disabled' selected='selected'></option>
-              <option ng-repeat="option in authsBase.filter.search_columns" value="authorisations_{{::option.column}}">
-                {{::option.mapping}}
-              </option>
-            </select>
-            <div id="auth-search-submit" class="input-group-addon search-button button"
-                 ng-disabled="!authsBase.filter.search || !authsBase.filter.search_column"
-                 ng-click="!authsBase.filter.search || !authsBase.filter.search_column || loadFilters()"
-                 type="submit"><i class="fa fa-search"></i>
-            </div>
-          </form> -->
+         
           <%= form_tag(authorisations_path, method: "get") do %>
             <%= text_field_tag :search, nil, placeholder: 'Search', class:"inputwidth" %>
             <%= button_tag type: 'submit', class: "button postfix" do %>

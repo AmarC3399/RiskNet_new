@@ -1,2 +1,99 @@
-%h1 Merchants#new
-%p Find me in app/views/merchants/new.html.haml
+<div id="header-container">
+  <h1 class="pull-left" ng-if="customersBase.customerForm.type === 'new'"><%= t('customers.new.create_customer') %></h1>
+  <h1 class="pull-left" ng-if="customersBase.customerForm.type === 'edit'"><%= t('customers.new.edit_customer') %></h1>
+</div>
+
+<div id="page-contents" class="no-footer with-header-container">
+  <div class="container_24">
+    <div class="grid_16 prefix_4 alpha omega">
+      <div id="customer_form" class="section form-group group" style="top:20px;overflow: visible;padding: 0 0 80px;">
+        <div class="sub-header-content">
+          <h3 ng-if="customersBase.customerForm.type==='new'"><%= t('customers.new.register') %>
+            customersBase.customerForm.fLevel | removeUnderscore</h3>
+          <h3 ng-if="customersBase.customerForm.type==='edit'"><%= t('customers.new.edit') %>
+            customersBase.customerForm.fLevel | removeUnderscore</h3>
+        </div>
+        <form class="form-horizontal new_customer" name="new_customer" novalidate
+              ng-disabled="customersBase.customerForm.type === 'view'" style="margin-top: 20px;">
+          <div class="grid_20 prefix_2 suffix_2 form-group">
+
+
+            <ul class="labelled-form-full-width grid_22"
+                ng-if="auth.currentUser.owner_type==='Installation' && customersBase.customerForm.fLevel!=='client' && customersBase.customerForm.fLevel!=='installation'">
+              <li>
+                <p class="capitalise">
+                  <span for="client"><%= t('customers.new.client') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <select id="client_select" name="client_select" ng-model="vars.levels.members"
+                        ng-change="loadData('client')" placeholder="<%= t('generic_placeholders.select') %>"
+                        ui-select2 required>
+                  <option value="" disabled selected></option>
+                  <option ng-repeat="member in levels.members" value="{{member.id}}" name="{{member.name}}"> {{member.name}}</option>
+                </select>
+              </li>
+            </ul>
+            <ul class="labelled-form-full-width grid_22" ng-if="customersBase.customerForm.fLevel==='submerchant'">
+              <li>
+                <p class="capitalise">
+                  <span for="merchant"><%= t('customers.new.merchant') %></span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <select id="merchant_select" name="merchant_select"
+                        ng-model="customersBase.customerObj.inputs.client_id"
+                        placeholder="<%= t('generic_placeholders.select') %>" ui-select2 required>
+                  <option value="" disabled selected></option>
+                  <option ng-repeat="client in levels.clients" value="{{client.id}}" name="{{client.name}}"> {{client.name}}</option>
+                </select>
+              </li>
+            </ul>
+            <ul class="labelled-form-full-width grid_22" ng-repeat="item in customersBase.customerObj.schema">
+              <li>
+                <p class="capitalise">
+                  <span for="{{item.column}}"> {{item.column | removeUnderscore}} </span>
+                </p>
+              </li>
+              <li style="float:none;">
+                <!-- Show all fields for creation, but do not allow jpos keys to be changed in edit mode -->
+                <input id="{{item.column}}" name="{{item.column}}" class="form-control"
+                       ng-model="customersBase.customerObj.inputs[item.column]"
+                       placeholder="{{item.required | convertRequired}}" type="text"
+                       ng-disabled="customerBase.customerForm.type === 'view' ||
+                       (customersBase.customerForm.type === 'edit' && item.column === 'jpos_key')" ng-required="item.required"
+                       ng-class="customerBase.customerForm.type === 'view' ||
+                       (customersBase.customerForm.type === 'edit' && item.column === 'jpos_key') ? 'disabled' : ''"
+                       maxlength="100">
+              </li>
+            </ul>
+          </div>
+        </form>
+        <div class="action-bar primary">
+          <ul>
+            <li>
+              <button id="back" type="button" ui-sref="customers.index" ng-click="resetAll()" class="button neutral"><%=
+                t('generic_buttons.back') %>
+              </button>
+            </li>
+            <li>
+              <button id="create_new_customer" class="button btn btn-primary" ng-click="addNewCustomer()"
+                      ng-if="customersBase.customerForm.type === 'new'" ng-disabled="new_customer.$invalid"
+                      ng-class="new_customer.$invalid ? 'disabled' : ''"><%= t('customers.new.create_customer') %>
+              </button>
+            </li>
+            <li>
+              <button id="confirm_changes" class="button btn btn-primary" ng-click="editCustomer()"
+                      ng-if="customersBase.customerForm.type === 'edit'" ng-disabled="new_customer.$invalid"
+                      ng-class="new_customer.$invalid ? 'disabled' : ''"><%= t('generic_buttons.confirm_changes') %>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+
+
+

@@ -37,8 +37,8 @@
               </li>
               <li style="float:none;">
                 <input id="email" name="email" class="form-control" ng-model="usersBase.userObj.email"
-                       placeholder="<%= t('generic_placeholders.required') %>" type="email" ng-pattern="email_reg"
-                       value="{{user.email}}"
+                       placeholder="required" type="email" ng-pattern="email_reg"
+                       value="user.email"
                        ng-disabled="usersBase.userForm.type === 'view' || usersBase.userForm.type === 'edit'" required
                        maxlength="100">
               </li>
@@ -79,7 +79,7 @@
               </li>
               <li style="float:none;">
                 <input id="password" name="password" ng-model="usersBase.userObj.password" class="form-control"
-                       placeholder="<%= t('generic_placeholders.not_required') %>" type="password"
+                       placeholder="required" type="password"
                        ng-pattern="password_reg" value="{{user.password}}"
                        ng-disabled="usersBase.userForm.type === 'view'" ng-minlength="8" ng-maxlength="20">
               </li>
@@ -121,17 +121,13 @@
 
           <div class="grid_20 prefix_2 suffix_2 form-group" ng-if="usersBase.userForm.type === 'new'">
             <ul class="labelled-form-full-width grid_22">
-              <li>
-                <p class="capitalise">
-                  <span for="password"><%= t('users.userform.new_password') %></span>
-                </p>
-              </li>
-              <li style="float:none;">
+             
+             <!--  <li style="float:none;">
                 <input id="password" name="password" class="form-control" ng-model="usersBase.userObj.password"
                        placeholder="<%= t('generic_placeholders.required') %>" type="password"
                        ng-pattern="password_reg" value="{{user.password}}"
                        ng-disabled="usersBase.userForm.type === 'view'" ng-minlength="8" ng-maxlength="20" required>
-              </li>
+              </li> -->
               <li style="float:none;">
                 <div ng-show="new_user.password.$invalid && new_user.password.$dirty" class="alert alert-danger">
                   <span class="glyphicon glyphicon-question-sign"></span>
@@ -144,7 +140,7 @@
               </li>
             </ul>
           </div>
-          <div class="grid_20 prefix_2 suffix_2 form-group" ng-if="usersBase.userForm.type === 'new'">
+         <!--  <div class="grid_20 prefix_2 suffix_2 form-group" ng-if="usersBase.userForm.type === 'new'">
             <ul class="labelled-form-full-width grid_22">
               <li>
                 <p class="capitalise">
@@ -167,7 +163,7 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </div> -->
           <div ng-if="usersBase.userForm.type !== 'edit'">
             <div class="grid_24">
               <hr/>

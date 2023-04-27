@@ -1267,10 +1267,11 @@
       </div>
       <div id="criteria-summary-view" class="content-panel-wrapper period-content-wrapper with-action-bar">
         <ul id="criteria-summary">
-          <li ng-if="rulesBase.new.criteria.length === 0"><%= t('rules.new.no_criteria') %>
-          </li>
+          <li ng-repeat="rulesBase.new.criteria.length === 0">
+            No Criteria
+          
           <li ng-repeat="criterion in rulesBase.new.criteria">
-            criterion.description
+            Description
             <button ng-click="deleteDetails(criterion)" type="button"><i class="fa fa-close"></i>
             </button>
           </li>

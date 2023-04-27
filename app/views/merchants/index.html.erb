@@ -9,9 +9,9 @@
       <div id="customer_form" class="section form-group group" style="top:20px;overflow: visible;padding: 0 0 80px;">
         <div class="sub-header-content">
           <h3 ng-if="customersBase.customerForm.type==='new'"><%= t('customers.new.register') %>
-            {{customersBase.customerForm.fLevel | removeUnderscore}} </h3>
+            customersBase.customerForm.fLevel | removeUnderscore </h3>
           <h3 ng-if="customersBase.customerForm.type==='edit'"><%= t('customers.new.edit') %>
-            {{customersBase.customerForm.fLevel | removeUnderscore}} </h3>
+            customersBase.customerForm.fLevel | removeUnderscore </h3>
         </div>
         <form class="form-horizontal new_customer" name="new_customer" novalidate
               ng-disabled="customersBase.customerForm.type === 'view'" style="margin-top: 20px;">
@@ -52,7 +52,7 @@
             <ul class="labelled-form-full-width grid_22" ng-repeat="item in customersBase.customerObj.schema">
               <li>
                 <p class="capitalise">
-                  <span for="{{item.column}}"> {{item.column | removeUnderscore}} </span>
+                  <span for="item.column"> item.column | removeUnderscore </span>
                 </p>
               </li>
               <li style="float:none;">

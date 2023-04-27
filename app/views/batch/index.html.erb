@@ -17,20 +17,18 @@ margin-bottom: 50px important;
   <div class="section full-screen-table with-pagination">
     <div class="filter" ng-init="batchBase.filter.showTags = true"
          ng-class="{'filter-active': batchBase.filter.count > 0 && batchBase.filter.showTags}">
-      <ul>
-      
+      <ul>      
         <li class="search-form two-filter-buttons">
-
-           <%= form_tag(batch_path, method: "get") do %>
-           <%= text_field_tag :search, nil, placeholder: 'Search'  %>
+            <%= form_tag(batch_path, method: "get") do %>
+            <%= text_field_tag :search, nil, placeholder: 'Search', class:"inputwidth" %>
             <%= button_tag type: 'submit', class: "button postfix" do %>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px; margin: 2px;">
   <path fill="white" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+             <% end %>
             <% end %>
-          <% end %>
         </li>
-        <li id="auth-clear-ordering" class="sorting-button">
-          <a class="button" style="width: 25px; background: #4495D1;position: relative;" ng-click="resetOrder()" ng-disabled="authsBase.ordering.orderString === ''">
+        <li id="batch-clear-ordering" class="sorting-button">
+          <a class="button" style="width: 25px; background: #4495D1;position: relative;" ng-click="resetOrder()" ng-disabled="batchsBase.ordering.orderString === ''">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; position: relative; bottom: 5px;">
   <path fill="white" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; transform: rotate(180deg);position: absolute;
@@ -41,8 +39,7 @@ margin-bottom: 50px important;
         </li>
         <li id="batch-filter" class="filter-button">
           <a class="button"
-             ng-click="toggleSidebar('batchBase', batchBase.filter.sideBar);batchBase.filter.showTags = true"
-             >
+             ng-click="toggleSidebar('batchBase', batchBase.filter.sideBar);batchBase.filter.showTags = true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;">
   <path fill="white" d="M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg></a>
         </li>
@@ -111,7 +108,6 @@ margin-bottom: 50px important;
               <td>null</td>
               
             </tr>
-
             </tbody>
           </table>
         </multi-select>
@@ -123,9 +119,8 @@ margin-bottom: 50px important;
     <dir-pagination-controls boundary-links="true" on-page-change="changePage(newPageNumber)" max-size="6"
                              template-url="/templates/layouts/dirPagination.tpl.html"></dir-pagination-controls>
   </div>
-  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %> {{
-    batchBase.display.from }} - {{ batchBase.display.to }} <%= t('pagination.of') %> {{
-    batchBase.pagination.totalAlerts }}
+  <div id="page_stats" class="alongside-pagination micro-text"><%= t('pagination.displaying') %>
+    batchBase.display.from-batchBase.display.to <%= t('pagination.of') %> batchBase.pagination.totalAlerts
   </div>
   <div class="action-bar primary">
     <ul>

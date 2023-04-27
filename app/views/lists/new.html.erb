@@ -15,12 +15,12 @@
             <ul class="labelled-form-full-width grid_22">
               <li>
                 <p class="capitalise">
-                  <span for="list_name"><%= t('list_management.list_form.list_name') %></span>  
+                  List Name 
                 </p>
               </li>
               <li style="float:none;">
                 <input id="list_name" name="list_name" class="form-control" ng-model="listsBase.new.dataList.name"
-                       type="text" required maxlength="100" placeholder="<%= t('generic_placeholders.required') %>">
+                       type="text" required maxlength="100" placeholder="required" >
               </li>
             </ul>
           </div>
@@ -34,7 +34,7 @@
               <li style="float:none;">
                 <textarea id="list_description" name="list_description" class="form-control"
                           ng-model="listsBase.new.dataList.description" rows="2" required maxlength="255"
-                          placeholder="<%= t('generic_placeholders.required') %>"></textarea>
+                          placeholder="required"></textarea>
               </li>
             </ul>
           </div>
@@ -52,7 +52,7 @@
                 <div class="grid_23 alpha">
                   <select id="type" name="type" ng-model="listsBase.new.dataList.type"
                           ng-change="loadTableDropDownFilters()" ui-select2 required style="width:100%"
-                          data-placeholder="<%= t('generic_placeholders.required') %>">
+                          placeholder="required">
                     <option value="" selected disabled></option>
                     <option value="Field"><%= t('list_management.list_form.field') %></option>
                     <option required-user role="admin" value="CustomList"><%= t('list_management.list_form.custom') %>

@@ -13,21 +13,7 @@
     <div class="filter">
       <ul>
         <li class="search-form">
-         <!--  <form>
-            <input id="list-search" class="form-control" placeholder="<%= t('search.search') %>"
-                   ng-model="listsBase.filter.search" ng-change="listsBase.filter.searchUpdate=true"
-                   type="text" uib-popover="<%= t('list_management.index.tooltip') %>"
-                   popover-placement="bottom" popover-trigger="outsideClick"
-                   ng-keypress="($event.which === 13 ) ? !listsBase.filter.searchUpdate || loadFilters():0">
-            <span id="search-clear" class="glyphicon glyphicon-remove-circle" ng-click="clearSearch()"
-                  ng-if="listsBase.filter.search"></span>
-
-            <div id="list-search-submit" list-search-submit class="input-group-addon search-button button"
-                 ng-disabled="!listsBase.filter.searchUpdate" ng-click="!listsBase.filter.searchUpdate || loadFilters()"
-                 type="submit"><i class="fa fa-search"></i>
-            </div>
-          </form> -->
-          
+                
            <%= form_tag(lists_path, method: "get") do %>
             <%= text_field_tag :search, nil, placeholder: 'Search'  %>
             <%= submit_tag "Search" %>
@@ -131,7 +117,7 @@
         <div class="container_24">
           <div class="alert alert-info" style="margin-top:15px;" ng-if="!listsBase.selectedDataList.id">
             <span class="glyphicon glyphicon-info-sign"></span>
-            <span class="alert-text"><%= t('list_management.index.intro') %></span>
+            <span class="alert-text">Please select a list from the left hand side to edit or create a new list by selecting 'New List'</span>
           </div>
         </div>
         <div class="create-item">
@@ -200,7 +186,7 @@
               </div>
             </li>
           </ul>
-        </div> -->
+        </div>
       </div>
       <div class="list-management-pagination" ng-class="listsBase.pagination.items.totalPages > 1 ? 'item-pagination' : ''">
         <dir-pagination-controls boundary-links="true" on-page-change="changeItemsPage(newPageNumber)" max-size="6"
