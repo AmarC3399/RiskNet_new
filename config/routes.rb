@@ -25,6 +25,7 @@ Rails.application.routes.draw  do
   get "/users", to: "users#clients"
   get "/users", to: "users#merchants"
   get "/users", to: "users#report_users"
+  get "/users", to: "users#new"
 
   get "/about", to: "about#index"  
 

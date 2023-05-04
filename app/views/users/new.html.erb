@@ -6,11 +6,51 @@
     <div class="grid_16 prefix_4 alpha omega">
       <div id="user_form" class="section form-group group" style="top:20px;overflow: visible;padding: 0 0 80px;">
         <div class="sub-header-content">
-          <h3 ng-if="usersBase.userForm.type === 'new'">Register a New User</h3>
+          <h3>Register a New User</h3>
           <h3 ng-if="usersBase.userForm.type === 'view'"><%= t('users.userform.user_management') %></h3>
           <h3 ng-if="usersBase.userForm.type === 'edit'"><%= t('users.userform.edit_a_user') %></h3>
         </div>
-        <form class="form-horizontal new_user" name="new_user" novalidate
+   
+    <%= form_with scope: :new_user_form, url: new_user_path, method: :post, local: true do |form| %>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :full_name %>
+    <%= form.text_field :name, placeholder: "Required", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :email_address %>
+    <%= form.text_field :email_address, placeholder: "Required", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :Role %>
+    <%= form.email_field :role, placeholder: "Operator", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :new_password %>
+    <%= form.text_area :new_password, placeholder: "Required", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :confirm_password %>
+    <%= form.text_area :confirm_password, placeholder: "Required", class: "form-control" %>
+  </div>
+  <div class="grid_24">
+    <hr/>  
+  </div>
+   
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :merchant %>
+    <%= form.text_area :merchant, placeholder: "Select", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+    <%= form.label :submerchant %>
+    <%= form.text_area :submerchant, placeholder: "Select", class: "form-control" %>
+  </div>
+   <div class="grid_20 prefix_2 suffix_2 form-group">
+  <%= form.submit "create", class: "btn btn-primary" %>
+</div>
+</div>
+
+<% end %>
+       <!--  <form class="form-horizontal new_user" name="new_user" novalidate
               ng-disabled="usersBase.userForm.type === 'view'" style="margin-top: 20px;">
           <div class="grid_20 prefix_2 suffix_2 form-group">
             <ul class="labelled-form-full-width grid_22">
@@ -79,7 +119,7 @@
               </li>
               <li style="float:none;">
                 <input id="password" name="password" ng-model="usersBase.userObj.password" class="form-control"
-                       placeholder="required" type="password"
+                       placeholder="required"
                        ng-pattern="password_reg" value="{{user.password}}"
                        ng-disabled="usersBase.userForm.type === 'view'" ng-minlength="8" ng-maxlength="20">
               </li>
@@ -105,7 +145,7 @@
               <li style="float:none;">
                 <input id="password_conf" name="password_conf" class="form-control"
                        ng-model="usersBase.userObj.password_confirmation"
-                       placeholder="<%= t('generic_placeholders.not_required') %>" type="password"
+                       placeholder="not_required"
                        ng-pattern="password_reg" value="{{user.password}}"
                        ng-disabled="usersBase.userForm.type === 'view'" ng-minlength="8" ng-maxlength="20">
               </li>
@@ -128,18 +168,7 @@
                        ng-pattern="password_reg" value="{{user.password}}"
                        ng-disabled="usersBase.userForm.type === 'view'" ng-minlength="8" ng-maxlength="20" required>
               </li> -->
-              <li style="float:none;">
-                <div ng-show="new_user.password.$invalid && new_user.password.$dirty" class="alert alert-danger">
-                  <span class="glyphicon glyphicon-question-sign"></span>
-                  <span class="alert-text"><%= t('users.userform.password_length') %></span>
-                </div>
-                <div ng-show="new_user.password.required && new_user.password.$dirty" class="alert alert-warning">
-                  <span class="glyphicon glyphicon-question-sign"></span>
-                  <span class="alert-text"><%= t('users.userform.password_required') %></span>
-                </div>
-              </li>
-            </ul>
-          </div>
+            
          <!--  <div class="grid_20 prefix_2 suffix_2 form-group" ng-if="usersBase.userForm.type === 'new'">
             <ul class="labelled-form-full-width grid_22">
               <li>
@@ -162,7 +191,9 @@
                   <span class="alert-text"><%= t('users.userform.password_mismatch') %></span>
                 </div>
               </li>
-            </ul>
+            </ul>+
+
+            
           </div> -->
           <div ng-if="usersBase.userForm.type !== 'edit'">
             <div class="grid_24">

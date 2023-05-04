@@ -10,7 +10,7 @@
            style="top:20px;overflow: visible;padding: 0 0 80px;">
         <div class="sub-header-content">
           <h3 ng-if="alertOverridesBase.overrideForm.type === 'new'">
-            <%=t('alert_override.new.create_new_alert_override') %>
+            Create a New Alert Override
           </h3>
           <h3 ng-if="alertOverridesBase.overrideForm.type === 'edit'">
             <%=t('alert_override.new.edit_alert_override') %>
@@ -63,8 +63,7 @@
               <li style="float:none;">
                 <input id="confirm_card_number" name="confirm_card_number" class="form-control"
                        ng-model="alertOverridesBase.overrideObj.confirm_card_number"
-                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
-                       required maxlength="100">
+                       type="text" required maxlength="100">
               </li>
               <li style="float:none;">
                 <div
@@ -85,8 +84,7 @@
               </li>
               <li style="float:none;">
                 <textarea id="comment" name="comment" class="form-control"
-                          ng-model="alertOverridesBase.overrideObj.comment" rows="4" maxlength="255"
-                          placeholder="<%= t('generic_placeholders.optional') %>"></textarea>
+                          ng-model="alertOverridesBase.overrideObj.comment" rows="4" maxlength="255"></textarea>
               </li>
             </ul>
           </div>
@@ -94,7 +92,7 @@
             <ul class="labelled-form-full-width grid_22">
               <li>
                 <p class="capitalise">
-                  <span for="start_time"><%= t('alert_override.new.override_start_time') %></span>
+                  Override Start Time
                 </p>
               </li>
               <li class="top-calendar" style="float:none;">
@@ -103,8 +101,7 @@
                        datepicker-options="alertOverridesBase.overrideForm.dateOptions"
                        ng-model="alertOverridesBase.overrideObj.start_time" is-open="popups.popup1.opened"
                        ng-click="openCalendar($event, 'popup1')" ng-change="checkExpiryDate(new_alert_override)"
-                       placeholder="<%= t('generic_placeholders.required') %>" type="text"
-                       required/>
+                      type="text" required/>
               </li>
               <li style="float:none;" ng-show="new_alert_override.start_time.$invalid && new_alert_override.start_time.$dirty">
                 <div class="alert alert-warning">
@@ -118,7 +115,7 @@
             <ul class="labelled-form-full-width grid_22">
               <li>
                 <p class="capitalise">
-                  <span for="end_time"><%= t('alert_override.new.override_expiry_time') %></span>
+                  Override Expiry Date & Time
                 </p>
               </li>
               <li class="top-calendar" style="float:none;">
@@ -127,7 +124,7 @@
                        datepicker-options="alertOverridesBase.overrideForm.dateOptions"
                        ng-model="alertOverridesBase.overrideObj.end_time" is-open="popups.popup2.opened"
                        ng-click="openCalendar($event, 'popup2')" ng-change="checkExpiryDate(new_alert_override)"
-                       placeholder="<%= t('generic_placeholders.optional') %>" type="text"/>
+                type="text"/>
               </li>
               <li style="float:none;" ng-if="new_alert_override.end_time.$invalid && new_alert_override.end_time.$dirty && !alertOverridesBase.overrideForm.invalidExpiry">
                 <div class="alert alert-warning">
@@ -143,6 +140,7 @@
               </li>
             </ul>
           </div>
+
         </form>
         <div class="action-bar primary">
           <ul>

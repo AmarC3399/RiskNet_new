@@ -1,11 +1,5 @@
-
-#require 'user_hierarchy/ground_rule'
-
 # Other authorizers should subclass this one
-class ApplicationAuthorizer < Authorisation::Authorizer
-  extend UserHierarchy::GroundRule::CurrentSession
-  include UserHierarchy::GroundRule
-  include UserHierarchy::GroundRule::Info
+class ApplicationAuthorizer < Authority::Authorizer
 
   # Any class method from Authority::Authorizer that isn't overridden
   # will call its authorizer's default method.
@@ -18,4 +12,5 @@ class ApplicationAuthorizer < Authorisation::Authorizer
     # considered forbidden.
     false
   end
+
 end

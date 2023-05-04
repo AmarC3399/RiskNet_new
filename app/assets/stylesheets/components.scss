@@ -5367,3 +5367,11 @@ body {
   background: $quill-gray !important;
   color: $venice-blue;
 }
+
+.dropdown-item{
+  display: none;
+}
+
+.dropdown-btn:hover .dropdown-item{
+  display: block;
+}

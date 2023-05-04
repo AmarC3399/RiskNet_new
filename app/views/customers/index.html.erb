@@ -2,12 +2,10 @@
   <h1 class="pull-left">Customer Management</h1>
   <div class="pull-right button-dropdown-group" style="margin:20px 20px 20px 0;" required-user role="admin"
        level="member">
-   <button id="customer-new" class="button" ng-click="showCustomerTypes = !showCustomerTypes">
+   <button id="customer-new" class="button dropdown-btn" ng-click="showCustomerTypes = !showCustomerTypes">
       <%= t('customers.index.new_customer') %>
       <span class="caret"></span>
-    </button> 
-
-      <ul class="button-dropdown right-align" ng-init="showCustomerTypes = false" ng-show="showCustomerTypes">
+            <ul class="button-dropdown dropdown-item right-align" ng-init="showCustomerTypes = false" ng-show="showCustomerTypes">
       <li>
         <a id="client" ng-if="user.level < 2" href="/customers/client">
           <%= t('levels.client') %>
@@ -24,6 +22,8 @@
         </a>
       </li>
     </ul>
+    </button> 
+
   </div>
   <div class="pull-right button-dropdown-group" style="margin:20px;" required-user role="admin">
     <a id="customer-view-my-details" class="button neutral"
@@ -47,9 +47,9 @@
   <path fill="white" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
             <% end %>
           <% end %>
-        </li>
-        <li id="customer-clear-ordering" class="sorting-button">
-          <a class="button" style="width: 25px; background: #4495D1;position: relative;" ng-click="resetOrder()" ng-disabled="customerBase.ordering.orderString === ''">
+       </li>
+        <li id="auth-clear-ordering" class="sorting-button">
+          <a class="button" style="width: 25px; background: #4495D1;position: relative;" ng-click="resetOrder()" ng-disabled="authsBase.ordering.orderString === ''">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; position: relative; bottom: 5px;">
   <path fill="white" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 14px; transform: rotate(180deg);position: absolute;
@@ -58,26 +58,26 @@
   <path fill="white" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
           </a>
         </li>
-         <li id="rule-filter" class="filter-button">
+        <li id="auth-filter" class="filter-button">
           <a class="button"
-             ng-click="toggleSidebar('rulesBase', rulesBase.filter.sideBar);rulesBase.filter.showTags = true" >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;">
+             ng-click="toggleSidebar('authsBase', authsBase.filter.sideBar);authsBase.filter.showTags = true"
+             ">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;">
   <path fill="white" d="M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg></a>
-        
         </li>
-        
+      </ul>
             
-        </li>
-        <li id="customer-clear-ordering" class="sorting-button">
+        
+       <!--  <li id="customer-clear-ordering" class="sorting-button">
           <a class="button" ng-click="resetOrder()" ng-disabled="customersBase.ordering.orderString === ''"><i
             class="fa fa-unsorted"></i></a>
-        </li>
-        <li id="customer-filter" class="filter-button">
+        </li> -->
+        <!-- <li id="customer-filter" class="filter-button">
           <a class="button" data-badge="{{customersBase.filter.count}}"
              ng-click="toggleSidebar('customersBase', customersBase.filter.sideBar);customersBase.filter.showTags = true"
              title="<%= t('generic_buttons.filter') %>">
             <i class="fa fa-filter"></i></a>
-        </li>
+        </li> -->
       </ul>
       <ul class="filter-list" tag-overflow>
         <li ng-repeat="(filterName, filterValue) in customersBase.filter.sideBar"
@@ -113,9 +113,9 @@
                 ng-style="item.style">
               <span>item.displayName</span>
               <div class="sorting">
-                  <span class="sort-order" ng-if="customersBase.ordering.values[item.name]">
+                 <!--  <span class="sort-order" ng-if="customersBase.ordering.values[item.name]">
                       customersBase.ordering.values[item.name]
-                  </span>
+                  </span> -->
                 <div class="inverted-arrows"
                      ng-class="{'glyphicon glyphicon-triangle-top': customersBase.ordering.orderStates[item.order], 'glyphicon glyphicon-triangle-bottom': !customersBase.ordering.orderStates[item.order]}"></div>
               </div>
@@ -166,3 +166,7 @@
     </ul>
   </div>
 </div>
+
+
+
+ 

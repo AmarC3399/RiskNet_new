@@ -17,9 +17,12 @@ class UsersController < ApplicationController
   #                                                                            report_users: :skip}
 
   def index
+    
   end
     
   def new
+
+    @user = User.new
 
   end
   
@@ -38,21 +41,12 @@ class UsersController < ApplicationController
   end
 
   def create
-     @user = User.new(user_details)
-    owner =  user_owner(params[:user][:owner_id], params[:user][:owner_type])
-    @user.owner =  owner.nil? ? current_user.owner : owner.first
+    @user = User.new(user_params)
 
-    # so that the user will change his password the next time he/she logs in
-    @user.password_changed_at=Time.zone.now-92.days
-    if current_user.can_create?(User, for: @user.owner)
-      if @user.save
-        @user.add_role user_details[:role], @user.owner
-        render json: @user, status: :created
-      else
-        render json: {errors: @user.errors.full_messages}, status: :unprocessable_entity
-      end
+    if @user.save
+      redirect_to @user 
     else
-      render json: {}, status: :forbidden
+      render :new, status: :forbidden
     end
   end
 
