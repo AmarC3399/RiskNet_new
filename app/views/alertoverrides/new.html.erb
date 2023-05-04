@@ -45,11 +45,7 @@
                 <input id="card_number" name="card_number" class="form-control">
               </li>
               <li style="float:none;">
-                <div ng-show="new_alert_override.card_number.$invalid && new_alert_override.card_number.$dirty"
-                     class="alert alert-warning">
-                  <span class="glyphicon glyphicon-question-sign"></span>
-                  <span class="alert-text"><%= t('alert_override.new.card_number_required') %></span>
-                </div>
+                
               </li>
             </ul>
           </div>
@@ -65,14 +61,14 @@
                        ng-model="alertOverridesBase.overrideObj.confirm_card_number"
                        type="text" required maxlength="100">
               </li>
-              <li style="float:none;">
+             <!--  <li style="float:none;">
                 <div
                   ng-show="new_alert_override.confirm_card_number.$invalid && new_alert_override.confirm_card_number.$dirty"
                   class="alert alert-warning">
                   <span class="glyphicon glyphicon-question-sign"></span>
                   <span class="alert-text"><%= t('alert_override.new.confirm_card_number_required') %></span>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
           <div class="grid_20 prefix_2 suffix_2 form-group">
