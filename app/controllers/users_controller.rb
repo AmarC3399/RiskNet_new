@@ -17,12 +17,9 @@ class UsersController < ApplicationController
   #                                                                            report_users: :skip}
 
   def index
-    
   end
     
   def new
-
-    @user = User.new
 
   end
   
@@ -36,17 +33,30 @@ class UsersController < ApplicationController
   end
 
   def show
+    authorize @user
      authorize_action_for @user
     render json: @user, status: :ok
   end
+  def new
+    @user = User.new
+  end
 
   def create
-    @user = User.new(user_params)
+     @user = User.new(user_details)
+    owner =  user_owner(params[:user][:owner_id], params[:user][:owner_type])
+    @user.owner =  owner.nil? ? current_user.owner : owner.first
 
-    if @user.save
-      redirect_to @user 
+    # so that the user will change his password the next time he/she logs in
+    @user.password_changed_at=Time.zone.now-92.days
+    if current_user.can_create?(User, for: @user.owner)
+      if @user.save
+        @user.add_role user_details[:role], @user.owner
+        render json: @user, status: :created
+      else
+        render json: {errors: @user.errors.full_messages}, status: :unprocessable_entity
+      end
     else
-      render :new, status: :forbidden
+      render json: {}, status: :forbidden
     end
   end
 
@@ -68,22 +78,22 @@ class UsersController < ApplicationController
      @users = User.where(id: bulk_params[:ids])
     user_ids = @users.reject { |user| !current_user.can_update?(user) || user.id == current_user.id }
 
-    if User.where(id: user_ids).update_all(enabled: false, locked_at: DateTime.current)
-      render json: {message: I18n.t('users.index.notifications.success.disable', total_count: user_ids.length), users: User.where(id: bulk_params[:ids]).reject { |user| !current_user.can_read?(user)}}, status: :ok
-    else
-      render json: {errors: I18n.t('actioncontroller.errors.unable_to_action', action: 'disable', model: 'users')}, status: :unprocessable_entity
-    end
+    # if User.where(id: user_ids).update_all(enabled: false, locked_at: DateTime.current)
+    #   render json: {message: I18n.t('users.index.notifications.success.disable', total_count: user_ids.length), users: User.where(id: bulk_params[:ids]).reject { |user| !current_user&.can_read?(user)}}, status: :ok
+    # else
+    #   render json: {errors: I18n.t('actioncontroller.errors.unable_to_action', action: 'disable', model: 'users')}, status: :unprocessable_entity
+    # end
   end
 
   def unblock
     @users = User.where(id: bulk_params[:ids])
     user_ids = @users.reject { |user| !current_user.can_update?(user) || user.id == current_user.id }
 
-    if User.where(id: user_ids).update_all(enabled: true, locked_at: nil, failed_attempts: 0)
-      render json: {message: I18n.t('users.index.notifications.success.enable', total_count: user_ids.length), users: User.where(id: bulk_params[:ids]).reject { |user| !current_user.can_read?(user)}}, status: :ok
-    else
-      render json: {errors: I18n.t('actioncontroller.errors.unable_to_action', action: 'enable', model: 'users')}, status: :unprocessable_entity
-    end
+    # if User.where(id: user_ids).update_all(enabled: true, locked_at: nil, failed_attempts: 0)
+    #   render json: {message: I18n.t('users.index.notifications.success.enable', total_count: user_ids.length), users: User.where(id: bulk_params[:ids]).reject { |user| !current_user&.can_read?(user)}}, status: :ok
+    # else
+    #   render json: {errors: I18n.t('actioncontroller.errors.unable_to_action', action: 'enable', model: 'users')}, status: :unprocessable_entity
+    # end
   end
 
   def update_password
@@ -153,6 +163,12 @@ class UsersController < ApplicationController
     @users= UserAuthorizer::Scope.new(current_user, User).resolve(true)
     render json: {users: @users.as_json(include: {owner: {only: :name}})}, status: :ok
   end
+
+  private
+
+    def user_details
+      params.require(:user).permit(:role, :name, :email, :password, :password_confirmation, :owner_type, :owner_id)
+    end
 
  
 

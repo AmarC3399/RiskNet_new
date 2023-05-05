@@ -100,10 +100,10 @@
                       type="text" required/>
               </li>
               <li style="float:none;" ng-show="new_alert_override.start_time.$invalid && new_alert_override.start_time.$dirty">
-                <div class="alert alert-warning">
+               <!--  <div class="alert alert-warning">
                   <span class="glyphicon glyphicon-question-sign"></span>
                   <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
-                </div>
+                </div> -->
               </li>
             </ul>
           </div>
@@ -123,16 +123,13 @@
                 type="text"/>
               </li>
               <li style="float:none;" ng-if="new_alert_override.end_time.$invalid && new_alert_override.end_time.$dirty && !alertOverridesBase.overrideForm.invalidExpiry">
-                <div class="alert alert-warning">
+               <!--  <div class="alert alert-warning">
                   <span class="glyphicon glyphicon-question-sign"></span>
                   <span class="alert-text"><%= t('alert_override.new.override_time_in_future') %></span>
-                </div>
+                </div> -->
               </li>
               <li style="float:none;" ng-if="alertOverridesBase.overrideForm.invalidExpiry">
-                <div class="alert alert-warning">
-                  <span class="glyphicon glyphicon-question-sign"></span>
-                  <span class="alert-text"><%= t('alert_override.new.override_expiry_time_invalid') %></span>
-                </div>
+               <!---->
               </li>
             </ul>
           </div>
